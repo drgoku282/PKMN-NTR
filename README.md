@@ -9,8 +9,8 @@ Be sure to read the [wiki](https://github.com/drgoku282/PKMN-NTR/wiki) to learn 
 - Pokémon Y
 - Pokémon Omega Ruby
 - Pokémon Alpha Sapphire
-- Pokémon Sun (New Nintendo 3DS only)
-- Pokémon Moon (New Nintendo 3DS only)
+- Pokémon Sun
+- Pokémon Moon
 
 ## Important notes
 - **READ THE WIKI BEFORE ASKING QUESTIONS**
