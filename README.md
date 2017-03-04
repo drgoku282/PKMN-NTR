@@ -12,6 +12,8 @@ Be sure to read the [wiki](https://github.com/drgoku282/PKMN-NTR/wiki) to learn 
 - Pokémon Sun
 - Pokémon Moon
 
+Latest Update on all games is mandatory.
+
 ## Important notes
 - **READ THE WIKI BEFORE ASKING QUESTIONS**
 - You need NTR-CFW and a PC to use this tool.
