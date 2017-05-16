@@ -576,17 +576,6 @@ namespace pkmn_ntr.Bot
                             srpoke = await waitTaskPKM;
                             if (srpoke == null)
                             { // No data received
-                                attempts++;
-                                botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.readopp;
-                            }
-                            else if (srpoke.Species > 0)
-                            {
-                                attempts = 0;
-                                botState = srbotstates.filter;
-                            }
-                            else
-                            {
                                 if (walk)
                                 {
                                     steps++;
@@ -612,6 +601,11 @@ namespace pkmn_ntr.Bot
                                     botresult = ErrorMessage.ReadError;
                                     botState = srbotstates.trigger;
                                 }
+                            }
+                            else if (srpoke.Species > 0)
+                            {
+                                attempts = 0;
+                                botState = srbotstates.filter;
                             }
                             break;
 
