@@ -636,6 +636,7 @@ namespace pkmn_ntr.Bot
                         case srbotstates.softreset:
                             resetNo++;
                             Report("Bot: Sof-reset #" + resetNo.ToString());
+                            Program.gCmdWindow.resetNoBox.Text = resetNo.ToString();
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
                             {
@@ -867,7 +868,7 @@ namespace pkmn_ntr.Bot
 
                         case srbotstates.flee1:
                             Report("Bot: Fleeing from random encounter, pressing down");
-                            await Task.Delay(30 * commanddelay);
+                            await Task.Delay(20 * commanddelay);    //30?
                             waitTaskbool = Program.helper.waitbutton(LookupTable.DpadDOWN);
                             if (await waitTaskbool)
                             {
