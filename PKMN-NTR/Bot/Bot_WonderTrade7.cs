@@ -51,20 +51,20 @@ namespace pkmn_ntr.Bot
         // Data offsets
         private uint totalFCoff = 0x33124D5C;
         private uint currentFCoff = 0x33124D58;
-        private uint trademenuOff = 0x6749D4; // 1.0: 0x672790;
+        private uint trademenuOff = 0x6749DC; // 1.0: 0x672790; 1.1: 0x6749D4;
         private uint trademenuIN = 0xC2D00000; // 1.0 :0x41200000;
         private uint trademenuOUT = 0xC2C00000; // 1.0: 0x41B80000;
         private uint tradeready = 0x3F800000;
-        private uint wtscreenOff = 0x6703E8; // 1.0: 0x10F1D0;
+        private uint wtscreenOff = 0x6703F0; // 1.0: 0x10F1D0; 1.1: 0x6703E8;
         private uint wtscreenIN = 0x00; // 1.0: 0x520000;
         //private uint wtscreenOUT = 0x01; // 1.0 0x720000;
-        private uint boxesOff = 0x674820; //1.0: 0x10F1A0;
+        private uint boxesOff = 0x674828; //1.0: 0x10F1A0; 1.1: 0x674820;
         private uint boxesIN = 0x42210000; // 1.0: 0x6F0000;
         private uint boxesOUT = 0x42220000; // 1.0: 0x520000;
         //private uint boxesviewOff = 0x672D04;
         //private uint boxesviewIN = 0x00000000;
         //private uint boxesviewOUT = 0x41000000;
-        private uint dialogOff = 0x6747D8; // 1.0: 0x63DD68;
+        private uint dialogOff = 0x6747E0; // 1.0: 0x63DD68; 1.1: 0x6747D8;
         private uint dialogIn = 0x00000000; // 1.0: 0x0C;
         private uint dialogOut = 0x41B80000; // 1.0: 0x0B;
         private uint toppkmOff = 0x30000298;

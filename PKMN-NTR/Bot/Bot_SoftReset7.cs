@@ -77,30 +77,52 @@ namespace pkmn_ntr.Bot
                     case 0:
                         typemessage = "Event - Make sure you are in front of the man in the Pokémon Center. Also, you must only have one pokémon in your party.";
                         Program.gCmdWindow.SetRadioParty();
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     case 1:
                         typemessage = "Type: Null - Make sure you are in front of Gladion at the Aether Paradise. Also, you must only have one pokémon in your party.\r\n\r\nThis mode can also be used for event pokémon.";
                         Program.gCmdWindow.SetRadioParty();
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     case 2:
                         typemessage = "Tapus - Make sure you are in front of the statue at the ruins.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     case 3:
                         typemessage = "Solgaleo/Lunala - Make sure you are in front of Solgaleo/Lunala at the Altar of the Sunne/Moone.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     case 4:
                         typemessage = "Wild Pokémon - Make sure you are in the place where wild pokémon can appear. Also, check that Honey is the item at the top of your Item list and can be selected by just opening the menu and pressing A.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.Text = "Total Encounters:";
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     case 5:
                         typemessage = "Ultra Beast/Necrozma - Make sure you are in the place where the Ultra Beast / Necrozma appears. Also, check that Honey is the item at the top of your Item list and can be selected by just opening the menu and pressing A.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.Text = "Total Encounters:";
+                        Program.gCmdWindow.labelreset.Visible = true;
+                        Program.gCmdWindow.resetNoBox.Visible = true;
                         break;
                     default:
                         typemessage = "No type - Select one type of soft-reset and try again.";
                         break;
+                }
+                if(Program.gCmdWindow.resetNoBox.Text != "")
+                {
+                    resetNo = Convert.ToInt32(Program.gCmdWindow.resetNoBox.Text);
+                }
+                else
+                {
+                    resetNo = 0;
                 }
                 DialogResult dialogResult = MessageBox.Show("This bot will trigger an encounter with a pokémon, and soft-reset if it doesn't match with the loaded filters.\r\n\r\nType: " + typemessage + "\r\n\r\nPlease read the wiki at GitHub before using this bot. Do you want to continue?", "Soft-reset bot", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.OK && Mode.SelectedIndex >= 0)
