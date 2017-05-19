@@ -33,20 +33,20 @@ namespace pkmn_ntr.Bot
         private PKM srPoke;
 
         // Data Offsets
-        private uint dialogOff = 0x67499C; // 1.0: 0x63DD68;
+        private uint dialogOff = 0x6749A4; // 1.0: 0x63DD68; 1.1: 0x67499C
         private uint dialogIn = 0x80000000; // 1.0: 0x0C;
         private uint dialogOut = 0x00000000; // 1.0: 0x0B;
-        private uint battleOff = 0x6747D8;// 1.0: 0x6731A4;
+        private uint battleOff = 0x6747E0;// 1.0: 0x6731A4: 1.1: 0x6747D8;
         private uint battleIn = 0x40400000; // 1.0: 0x00000000;
         private uint battleOut = 0x00000000; // 1.0: 0x00FFFFFF;
         private uint partyOff = 0x34195E10;
         private uint opponentOff = 0x3254F4AC;
         private uint itemOff = 0x330D5934;
         private uint honey = 0x000F9C5E;
-        private uint menuOff = 0x67496C; // 1.0: 0x672920;
+        private uint menuOff = 0x674974; // 1.0: 0x672920; 1.1: 0x67496C
         private uint menuIn = 0x80000000;
         //private uint menuOut = 0x00000000;
-        private uint bagOff = 0x6747F8; // 1.0: 0x67DF74;
+        private uint bagOff = 0x674800; // 1.0: 0x67DF74; 1.1: 0x6747F8;
         private uint bagIn = 0x41280000; // 1.0: 0x01;
         private uint bagOut = 0x00000000; // 1.0: 0x03;
 
@@ -333,6 +333,7 @@ namespace pkmn_ntr.Bot
                         case srbotStates.softreset:
                             resetNo++;
                             Report("Bot: Sof-reset #" + resetNo.ToString());
+                            Program.gCmdWindow.resetNoBox.Text = resetNo.ToString();
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
                             {

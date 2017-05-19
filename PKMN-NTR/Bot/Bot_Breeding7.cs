@@ -33,7 +33,7 @@ namespace pkmn_ntr.Bot
 
         // Data offsets
         private uint eggOff = 0x3313EDD8;
-        private uint dialogOff = 0x67499C; // 1.0: 0x63DD68;
+        private uint dialogOff = 0x6749A4; // 1.0: 0x63DD68; 1.1: 0x67499C
         private uint dialogIn = 0x80000000; // 1.0: 0x09;
         private uint dialogOut = 0x00000000; // 1.0: 0x08;
         private uint currentboxOff = 0x330D982F;

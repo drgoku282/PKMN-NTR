@@ -351,7 +351,7 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x325A3838;
+                        return 0x325A3878;      //1.1: 0x325A3838;
                     default:
                         return 0;
                 }
