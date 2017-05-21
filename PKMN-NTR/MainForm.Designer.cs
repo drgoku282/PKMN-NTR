@@ -316,8 +316,9 @@
             this.Tools_Breeding = new System.Windows.Forms.Button();
             this.Tools_SoftReset = new System.Windows.Forms.Button();
             this.Tools_WonderTrade = new System.Windows.Forms.Button();
-            this.Tools_Filter = new System.Windows.Forms.Button();
+            this.Tool_Script = new System.Windows.Forms.Button();
             this.Tools_PokeDigger = new System.Windows.Forms.Button();
+            this.Tools_Filter = new System.Windows.Forms.Button();
             this.Tab_Log = new System.Windows.Forms.TabPage();
             this.Log_Export = new System.Windows.Forms.Button();
             this.Tab_About = new System.Windows.Forms.TabPage();
@@ -344,7 +345,6 @@
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Tool_Script = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -4078,15 +4078,15 @@
             this.Tools_WonderTrade.UseVisualStyleBackColor = true;
             this.Tools_WonderTrade.Click += new System.EventHandler(this.Tools_WonderTrade_Click);
             // 
-            // Tools_Filter
+            // Tool_Script
             // 
-            this.Tools_Filter.Location = new System.Drawing.Point(193, 61);
-            this.Tools_Filter.Name = "Tools_Filter";
-            this.Tools_Filter.Size = new System.Drawing.Size(89, 23);
-            this.Tools_Filter.TabIndex = 6;
-            this.Tools_Filter.Text = "Filters";
-            this.Tools_Filter.UseVisualStyleBackColor = true;
-            this.Tools_Filter.Click += new System.EventHandler(this.Tools_Filter_Click);
+            this.Tool_Script.Location = new System.Drawing.Point(3, 61);
+            this.Tool_Script.Name = "Tool_Script";
+            this.Tool_Script.Size = new System.Drawing.Size(89, 23);
+            this.Tool_Script.TabIndex = 7;
+            this.Tool_Script.Text = "Script Builder";
+            this.Tool_Script.UseVisualStyleBackColor = true;
+            this.Tool_Script.Click += new System.EventHandler(this.Tool_Script_Click);
             // 
             // Tools_PokeDigger
             // 
@@ -4097,6 +4097,16 @@
             this.Tools_PokeDigger.Text = "PokéDigger";
             this.Tools_PokeDigger.UseVisualStyleBackColor = true;
             this.Tools_PokeDigger.Click += new System.EventHandler(this.Tools_PokeDigger_Click);
+            // 
+            // Tools_Filter
+            // 
+            this.Tools_Filter.Location = new System.Drawing.Point(193, 61);
+            this.Tools_Filter.Name = "Tools_Filter";
+            this.Tools_Filter.Size = new System.Drawing.Size(89, 23);
+            this.Tools_Filter.TabIndex = 6;
+            this.Tools_Filter.Text = "Filters";
+            this.Tools_Filter.UseVisualStyleBackColor = true;
+            this.Tools_Filter.Click += new System.EventHandler(this.Tools_Filter_Click);
             // 
             // Tab_Log
             // 
@@ -4399,17 +4409,7 @@
             this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragoutDrop);
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
-            this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
-            // 
-            // Tool_Script
-            // 
-            this.Tool_Script.Location = new System.Drawing.Point(3, 61);
-            this.Tool_Script.Name = "Tool_Script";
-            this.Tool_Script.Size = new System.Drawing.Size(89, 23);
-            this.Tool_Script.TabIndex = 7;
-            this.Tool_Script.Text = "Script Builder";
-            this.Tool_Script.UseVisualStyleBackColor = true;
-            this.Tool_Script.Click += new System.EventHandler(this.Tool_Script_Click);
+            this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
             // 
             // MainForm
             // 
