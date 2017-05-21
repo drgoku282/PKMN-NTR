@@ -619,8 +619,10 @@ namespace pkmn_ntr.Bot
                                 botstate = botstates.tryfinish;
                                 if (Program.helper.lastRead == 0xBF800000 && !tradeevo)
                                 {
+                                    Report("Bot: Trade evolution detected, wait 20 seconds");
+                                    await Task.Delay(20000);
                                     tradeevo = true;
-                                    attempts = -50; // Try 60 button presses.
+                                    attempts = -40; // Try 50 button presses.
                                 }
                             }
                             break;
