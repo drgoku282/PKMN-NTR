@@ -71,6 +71,7 @@ namespace pkmn_ntr.Bot
 
         private void Bot_SoftReset6_Load(object sender, System.EventArgs e)
         {
+            Program.gCmdWindow.SetResetLabel("Number of resets:");
             if (Program.gCmdWindow.SAV.Version == GameVersion.X || Program.gCmdWindow.SAV.Version == GameVersion.Y)
             { // XY
                 ORAS = false;
@@ -186,7 +187,7 @@ namespace pkmn_ntr.Bot
                     botState = srbotstates.botstart;
                     attempts = 0;
                     maxreconnect = 10;
-                    resetNo = Mode.SelectedIndex == 2 ? -1 : 0;
+                    resetNo = resetNo = Program.gCmdWindow.GetResetNumber();
                     walk = false;
                     steps = 0;
                     finishmessage = null;
@@ -576,17 +577,6 @@ namespace pkmn_ntr.Bot
                             srpoke = await waitTaskPKM;
                             if (srpoke == null)
                             { // No data received
-                                attempts++;
-                                botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.readopp;
-                            }
-                            else if (srpoke.Species > 0)
-                            {
-                                attempts = 0;
-                                botState = srbotstates.filter;
-                            }
-                            else
-                            {
                                 if (walk)
                                 {
                                     steps++;
@@ -612,6 +602,11 @@ namespace pkmn_ntr.Bot
                                     botresult = ErrorMessage.ReadError;
                                     botState = srbotstates.trigger;
                                 }
+                            }
+                            else if (srpoke.Species > 0)
+                            {
+                                attempts = 0;
+                                botState = srbotstates.filter;
                             }
                             break;
 
@@ -641,7 +636,8 @@ namespace pkmn_ntr.Bot
 
                         case srbotstates.softreset:
                             resetNo++;
-                            Report("Bot: Sof-reset #" + resetNo.ToString());
+                            Report("Bot: Soft-reset #" + resetNo.ToString());
+                            Program.gCmdWindow.UpdateResetCounter(resetNo);
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
                             {
@@ -873,7 +869,7 @@ namespace pkmn_ntr.Bot
 
                         case srbotstates.flee1:
                             Report("Bot: Fleeing from random encounter, pressing down");
-                            await Task.Delay(30 * commanddelay);
+                            await Task.Delay(20 * commanddelay);    //30?
                             waitTaskbool = Program.helper.waitbutton(LookupTable.DpadDOWN);
                             if (await waitTaskbool)
                             {

@@ -10,12 +10,14 @@ namespace pkmn_ntr.Sub_forms.Scripting
     {
         // Main class handling
         private List<ScriptAction> actions;
+        private Control[] controlList;
         private bool scriptRunning = false;
         private bool stopScript = false;
 
         public ScriptBuilder()
         {
             InitializeComponent();
+            controlList = new Control[] { Remote_buttons, Remote_Stick, Remote_touch, btnActionUp, btnActionDown, bthActionClear, btnActionRemove, numTime, btnDelay, numFor, btnAddFor, btnSaveScript, btnLoadScript };
         }
 
         private void ScriptBuilder_Load(object sender, EventArgs e)
@@ -23,7 +25,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
             actions = new List<ScriptAction>();
             numTime.Maximum = Int32.MaxValue;
             string buttonMsg = "Click for a simple action.\r\nShift + Click for a timed action using the Time value.\r\nControl + Click for hold the action until another or a release command.";
-            Control[] tooltTpButtons = new Control[] { btnA, btnB, btnX, btnY, btnL, btnR, btnStart, btnSelect, btnUp, btnDown, btnLeft, btnRight, btnStick, btnTouch, btnTouch };
+            Control[] tooltTpButtons = new Control[] { btnA, btnB, btnX, btnY, btnL, btnR, btnStart, btnSelect, btnUp, btnDown, btnLeft, btnRight, btnStick, btnTouch };
             foreach (Control ctrl in tooltTpButtons)
             {
                 toolTip1.SetToolTip(ctrl, buttonMsg);
@@ -146,6 +148,14 @@ namespace pkmn_ntr.Sub_forms.Scripting
             }
         }
 
+        private void SetControls(bool state)
+        {
+            foreach (Control ctrl in controlList)
+            {
+                ctrl.Enabled = state;
+            }
+        }
+
         private async void ExecuteScript()
         {
             if (this.InvokeRequired)
@@ -158,6 +168,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                 MessageBox.Show("No actions to execute.", "Script Builder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            SetControls(false);
             Program.gCmdWindow.ScriptMode(true);
             scriptRunning = true;
             ScriptAction.Report("Script: Start script");
@@ -231,6 +242,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                 btnStartStop.Text = "Not connected";
                 btnStartStop.Enabled = false;
             }
+            SetControls(true);
         }
 
         // Searching
@@ -442,7 +454,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     return;
                 }
                 actions.Clear();
-                lstActions.Items.Clear();
+                UpdateActionList();
                 foreach (string str in lines)
                 {
                     int[] instruction = Array.ConvertAll(str.Split(','), int.Parse);

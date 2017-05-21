@@ -33,20 +33,20 @@ namespace pkmn_ntr.Bot
         private PKM srPoke;
 
         // Data Offsets
-        private uint dialogOff = 0x67499C; // 1.0: 0x63DD68;
+        private uint dialogOff = 0x6749A4; // 1.0: 0x63DD68; 1.1: 0x67499C
         private uint dialogIn = 0x80000000; // 1.0: 0x0C;
         private uint dialogOut = 0x00000000; // 1.0: 0x0B;
-        private uint battleOff = 0x6747D8;// 1.0: 0x6731A4;
+        private uint battleOff = 0x6747E0;// 1.0: 0x6731A4: 1.1: 0x6747D8;
         private uint battleIn = 0x40400000; // 1.0: 0x00000000;
         private uint battleOut = 0x00000000; // 1.0: 0x00FFFFFF;
         private uint partyOff = 0x34195E10;
         private uint opponentOff = 0x3254F4AC;
         private uint itemOff = 0x330D5934;
         private uint honey = 0x000F9C5E;
-        private uint menuOff = 0x67496C; // 1.0: 0x672920;
+        private uint menuOff = 0x674974; // 1.0: 0x672920; 1.1: 0x67496C
         private uint menuIn = 0x80000000;
         //private uint menuOut = 0x00000000;
-        private uint bagOff = 0x6747F8; // 1.0: 0x67DF74;
+        private uint bagOff = 0x674800; // 1.0: 0x67DF74; 1.1: 0x6747F8;
         private uint bagIn = 0x41280000; // 1.0: 0x01;
         private uint bagOut = 0x00000000; // 1.0: 0x03;
 
@@ -57,6 +57,7 @@ namespace pkmn_ntr.Bot
             Species.ValueMember = "Value";
             Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= Program.gCmdWindow.SAV.MaxSpeciesID).ToList(), null);
             Delg.SetSelectedValue(Species, 1);
+            Program.gCmdWindow.SetResetLabel("Number of resets:");
         }
 
         private void RunStop_Click(object sender, System.EventArgs e)
@@ -77,31 +78,38 @@ namespace pkmn_ntr.Bot
                     case 0:
                         typemessage = "Event - Make sure you are in front of the man in the Pokémon Center. Also, you must only have one pokémon in your party.";
                         Program.gCmdWindow.SetRadioParty();
+                        Program.gCmdWindow.SetResetLabel("Number of resets:");
                         break;
                     case 1:
                         typemessage = "Type: Null - Make sure you are in front of Gladion at the Aether Paradise. Also, you must only have one pokémon in your party.\r\n\r\nThis mode can also be used for event pokémon.";
                         Program.gCmdWindow.SetRadioParty();
+                        Program.gCmdWindow.SetResetLabel("Number of resets:");
                         break;
                     case 2:
                         typemessage = "Tapus - Make sure you are in front of the statue at the ruins.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.SetResetLabel("Number of resets:");
                         break;
                     case 3:
                         typemessage = "Solgaleo/Lunala - Make sure you are in front of Solgaleo/Lunala at the Altar of the Sunne/Moone.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.SetResetLabel("Number of resets:");
                         break;
                     case 4:
                         typemessage = "Wild Pokémon - Make sure you are in the place where wild pokémon can appear. Also, check that Honey is the item at the top of your Item list and can be selected by just opening the menu and pressing A.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.SetResetLabel("Total Encounters:");
                         break;
                     case 5:
                         typemessage = "Ultra Beast/Necrozma - Make sure you are in the place where the Ultra Beast / Necrozma appears. Also, check that Honey is the item at the top of your Item list and can be selected by just opening the menu and pressing A.";
                         Program.gCmdWindow.SetRadioOpponent();
+                        Program.gCmdWindow.SetResetLabel("Total Encounters:");
                         break;
                     default:
                         typemessage = "No type - Select one type of soft-reset and try again.";
                         break;
                 }
+                
                 DialogResult dialogResult = MessageBox.Show("This bot will trigger an encounter with a pokémon, and soft-reset if it doesn't match with the loaded filters.\r\n\r\nType: " + typemessage + "\r\n\r\nPlease read the wiki at GitHub before using this bot. Do you want to continue?", "Soft-reset bot", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.OK && Mode.SelectedIndex >= 0)
                 {
@@ -113,7 +121,7 @@ namespace pkmn_ntr.Bot
                     botState = srbotStates.botstart;
                     attempts = 0;
                     maxreconnect = 10;
-                    resetNo = 0;
+                    resetNo = Program.gCmdWindow.GetResetNumber();
                     isub = false;
                     honeynum = 0;
                     finishmessage = null;
@@ -168,12 +176,14 @@ namespace pkmn_ntr.Bot
                                     botState = srbotStates.triggerbattle;
                                     break;
                                 case 3:
-                                    resetNo = 1;
+                                    resetNo = resetNo == 0 ? 1 : resetNo;
+                                    Program.gCmdWindow.UpdateResetCounter(resetNo);
                                     botState = srbotStates.soluna1;
                                     break;
                                 case 4:
                                 case 5:
-                                    resetNo = 1;
+                                    resetNo = resetNo == 0 ? 1 : resetNo;
+                                    Program.gCmdWindow.UpdateResetCounter(resetNo);
                                     botState = srbotStates.writehoney;
                                     break;
                                 default:
@@ -333,6 +343,7 @@ namespace pkmn_ntr.Bot
                         case srbotStates.softreset:
                             resetNo++;
                             Report("Bot: Sof-reset #" + resetNo.ToString());
+                            Program.gCmdWindow.UpdateResetCounter(resetNo);
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
                             {
@@ -622,6 +633,7 @@ namespace pkmn_ntr.Bot
                             {
                                 attempts = 0;
                                 resetNo++;
+                                Program.gCmdWindow.UpdateResetCounter(resetNo);
                                 if (Mode.SelectedIndex == 3)
                                 {
                                     botState = srbotStates.soluna1;

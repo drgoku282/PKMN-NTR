@@ -62,6 +62,7 @@ namespace pkmn_ntr
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();
         private static readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
         byte[] oppdata;
+        public static string MGDatabasePath => Path.Combine(System.Windows.Forms.Application.StartupPath, "mgdb");
 
         // Program constants
         public uint BOXES;
@@ -140,10 +141,8 @@ namespace pkmn_ntr
 
             dragout.AllowDrop = true;
 
-            // Load WC6 folder to legality
-            refreshWC6DB();
-            // Load WC7 folder to legality
-            refreshWC7DB();
+            // Load Event Databases
+            refreshMGDB();
 
             PKM pk = SAV.getPKM((fieldsInitialized ? preparePKM() : pkm).Data);
             bool alreadyInit = fieldsInitialized;
@@ -162,11 +161,17 @@ namespace pkmn_ntr
         {
             GameInfo.Strings = GameInfo.getStrings("en");
 
+            // Update Legality Strings
+            // Clipboard.SetText(string.Join(Environment.NewLine, Util.getLocalization(typeof(LegalityCheckStrings))));
+            Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
+
+
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
 
             // Update Legality Analysis strings
             LegalityAnalysis.movelist = GameInfo.Strings.movelist;
+            LegalityAnalysis.specieslist = GameInfo.Strings.specieslist;
 
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
@@ -219,46 +224,90 @@ namespace pkmn_ntr
             }
         }
 
-        private static void refreshWC6DB()
+        private static void refreshMGDB()
         {
-            List<MysteryGift> wc6db = new List<MysteryGift>();
-            byte[] wc6bin = PKHeX.Core.Properties.Resources.wc6;
+            var g4 = getPCDDB(PKHeX.Core.Properties.Resources.pcd);
+            var g5 = getPGFDB(PKHeX.Core.Properties.Resources.pgf);
+            var g6 = getWC6DB(PKHeX.Core.Properties.Resources.wc6, PKHeX.Core.Properties.Resources.wc6full);
+            var g7 = getWC7DB(PKHeX.Core.Properties.Resources.wc7, PKHeX.Core.Properties.Resources.wc7full);
+
+            if (Directory.Exists(MGDatabasePath))
+                foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
+                {
+                    var fi = new FileInfo(file);
+                    if (!MysteryGift.getIsMysteryGift(fi.Length))
+                        continue;
+
+                    var gift = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                    switch (gift?.Format)
+                    {
+                        case 4: g4.Add(gift); continue;
+                        case 5: g5.Add(gift); continue;
+                        case 6: g6.Add(gift); continue;
+                        case 7: g7.Add(gift); continue;
+                    }
+                }
+
+            Legal.MGDB_G4 = g4.ToArray();
+            Legal.MGDB_G5 = g5.ToArray();
+            Legal.MGDB_G6 = g6.ToArray();
+            Legal.MGDB_G7 = g7.ToArray();
+        }
+        private static HashSet<MysteryGift> getPCDDB(byte[] bin)
+        {
+            var db = new HashSet<MysteryGift>();
+            for (int i = 0; i < bin.Length; i += PCD.Size)
+            {
+                byte[] data = new byte[PCD.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
+                db.Add(new PCD(data));
+            }
+            return db;
+        }
+        private static HashSet<MysteryGift> getPGFDB(byte[] bin)
+        {
+            var db = new HashSet<MysteryGift>();
+            for (int i = 0; i < bin.Length; i += PGF.Size)
+            {
+                byte[] data = new byte[PGF.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
+                db.Add(new PGF(data));
+            }
+            return db;
+        }
+        private static HashSet<MysteryGift> getWC6DB(byte[] wc6bin, byte[] wc6full)
+        {
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
             {
                 byte[] data = new byte[WC6.Size];
-                Array.Copy(wc6bin, i, data, 0, WC6.Size);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6bin, i, data, 0, WC6.Size);
+                db.Add(new WC6(data));
             }
-            byte[] wc6full = PKHeX.Core.Properties.Resources.wc6full;
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
-                Array.Copy(wc6full, i, data, 0, WC6.SizeFull);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6full, i, data, 0, WC6.SizeFull);
+                db.Add(new WC6(data));
             }
-
-            Legal.MGDB_G6 = wc6db.Distinct().ToArray();
+            return db;
         }
-
-        private static void refreshWC7DB()
+        private static HashSet<MysteryGift> getWC7DB(byte[] wc7bin, byte[] wc7full)
         {
-            List<MysteryGift> wc7db = new List<MysteryGift>();
-            byte[] wc7bin = PKHeX.Core.Properties.Resources.wc7;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc7bin.Length; i += WC7.Size)
             {
                 byte[] data = new byte[WC7.Size];
-                Array.Copy(wc7bin, i, data, 0, WC7.Size);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7bin, i, data, 0, WC7.Size);
+                db.Add(new WC7(data));
             }
-            byte[] wc7full = PKHeX.Core.Properties.Resources.wc7full;
             for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
             {
                 byte[] data = new byte[WC7.SizeFull];
-                Array.Copy(wc7full, i, data, 0, WC7.SizeFull);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7full, i, data, 0, WC7.SizeFull);
+                db.Add(new WC7(data));
             }
-
-            Legal.MGDB_G7 = wc7db.Distinct().ToArray();
+            return db;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -395,6 +444,7 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_SoftReset, true);
             Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
+            Delg.SetEnabled(resetNoBox, true);
             foreach (TabPage tab in tabMain.TabPages)
             {
                 Delg.SetEnabled(tab, true);
@@ -417,6 +467,7 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_SoftReset, false);
             Delg.SetEnabled(Tools_WonderTrade, false);
             Delg.SetEnabled(Tools_PokeDigger, false);
+            Delg.SetEnabled(resetNoBox, false);
             foreach (TabPage tab in tabMain.TabPages)
             {
                 Delg.SetEnabled(tab, false);
@@ -2102,6 +2153,28 @@ namespace pkmn_ntr
             Delg.SetValue(slotDump, slot.Value);
         }
 
+        public void UpdateResetCounter(int resets)
+        {
+            Delg.SetText(resetNoBox, resets.ToString());
+        }
+
+        public void SetResetLabel(string lbl)
+        {
+            Delg.SetText(labelreset, lbl);
+        }
+
+        public int GetResetNumber()
+        {
+            if (int.TryParse(resetNoBox.Text, out int number))
+            {
+                return number;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         #endregion GUI handling
 
         #region PKHeX Tabs
@@ -2300,8 +2373,9 @@ namespace pkmn_ntr
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid;
 
-            for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && pkm.Format >= 6;
+            if (pkm.Format >= 6)
+                for (int i = 0; i < 4; i++)
+                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
 
             if (skipMoveRepop)
                 return;
@@ -2310,13 +2384,14 @@ namespace pkmn_ntr
             fieldsLoaded = false;
             var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToArray();
             foreach (ComboBox c in cb)
             {
                 var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
-                c.SelectionLength = 0; // flicker hack
+                if (c.Visible)
+                    c.SelectionLength = 0; // flicker hack
             }
             fieldsLoaded |= tmp;
         }
@@ -2333,7 +2408,7 @@ namespace pkmn_ntr
             }
             if (tabs)
                 updateLegality(la, skipMoveRepop);
-            WinFormsUtil.Alert(verbose ? la.VerboseReport : la.Report);
+            WinFormsUtil.Alert(la.Report(verbose));
         }
 
         public PKM preparePKM(bool click = true)
@@ -2357,7 +2432,7 @@ namespace pkmn_ntr
                                  CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
 
-            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
             if (cb != null)
             {
                 Control c = cb.Parent;
@@ -2418,14 +2493,17 @@ namespace pkmn_ntr
             File.Delete(newfile);
         }
 
-        private void dragoutHover(object sender, EventArgs e)
+        private void dragoutEnter(object sender, EventArgs e)
         {
             dragout.BackgroundImage = WinFormsUtil.getIndex(CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
+            Cursor = Cursors.Hand;
         }
 
         private void dragoutLeave(object sender, EventArgs e)
         {
             dragout.BackgroundImage = Resources.slotTrans;
+            if (Cursor == Cursors.Hand)
+                Cursor = Cursors.Default;
         }
 
         private void setIsShiny(object sender)
@@ -2471,7 +2549,7 @@ namespace pkmn_ntr
             if (cb == null)
                 return;
 
-            if (cb.Text == "")
+            if (cb.Text == "" && cb.Items.Count > 0)
             { cb.SelectedIndex = 0; return; }
             if (cb.SelectedValue == null)
                 cb.BackColor = Color.DarkSalmon;
@@ -2506,7 +2584,7 @@ namespace pkmn_ntr
                     pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
                 }
-                if (sender == CB_HeldItem && SAV.Generation == 7)
+                if (sender == CB_HeldItem || sender == CB_Ability)
                     updateLegality();
             }
             updateNatureModification(sender, null);
@@ -2660,19 +2738,6 @@ namespace pkmn_ntr
         private void updateNickname(object sender, EventArgs e)
         {
             int lang = WinFormsUtil.getIndex(CB_Language);
-            if (sender == CB_Language || sender == CHK_Nicknamed)
-            {
-                switch (lang)
-                {
-                    case 9:
-                    case 10:
-                        TB_Nickname.Visible = CHK_Nicknamed.Checked;
-                        break;
-                    default:
-                        TB_Nickname.Visible = true;
-                        break;
-                }
-            }
 
             if (!fieldsInitialized || CHK_Nicknamed.Checked)
                 return;
@@ -2703,10 +2768,30 @@ namespace pkmn_ntr
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var z = System.Windows.Forms.Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(f2_Text)) as f2_Text;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
-            new f2_Text(tb).Show();
+            if (tb == TB_Nickname)
+            {
+                pkm.Nickname = tb.Text;
+                var d = new f2_Text(tb, pkm.Nickname_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.Nickname_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OT)
+            {
+                pkm.OT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.OT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.OT_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OTt2)
+            {
+                pkm.HT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.HT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.HT_Trash = d.FinalBytes;
+            }
         }
 
         private void updateIsNicknamed(object sender, EventArgs e)
@@ -3641,9 +3726,9 @@ namespace pkmn_ntr
                 CB_Language.SelectedValue = SAV.Language;
             if (SAV.HasGeolocation)
             {
-                CB_SubRegion.SelectedValue = SAV.SubRegion;
-                CB_Country.SelectedValue = SAV.Country;
                 CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+                CB_Country.SelectedValue = SAV.Country;
+                CB_SubRegion.SelectedValue = SAV.SubRegion;
             }
             updateNickname(null, null);
         }
@@ -3762,12 +3847,6 @@ namespace pkmn_ntr
         {
             if (pkm.Format < 6)
                 return;
-            pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            if (pkm.GenNumber < 6)
-            {
-                TB_EC.Text = TB_PID.Text;
-                WinFormsUtil.Alert("EC should match PID.");
-            }
 
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.getIndex(CB_Species));
             if (wIndex < 0)
@@ -3777,9 +3856,24 @@ namespace pkmn_ntr
             else
             {
                 uint EC;
-                do { EC = Util.rnd32(); } while ((EC >> 16) % 10 / 5 != wIndex / 2);
+                bool valid;
+                do
+                {
+                    EC = Util.rnd32();
+                    uint evoVal;
+                    switch (pkm.GenNumber)
+                    {
+                        case 3: evoVal = pkm.PID & 0xFFFF; break;
+                        case 4:
+                        case 5: evoVal = pkm.PID >> 16; break;
+                        default: evoVal = pkm.EncryptionConstant >> 16; break;
+                    }
+                    evoVal = evoVal % 10 / 5;
+                    valid = evoVal == wIndex / 2;
+                } while (!valid);
                 TB_EC.Text = EC.ToString("X8");
             }
+            updateLegality();
         }
 
         private void openRibbons(object sender, EventArgs e)
@@ -3965,6 +4059,7 @@ namespace pkmn_ntr
             else
             {
                 timer1.Interval = 1000;
+                Delg.SetText(labelreset, "Starting number:");
             }
         }
 
