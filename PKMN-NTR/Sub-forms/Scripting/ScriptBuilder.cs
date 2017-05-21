@@ -26,7 +26,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
         {
             actions = new List<ScriptAction>();
             numTime.Maximum = Int32.MaxValue;
-            string buttonMsg = "Click for a simple action.\r\nShift + Click for a timed action using the Time value.\r\nControl + Click for hold the action until another or a release command.";
+            string buttonMsg = "Click for a simple action.\r\nShift + Click for hold the action until a certain time has passed (Set time in ms with the Option field).\r\nControl + Click for hold the action until another or a release command.";
             Control[] tooltTpButtons = new Control[] { btnA, btnB, btnX, btnY, btnL, btnR, btnStart, btnSelect, btnUp, btnDown, btnLeft, btnRight, btnStick, btnTouch };
             foreach (Control ctrl in tooltTpButtons)
             {
@@ -50,16 +50,18 @@ namespace pkmn_ntr.Sub_forms.Scripting
                 return;
             }
             lstActions.Items.Clear();
+            int idx = 0;
             foreach (ScriptAction act in actions)
             {
-                lstActions.Items.Add(act.Tag);
+                lstActions.Items.Add($"{idx}, {act.Tag}");
+                idx++;
             }
         }
 
         private void AddActionToList(ScriptAction act)
         {
             int index = lstActions.SelectedIndex;
-            if (index > 0)
+            if (index >= 0)
             {
                 actions.Insert(index + 1, act);
                 UpdateActionList();
@@ -192,7 +194,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     // Search for EndFor
                     if (((StartFor)actions[index]).EndInstruction < 0)
                     {
-                        int endins = SearchEndFor(index);
+                        int endins = SearchEndFor(index, ((StartFor)actions[index]).ID);
                         if (endins >= 0)
                         {
                             ((StartFor)actions[index]).EndInstruction = endins;
@@ -226,7 +228,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     // Search for StartFor
                     if (((EndFor)actions[index]).StartInstruction < 0)
                     {
-                        int startins = SearchStartFor(index);
+                        int startins = SearchStartFor(index, ((EndFor)actions[index]).ID);
                         if (startins >= 0)
                         {
                             ((EndFor)actions[index]).StartInstruction = startins;
@@ -265,13 +267,20 @@ namespace pkmn_ntr.Sub_forms.Scripting
         }
 
         // Searching
-        private int SearchEndFor(int startindex)
+        private int SearchEndFor(int startindex, int id)
         {
+            if (actions.Count == 0)
+            {
+                return -1;
+            }
             int idx;
             bool found = false;
             for (idx = startindex; idx < actions.Count; idx++)
             {
-                found = actions[idx] is EndFor;
+                if (actions[idx] is EndFor)
+                {
+                    found = ((EndFor)actions[idx]).ID == id;
+                }
                 if (found)
                 {
                     break;
@@ -280,13 +289,20 @@ namespace pkmn_ntr.Sub_forms.Scripting
             return found ? idx : -1;
         }
 
-        private int SearchStartFor(int startindex)
+        private int SearchStartFor(int startindex, int id)
         {
+            if (actions.Count == 0)
+            {
+                return -1;
+            }
             int idx;
             bool found = false;
             for (idx = startindex; idx >= 0; idx--)
             {
-                found = actions[idx] is StartFor;
+                if (actions[idx] is StartFor)
+                {
+                    found = ((StartFor)actions[idx]).ID == id;
+                }
                 if (found)
                 {
                     break;
@@ -406,8 +422,44 @@ namespace pkmn_ntr.Sub_forms.Scripting
 
         private void AddLoop(object sender, EventArgs e)
         {
-            AddActionToList(new StartFor((int)numFor.Value));
-            AddActionToList(new EndFor());
+            int conflictstart = SearchStartFor(actions.Count - 1, (int)numTime.Value);
+            int conflictend = SearchEndFor(0, (int)numTime.Value);
+            if (conflictstart >= 0 && conflictend >= 0)
+            {
+                var LoopConflict = MessageBox.Show($"There is another loop block with the same ID starting at instruction {conflictstart} and finishing at instruction {conflictend}\r\n\r\nDo you want to insert the loop block anyways?", "Script Builder", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (LoopConflict == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            else if (conflictstart >= 0 && conflictend == -1)
+            {
+                var LoopConflict = MessageBox.Show($"There is another loop block with the same ID but it seems to be incomplete, it starts instruction {conflictstart} but there is not end instruction.\r\n\r\nSelect \"Yes\" to insert the end instruction at the current position.\r\nSelect \"No\" to ingore and insert a new block.", "Script Builder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (LoopConflict == DialogResult.Yes)
+                {
+                    AddActionToList(new EndFor((int)numTime.Value));
+                    return;
+                }
+                else if (LoopConflict == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            else if (conflictstart == -1 && conflictend >= 0)
+            {
+                var LoopConflict = MessageBox.Show($"There is another loop block with the same ID but it seems to be incomplete, it ends at instruction {conflictend} but there is not start instruction.\r\n\r\nSelect \"Yes\" to insert the start instruction at the current position.\r\nSelect \"No\" to ignore and insert a new block.", "Script Builder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (LoopConflict == DialogResult.Yes)
+                {
+                    AddActionToList(new StartFor((int)numFor.Value, (int)numTime.Value));
+                    return;
+                }
+                else if (LoopConflict == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            AddActionToList(new StartFor((int)numFor.Value, (int)numTime.Value));
+            AddActionToList(new EndFor((int)numTime.Value));
         }
 
         // Script save/load
@@ -492,10 +544,10 @@ namespace pkmn_ntr.Sub_forms.Scripting
                             AddActionToList(new DelayAction(instruction[1]));
                             break;
                         case ScriptAction.ActionType.StartFor:
-                            AddActionToList(new StartFor(instruction[1]));
+                            AddActionToList(new StartFor(instruction[1], instruction[2]));
                             break;
                         case ScriptAction.ActionType.EndFor:
-                            AddActionToList(new EndFor());
+                            AddActionToList(new EndFor(instruction[1]));
                             break;
                         default:
                             ScriptAction.Report($"Script: Invalid line - {str}");

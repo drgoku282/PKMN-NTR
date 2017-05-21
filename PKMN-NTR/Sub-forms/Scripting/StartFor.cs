@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace pkmn_ntr.Sub_forms.Scripting
 {
     public class StartFor : ScriptAction
     {
+        private int id;
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+            }
+        }
+
         private int loops;
         public int Loops
         {
@@ -74,7 +83,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
         {
             get
             {
-                return new int[] { TotalLoops };
+                return new int[] { TotalLoops, id };
             }
             set
             {
@@ -82,9 +91,15 @@ namespace pkmn_ntr.Sub_forms.Scripting
                 {
                     TotalLoops = 1;
                 }
+                else if (value.Length == 1)
+                {
+                    TotalLoops = value[0];
+                    id = -1;
+                }
                 else
                 {
                     TotalLoops = value[0];
+                    id = value[1];
                 }
             }
         }
@@ -93,15 +108,16 @@ namespace pkmn_ntr.Sub_forms.Scripting
         {
             get
             {
-                return ($"Loop {totalLoops}");
+                return ($"Loop {totalLoops} (ID={id})");
             }
         }
 
-        public StartFor(int _loop)
+        public StartFor(int _loop, int newid)
         {
             totalLoops = _loop > 0 ? _loop : 1;
             loops = 0;
             endInstruction = -1;
+            id = newid;
         }
 
         public async override Task Excecute()

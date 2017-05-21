@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace pkmn_ntr.Sub_forms.Scripting
 {
     public class EndFor : ScriptAction
     {
+        private int id;
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+            }
+        }
+
         private int startInstruction;
         public int StartInstruction
         {
@@ -33,22 +42,33 @@ namespace pkmn_ntr.Sub_forms.Scripting
         {
             get
             {
-                return new int[] { 0 };
+                return new int[] { id };
             }
-            set { }
+            set
+            {
+                if (value == null)
+                {
+                    id = -1;
+                }
+                else
+                {
+                    id = value[0];
+                }
+            }
         }
 
         public override string Tag
         {
             get
             {
-                return ($"End Loop");
+                return ($"End Loop (ID={id})");
             }
         }
 
-        public EndFor()
+        public EndFor(int newid)
         {
             startInstruction = -1;
+            id = newid;
         }
 
         public async override Task Excecute()

@@ -68,7 +68,6 @@
             this.numTime = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.btnDelay = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
             this.numFor = new System.Windows.Forms.NumericUpDown();
@@ -478,7 +477,7 @@
             // 
             // numTime
             // 
-            this.numTime.Location = new System.Drawing.Point(410, 207);
+            this.numTime.Location = new System.Drawing.Point(418, 207);
             this.numTime.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -490,7 +489,7 @@
             0,
             0});
             this.numTime.Name = "numTime";
-            this.numTime.Size = new System.Drawing.Size(66, 20);
+            this.numTime.Size = new System.Drawing.Size(58, 20);
             this.numTime.TabIndex = 10;
             this.numTime.Value = new decimal(new int[] {
             1,
@@ -503,26 +502,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(371, 209);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Time:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(482, 209);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(20, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "ms";
+            this.label1.Text = "Option:";
             // 
             // btnDelay
             // 
-            this.btnDelay.Location = new System.Drawing.Point(508, 204);
+            this.btnDelay.Location = new System.Drawing.Point(482, 204);
             this.btnDelay.Name = "btnDelay";
-            this.btnDelay.Size = new System.Drawing.Size(50, 23);
+            this.btnDelay.Size = new System.Drawing.Size(76, 23);
             this.btnDelay.TabIndex = 9;
-            this.btnDelay.Text = "Delay";
+            this.btnDelay.Text = "Add Delay";
+            this.toolTip1.SetToolTip(this.btnDelay, "Adds a Delay with a length in ms equal to the value selected in Option.");
             this.btnDelay.UseVisualStyleBackColor = true;
             this.btnDelay.Click += new System.EventHandler(this.ClickDelay);
             // 
@@ -575,6 +566,8 @@
             this.btnAddFor.Size = new System.Drawing.Size(76, 23);
             this.btnAddFor.TabIndex = 9;
             this.btnAddFor.Text = "Add For";
+            this.toolTip1.SetToolTip(this.btnAddFor, "Adds a loop block. The number of loops is selected in the Loops field,\r\nand the I" +
+        "D of the loop is selected in the Option flield.");
             this.btnAddFor.UseVisualStyleBackColor = true;
             this.btnAddFor.Click += new System.EventHandler(this.AddLoop);
             // 
@@ -606,7 +599,6 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(566, 325);
             this.Controls.Add(this.btnStartStop);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numFor);
@@ -688,7 +680,6 @@
         private System.Windows.Forms.NumericUpDown numTime;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnDelay;
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.NumericUpDown numFor;
