@@ -69,10 +69,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnDelay = new System.Windows.Forms.Button();
+            this.btnAddFor = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
             this.numFor = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnAddFor = new System.Windows.Forms.Button();
             this.btnSaveScript = new System.Windows.Forms.Button();
             this.btnLoadScript = new System.Windows.Forms.Button();
             this.Remote_Stick.SuspendLayout();
@@ -517,6 +517,18 @@
             this.btnDelay.UseVisualStyleBackColor = true;
             this.btnDelay.Click += new System.EventHandler(this.ClickDelay);
             // 
+            // btnAddFor
+            // 
+            this.btnAddFor.Location = new System.Drawing.Point(482, 233);
+            this.btnAddFor.Name = "btnAddFor";
+            this.btnAddFor.Size = new System.Drawing.Size(76, 23);
+            this.btnAddFor.TabIndex = 9;
+            this.btnAddFor.Text = "Add Loop";
+            this.toolTip1.SetToolTip(this.btnAddFor, "Adds a loop block. The number of loops is selected in the Loops field,\r\nand the I" +
+        "D of the loop is selected in the Option flield.");
+            this.btnAddFor.UseVisualStyleBackColor = true;
+            this.btnAddFor.Click += new System.EventHandler(this.AddLoop);
+            // 
             // btnStartStop
             // 
             this.btnStartStop.Enabled = false;
@@ -530,7 +542,7 @@
             // 
             // numFor
             // 
-            this.numFor.Location = new System.Drawing.Point(416, 236);
+            this.numFor.Location = new System.Drawing.Point(418, 236);
             this.numFor.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -542,7 +554,7 @@
             0,
             0});
             this.numFor.Name = "numFor";
-            this.numFor.Size = new System.Drawing.Size(60, 20);
+            this.numFor.Size = new System.Drawing.Size(58, 20);
             this.numFor.TabIndex = 10;
             this.numFor.Value = new decimal(new int[] {
             1,
@@ -558,18 +570,6 @@
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "Loops:";
-            // 
-            // btnAddFor
-            // 
-            this.btnAddFor.Location = new System.Drawing.Point(482, 233);
-            this.btnAddFor.Name = "btnAddFor";
-            this.btnAddFor.Size = new System.Drawing.Size(76, 23);
-            this.btnAddFor.TabIndex = 9;
-            this.btnAddFor.Text = "Add For";
-            this.toolTip1.SetToolTip(this.btnAddFor, "Adds a loop block. The number of loops is selected in the Loops field,\r\nand the I" +
-        "D of the loop is selected in the Option flield.");
-            this.btnAddFor.UseVisualStyleBackColor = true;
-            this.btnAddFor.Click += new System.EventHandler(this.AddLoop);
             // 
             // btnSaveScript
             // 
