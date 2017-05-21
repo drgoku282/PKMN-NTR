@@ -636,7 +636,7 @@ namespace pkmn_ntr.Bot
 
                         case srbotstates.softreset:
                             resetNo++;
-                            Report("Bot: Sof-reset #" + resetNo.ToString());
+                            Report("Bot: Soft-reset #" + resetNo.ToString());
                             Program.gCmdWindow.UpdateResetCounter(resetNo);
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
