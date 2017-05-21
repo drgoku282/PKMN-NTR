@@ -2151,6 +2151,11 @@ namespace pkmn_ntr
             Delg.SetValue(slotDump, slot.Value);
         }
 
+        public void UpdateResetCounter(int resets)
+        {
+            Delg.SetText(resetNoBox, resets.ToString());
+        }
+
         #endregion GUI handling
 
         #region PKHeX Tabs

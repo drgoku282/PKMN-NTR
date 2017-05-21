@@ -345,6 +345,8 @@
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.resetNoBox = new System.Windows.Forms.TextBox();
+            this.labelreset = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -3952,6 +3954,8 @@
             // Tab_Tools
             // 
             this.Tab_Tools.BackColor = System.Drawing.SystemColors.Control;
+            this.Tab_Tools.Controls.Add(this.resetNoBox);
+            this.Tab_Tools.Controls.Add(this.labelreset);
             this.Tab_Tools.Controls.Add(this.Btn_ReloadFields);
             this.Tab_Tools.Controls.Add(this.Seed_Legendary);
             this.Tab_Tools.Controls.Add(this.Seed_Egg);
@@ -4410,6 +4414,23 @@
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
+            // 
+            // resetNoBox
+            // 
+            this.resetNoBox.Location = new System.Drawing.Point(102, 174);
+            this.resetNoBox.Name = "resetNoBox";
+            this.resetNoBox.ReadOnly = true;
+            this.resetNoBox.Size = new System.Drawing.Size(88, 20);
+            this.resetNoBox.TabIndex = 17;
+            // 
+            // labelreset
+            // 
+            this.labelreset.AutoSize = true;
+            this.labelreset.Location = new System.Drawing.Point(6, 177);
+            this.labelreset.Name = "labelreset";
+            this.labelreset.Size = new System.Drawing.Size(90, 13);
+            this.labelreset.TabIndex = 16;
+            this.labelreset.Text = "Number of resets:";
             // 
             // MainForm
             // 
@@ -4914,6 +4935,8 @@
         private System.Windows.Forms.Button Btn_ReloadFields;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button Tool_Script;
+        private System.Windows.Forms.TextBox resetNoBox;
+        private System.Windows.Forms.Label labelreset;
     }
 }
 
