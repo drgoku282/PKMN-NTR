@@ -1,7 +1,9 @@
-﻿using System;
+﻿using pkmn_ntr.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pkmn_ntr.Sub_forms.Scripting
@@ -114,7 +116,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
 
         private void RemoveAction(object sender, EventArgs e)
         {
-            if (lstActions.SelectedIndex > 0)
+            if (lstActions.SelectedIndex >= 0)
             {
                 actions.RemoveAt(lstActions.SelectedIndex);
                 UpdateActionList();
@@ -154,6 +156,16 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 ctrl.Enabled = state;
             }
+            if (state)
+            {
+                Delg.SetMinimum(numFor, 1);
+                Delg.SetValue(numFor, 1);
+            }
+            else
+            {
+                Delg.SetMinimum(numFor, 0);
+                Delg.SetValue(numFor, 0);
+            }
         }
 
         private async void ExecuteScript()
@@ -181,7 +193,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     if (((StartFor)actions[index]).EndInstruction < 0)
                     {
                         int endins = SearchEndFor(index);
-                        if (endins > 0)
+                        if (endins >= 0)
                         {
                             ((StartFor)actions[index]).EndInstruction = endins;
                         }
@@ -194,12 +206,19 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     // Check if finished, and restart
                     if (((StartFor)actions[index]).IsFinished)
                     {
-                        ScriptAction.Report("Script: For loop finished");
-                        index = ((StartFor)actions[index]).EndInstruction + 1;
-                        ((EndFor)actions[index - 1]).StartInstruction = -1;
+                        await Task.Delay(200);
+                        int tempins = ((StartFor)actions[index]).EndInstruction;
                         ((StartFor)actions[index]).EndInstruction = -1;
                         ((StartFor)actions[index]).Loops = 0;
+                        Delg.SetValue(numFor, 0);
+                        index = tempins;
+                        ((EndFor)actions[index]).StartInstruction = -1;
+                        ScriptAction.Report("Script: End loops");
                         continue;
+                    }
+                    else
+                    {
+                        Delg.SetValue(numFor, ((StartFor)actions[index]).TotalLoops - ((StartFor)actions[index]).Loops);
                     }
                 }
                 else if (actions[index] is EndFor)
@@ -208,7 +227,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     if (((EndFor)actions[index]).StartInstruction < 0)
                     {
                         int startins = SearchStartFor(index);
-                        if (startins > 0)
+                        if (startins >= 0)
                         {
                             ((EndFor)actions[index]).StartInstruction = startins;
                         }
@@ -218,8 +237,8 @@ namespace pkmn_ntr.Sub_forms.Scripting
                             break;
                         }
                     }
-                    ScriptAction.Report($"Script: End of Loop");
-                    index = ((EndFor)actions[index]).StartInstruction;
+                    await actions[index].Excecute();
+                    index = ((EndFor)actions[index]).StartInstruction - 1;
                     continue;
                 }
                 if (stopScript || !Program.gCmdWindow.isConnected)
@@ -488,6 +507,11 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 MessageBox.Show("A error has ocurred while loading the script:\r\n\r\n" + ex.Message, "Script builder", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void CloseForm(object sender, FormClosedEventArgs e)
+        {
+            Program.gCmdWindow.Tool_Finish();
         }
     }
 }

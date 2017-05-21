@@ -182,17 +182,22 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 await Program.helper.ScriptTouchRelease();
             }
-            if (time == 0)
+            else if (time == 0)
             {
                 await Program.helper.ScriptTouch(xCoord, yCoord);
             }
-            if (time > 0)
+            else if (time > 0)
             {
                 await Program.helper.ScriptTouchTimed(xCoord, yCoord, time);
             }
             else if (time < 0)
             {
                 await Program.helper.ScriptTouchHold(xCoord, yCoord);
+            }
+            else
+            {
+                Report("Script: Unknown touch screen instruction");
+                await Task.Delay(500);
             }
         }
     }

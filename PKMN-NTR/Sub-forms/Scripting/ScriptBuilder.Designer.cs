@@ -628,6 +628,7 @@
             this.Name = "ScriptBuilder";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.Text = "Script Builder";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseForm);
             this.Load += new System.EventHandler(this.ScriptBuilder_Load);
             this.Remote_Stick.ResumeLayout(false);
             this.Remote_Stick.PerformLayout();

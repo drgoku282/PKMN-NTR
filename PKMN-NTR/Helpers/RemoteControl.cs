@@ -452,7 +452,7 @@ namespace pkmn_ntr.Helpers
             byte[] stickByte = BitConverter.GetBytes(getstickhex(Xvalue, Yvalue));
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(200);
-            stickByte = BitConverter.GetBytes(LookupTable.notouch);
+            stickByte = BitConverter.GetBytes(LookupTable.nostick);
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(500);
         }
@@ -463,7 +463,7 @@ namespace pkmn_ntr.Helpers
             byte[] stickByte = BitConverter.GetBytes(getstickhex(Xvalue, Yvalue));
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(time);
-            stickByte = BitConverter.GetBytes(LookupTable.notouch);
+            stickByte = BitConverter.GetBytes(LookupTable.nostick);
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(500);
         }

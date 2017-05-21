@@ -53,8 +53,8 @@ namespace pkmn_ntr.Sub_forms.Scripting
 
         public async override Task Excecute()
         {
-            Report($"Script: End of Loop");
-            await Task.Delay(200);
+            Report("Script: End of current Loop");
+            await Task.Delay(500);
         }
     }
 }

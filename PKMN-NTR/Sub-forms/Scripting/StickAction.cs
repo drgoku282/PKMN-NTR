@@ -187,17 +187,22 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 await Program.helper.ScriptStickRelease();
             }
-            if (time == 0)
+            else if (time == 0)
             {
                 await Program.helper.ScriptStick(xCoord, yCoord);
             }
-            if (time > 0)
+            else if (time > 0)
             {
                 await Program.helper.ScriptStickTimed(xCoord, yCoord, time);
             }
             else if (time < 0)
             {
                 await Program.helper.ScriptStickHold(xCoord, yCoord);
+            }
+            else
+            {
+                Report("Script: Unknown control stick instruction");
+                await Task.Delay(500);
             }
         }
     }

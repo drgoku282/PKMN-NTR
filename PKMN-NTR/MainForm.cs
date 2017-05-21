@@ -3906,6 +3906,7 @@ namespace pkmn_ntr
         {
             txtLog.Clear();
             disableControls();
+            Delg.SetEnabled(Tool_Script, false);
         }
 
         public void Tool_Finish()
@@ -3914,6 +3915,7 @@ namespace pkmn_ntr
             {
                 enableControls();
             }
+            Delg.SetEnabled(Tool_Script, true);
         }
 
         // Trainer Editor
@@ -4068,7 +4070,7 @@ namespace pkmn_ntr
             botWorking = state;
             if (state)
             {
-                timer1.Interval = 100;
+                timer1.Interval = 250;
             }
             else
             {

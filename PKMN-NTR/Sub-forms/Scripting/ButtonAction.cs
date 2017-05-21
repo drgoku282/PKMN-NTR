@@ -160,17 +160,22 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 await Program.helper.ScriptButtonRelease();
             }
-            if (time == 0)
+            else if (time == 0)
             {
                 await Program.helper.ScriptButton(command);
             }
-            if (time > 0)
+            else if (time > 0)
             {
                 await Program.helper.ScriptButtonTimed(command, time);
             }
             else if (time < 0)
             {
                 await Program.helper.ScriptButtonHold(command);
+            }
+            else
+            {
+                Report("Script: Unknown button instruction.");
+                await Task.Delay(500);
             }
         }
     }
