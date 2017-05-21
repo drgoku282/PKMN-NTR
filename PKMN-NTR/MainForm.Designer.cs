@@ -305,6 +305,8 @@
             this.Num_CDAmount = new System.Windows.Forms.NumericUpDown();
             this.Num_CDSlot = new System.Windows.Forms.NumericUpDown();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
+            this.resetNoBox = new System.Windows.Forms.TextBox();
+            this.labelreset = new System.Windows.Forms.Label();
             this.Btn_ReloadFields = new System.Windows.Forms.Button();
             this.Seed_Legendary = new System.Windows.Forms.TextBox();
             this.Seed_Egg = new System.Windows.Forms.TextBox();
@@ -345,8 +347,6 @@
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.resetNoBox = new System.Windows.Forms.TextBox();
-            this.labelreset = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -3969,6 +3969,22 @@
             this.Tab_Tools.TabIndex = 0;
             this.Tab_Tools.Text = "Tools";
             // 
+            // resetNoBox
+            // 
+            this.resetNoBox.Location = new System.Drawing.Point(102, 174);
+            this.resetNoBox.Name = "resetNoBox";
+            this.resetNoBox.Size = new System.Drawing.Size(88, 20);
+            this.resetNoBox.TabIndex = 17;
+            // 
+            // labelreset
+            // 
+            this.labelreset.Location = new System.Drawing.Point(6, 177);
+            this.labelreset.Name = "labelreset";
+            this.labelreset.Size = new System.Drawing.Size(90, 13);
+            this.labelreset.TabIndex = 16;
+            this.labelreset.Text = "Starting number:";
+            this.labelreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // Btn_ReloadFields
             // 
             this.Btn_ReloadFields.Location = new System.Drawing.Point(196, 174);
@@ -4414,23 +4430,6 @@
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
-            // 
-            // resetNoBox
-            // 
-            this.resetNoBox.Location = new System.Drawing.Point(102, 174);
-            this.resetNoBox.Name = "resetNoBox";
-            this.resetNoBox.ReadOnly = true;
-            this.resetNoBox.Size = new System.Drawing.Size(88, 20);
-            this.resetNoBox.TabIndex = 17;
-            // 
-            // labelreset
-            // 
-            this.labelreset.AutoSize = true;
-            this.labelreset.Location = new System.Drawing.Point(6, 177);
-            this.labelreset.Name = "labelreset";
-            this.labelreset.Size = new System.Drawing.Size(90, 13);
-            this.labelreset.TabIndex = 16;
-            this.labelreset.Text = "Number of resets:";
             // 
             // MainForm
             // 

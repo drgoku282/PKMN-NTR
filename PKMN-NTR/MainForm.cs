@@ -444,6 +444,7 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_SoftReset, true);
             Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
+            Delg.SetEnabled(resetNoBox, true);
             foreach (TabPage tab in tabMain.TabPages)
             {
                 Delg.SetEnabled(tab, true);
@@ -466,6 +467,7 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_SoftReset, false);
             Delg.SetEnabled(Tools_WonderTrade, false);
             Delg.SetEnabled(Tools_PokeDigger, false);
+            Delg.SetEnabled(resetNoBox, false);
             foreach (TabPage tab in tabMain.TabPages)
             {
                 Delg.SetEnabled(tab, false);
@@ -2154,6 +2156,23 @@ namespace pkmn_ntr
         public void UpdateResetCounter(int resets)
         {
             Delg.SetText(resetNoBox, resets.ToString());
+        }
+
+        public void SetResetLabel(string lbl)
+        {
+            Delg.SetText(labelreset, lbl);
+        }
+
+        public int GetResetNumber()
+        {
+            if (int.TryParse(resetNoBox.Text, out int number))
+            {
+                return number;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         #endregion GUI handling
@@ -4040,6 +4059,7 @@ namespace pkmn_ntr
             else
             {
                 timer1.Interval = 1000;
+                Delg.SetText(labelreset, "Starting number:");
             }
         }
 

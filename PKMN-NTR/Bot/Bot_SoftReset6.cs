@@ -71,6 +71,7 @@ namespace pkmn_ntr.Bot
 
         private void Bot_SoftReset6_Load(object sender, System.EventArgs e)
         {
+            Program.gCmdWindow.SetResetLabel("Number of resets:");
             if (Program.gCmdWindow.SAV.Version == GameVersion.X || Program.gCmdWindow.SAV.Version == GameVersion.Y)
             { // XY
                 ORAS = false;
@@ -175,16 +176,6 @@ namespace pkmn_ntr.Bot
                         resumemessage = "";
                         break;
                 }
-                Program.gCmdWindow.labelreset.Visible = true;
-                Program.gCmdWindow.resetNoBox.Visible = true;
-                if (Program.gCmdWindow.resetNoBox.Text != "")
-                {
-                    resetNo = Convert.ToInt32(Program.gCmdWindow.resetNoBox.Text);
-                }
-                else
-                {
-                    resetNo = 0;
-                }
                 DialogResult dialogResult = MessageBox.Show("This bot will trigger an encounter with a pokémon, and soft-reset if it doesn't match with the loaded filters.\r\n\r\nType: " + typemessage + "\r\nResume: " + resumemessage + "\r\n\r\nPlease read the wiki at GitHub before using this bot. Do you want to continue?", "Soft-reset bot", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.OK && Mode.SelectedIndex >= 0)
                 {
@@ -196,7 +187,7 @@ namespace pkmn_ntr.Bot
                     botState = srbotstates.botstart;
                     attempts = 0;
                     maxreconnect = 10;
-                    resetNo = Mode.SelectedIndex == 2 ? -1 : 0;
+                    resetNo = resetNo = Program.gCmdWindow.GetResetNumber();
                     walk = false;
                     steps = 0;
                     finishmessage = null;
