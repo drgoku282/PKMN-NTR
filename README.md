@@ -24,9 +24,11 @@ Latest update for all games is mandatory.
 - Dump and edit pokémon from boxes, Day Care/Nursery, Battle Box and Party using PKHeX interface.
 - See wild opponent pokémon and your partner's pokémon during a trade.
 - Clone and delete pokémon.
-- Write pokémon from a *.pkx file in your computer.
+- Inject pokémon from a *.pkx file in your computer.
 - Edit Items and Trainer Data.
 - Bots for Breeding, Soft-reset and Wonder Trade.
+- Search pokémon in the 3DS' RAM with Poké Digger.
+- Build your own mini-bots with the Script Builder.
 
 ## Credits
 This the list of people who have contributed to this application.
@@ -35,10 +37,11 @@ This the list of people who have contributed to this application.
 - **[fa-dx](https://github.com/fa-dx/PKMN-NTR)**: Creator of the tool.
 - **[jackmax](https://github.com/jackmax/PKMN-NTR)**: Large-scale rewrite of the code to make it more robust, readable and maintainable.
 - **[drgoku282](https://github.com/drgoku282/PKMN-NTR)**: Current developer.
+- **[MichiS97](https://github.com/MichiS97/PKMN-NTR)**: 1.2 SM Support, improvements to many bots.
 
 ### Other Contributions
 - **[Davi Andrade](http://daviandrade.com/)**: Author of the application's icon, used with authorization. 
-- **danne2, xSillusx, MichiS97**: Provided code to improve the application.
+- **danne2, xSillusx, **: Provided code to improve the application.
 - **GBATemp and GitHub users**: Testing and bug reports.
 
 ###  Additional tools used in this application
