@@ -53,7 +53,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
             int idx = 0;
             foreach (ScriptAction act in actions)
             {
-                lstActions.Items.Add($"{idx}, {act.Tag}");
+                lstActions.Items.Add($"{idx}. {act.Tag}");
                 idx++;
             }
         }

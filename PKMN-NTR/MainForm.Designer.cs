@@ -4430,6 +4430,7 @@
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
+            this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
             // 
             // MainForm
             // 
