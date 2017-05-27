@@ -37,11 +37,11 @@ This the list of people who have contributed to this application.
 - **[fa-dx](https://github.com/fa-dx/PKMN-NTR)**: Creator of the tool.
 - **[jackmax](https://github.com/jackmax/PKMN-NTR)**: Large-scale rewrite of the code to make it more robust, readable and maintainable.
 - **[drgoku282](https://github.com/drgoku282/PKMN-NTR)**: Current developer.
-- **[MichiS97](https://github.com/MichiS97/PKMN-NTR)**: 1.2 SM Support, improvements to many bots.
+- **[MichiS97](https://github.com/MichiS97/PKMN-NTR)**: Support for 1.2 update of Pokémon Sun and Moon, improvements to many bots.
 
 ### Other Contributions
 - **[Davi Andrade](http://daviandrade.com/)**: Author of the application's icon, used with authorization. 
-- **danne2, xSillusx, **: Provided code to improve the application.
+- **danne2, xSillusx**: Provided code to improve the application.
 - **GBATemp and GitHub users**: Testing and bug reports.
 
 ###  Additional tools used in this application
@@ -50,3 +50,16 @@ This the list of people who have contributed to this application.
 - **Kazo and Stary2001**: For [InputRedirection](https://github.com/Stary2001/InputRedirection) which was the base for the Remote Controls and the Bots.
 - **Octokit dev team**: Their [GitHub API client](https://github.com/octokit/octokit.net) was used for update checking. Released under MIT License.
 - **Fody/Costura**: Used to join needed .dll files into the main executable. Released under MIT License.
+
+### License
+
+This program was released under the GNU General Public License v3.
+
+Copyright 2016-2017 © PKMN-NTR Dev Team
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
