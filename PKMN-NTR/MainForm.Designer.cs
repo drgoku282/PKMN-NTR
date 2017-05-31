@@ -290,6 +290,7 @@
             this.Tool_Trainer = new System.Windows.Forms.Button();
             this.Tabs_General = new System.Windows.Forms.TabControl();
             this.Tab_Dump = new System.Windows.Forms.TabPage();
+            this.StartPollingButton = new System.Windows.Forms.Button();
             this.Write_PKM = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tab_Clone = new System.Windows.Forms.TabPage();
@@ -321,6 +322,7 @@
             this.Tool_Script = new System.Windows.Forms.Button();
             this.Tools_PokeDigger = new System.Windows.Forms.Button();
             this.Tools_Filter = new System.Windows.Forms.Button();
+            this.EventHandlerButton = new System.Windows.Forms.Button();
             this.Tab_Log = new System.Windows.Forms.TabPage();
             this.Log_Export = new System.Windows.Forms.Button();
             this.Tab_About = new System.Windows.Forms.TabPage();
@@ -347,6 +349,8 @@
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.StopPollingButton = new System.Windows.Forms.Button();
+            this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -3726,6 +3730,8 @@
             // Tab_Dump
             // 
             this.Tab_Dump.BackColor = System.Drawing.SystemColors.Control;
+            this.Tab_Dump.Controls.Add(this.StopPollingButton);
+            this.Tab_Dump.Controls.Add(this.StartPollingButton);
             this.Tab_Dump.Controls.Add(this.Write_PKM);
             this.Tab_Dump.Controls.Add(this.dumpBoxes);
             this.Tab_Dump.Controls.Add(this.dumpPokemon);
@@ -3742,6 +3748,19 @@
             this.Tab_Dump.Size = new System.Drawing.Size(292, 264);
             this.Tab_Dump.TabIndex = 4;
             this.Tab_Dump.Text = "Read/Write";
+            // 
+            // StartPollingButton
+            // 
+            this.StartPollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartPollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.StartPollingButton.Enabled = true;
+            this.StartPollingButton.Location = new System.Drawing.Point(9, 210);
+            this.StartPollingButton.Name = "StartPollingButton";
+            this.StartPollingButton.Size = new System.Drawing.Size(91, 23);
+            this.StartPollingButton.TabIndex = 14;
+            this.StartPollingButton.Text = "Start Polling";
+            this.StartPollingButton.UseVisualStyleBackColor = true;
+            this.StartPollingButton.Click += new System.EventHandler(this.StartPollingButton_Click);
             // 
             // Write_PKM
             // 
@@ -3971,14 +3990,14 @@
             // 
             // resetNoBox
             // 
-            this.resetNoBox.Location = new System.Drawing.Point(102, 174);
+            this.resetNoBox.Location = new System.Drawing.Point(102, 205);
             this.resetNoBox.Name = "resetNoBox";
             this.resetNoBox.Size = new System.Drawing.Size(88, 20);
             this.resetNoBox.TabIndex = 17;
             // 
             // labelreset
             // 
-            this.labelreset.Location = new System.Drawing.Point(6, 177);
+            this.labelreset.Location = new System.Drawing.Point(6, 208);
             this.labelreset.Name = "labelreset";
             this.labelreset.Size = new System.Drawing.Size(90, 13);
             this.labelreset.TabIndex = 16;
@@ -3987,7 +4006,7 @@
             // 
             // Btn_ReloadFields
             // 
-            this.Btn_ReloadFields.Location = new System.Drawing.Point(196, 174);
+            this.Btn_ReloadFields.Location = new System.Drawing.Point(196, 205);
             this.Btn_ReloadFields.Name = "Btn_ReloadFields";
             this.Btn_ReloadFields.Size = new System.Drawing.Size(89, 23);
             this.Btn_ReloadFields.TabIndex = 3;
@@ -3998,7 +4017,7 @@
             // 
             // Seed_Legendary
             // 
-            this.Seed_Legendary.Location = new System.Drawing.Point(6, 148);
+            this.Seed_Legendary.Location = new System.Drawing.Point(6, 179);
             this.Seed_Legendary.Name = "Seed_Legendary";
             this.Seed_Legendary.ReadOnly = true;
             this.Seed_Legendary.Size = new System.Drawing.Size(279, 20);
@@ -4006,7 +4025,7 @@
             // 
             // Seed_Egg
             // 
-            this.Seed_Egg.Location = new System.Drawing.Point(6, 109);
+            this.Seed_Egg.Location = new System.Drawing.Point(6, 140);
             this.Seed_Egg.Name = "Seed_Egg";
             this.Seed_Egg.ReadOnly = true;
             this.Seed_Egg.Size = new System.Drawing.Size(279, 20);
@@ -4015,7 +4034,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 132);
+            this.label19.Location = new System.Drawing.Point(6, 163);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(88, 13);
             this.label19.TabIndex = 1;
@@ -4024,7 +4043,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 93);
+            this.label18.Location = new System.Drawing.Point(6, 124);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(57, 13);
             this.label18.TabIndex = 1;
@@ -4042,10 +4061,11 @@
             this.flowLayoutPanel2.Controls.Add(this.Tool_Script);
             this.flowLayoutPanel2.Controls.Add(this.Tools_PokeDigger);
             this.flowLayoutPanel2.Controls.Add(this.Tools_Filter);
+            this.flowLayoutPanel2.Controls.Add(this.EventHandlerButton);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(286, 87);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(286, 116);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // Tool_Items
@@ -4127,6 +4147,16 @@
             this.Tools_Filter.Text = "Filters";
             this.Tools_Filter.UseVisualStyleBackColor = true;
             this.Tools_Filter.Click += new System.EventHandler(this.Tools_Filter_Click);
+            // 
+            // EventHandlerButton
+            // 
+            this.EventHandlerButton.Location = new System.Drawing.Point(3, 90);
+            this.EventHandlerButton.Name = "EventHandlerButton";
+            this.EventHandlerButton.Size = new System.Drawing.Size(89, 23);
+            this.EventHandlerButton.TabIndex = 8;
+            this.EventHandlerButton.Text = "Event Handler";
+            this.EventHandlerButton.UseVisualStyleBackColor = true;
+            this.EventHandlerButton.Click += new System.EventHandler(this.Tool_EventHandler_Click);
             // 
             // Tab_Log
             // 
@@ -4431,6 +4461,25 @@
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
             this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
+            // 
+            // StopPollingButton
+            // 
+            this.StopPollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.StopPollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.StopPollingButton.Enabled = false;
+            this.StopPollingButton.Location = new System.Drawing.Point(9, 235);
+            this.StopPollingButton.Name = "StopPollingButton";
+            this.StopPollingButton.Size = new System.Drawing.Size(91, 23);
+            this.StopPollingButton.TabIndex = 15;
+            this.StopPollingButton.Text = "Stop Polling";
+            this.StopPollingButton.UseVisualStyleBackColor = true;
+            this.StopPollingButton.Click += new System.EventHandler(this.StopPollingButton_Click);
+            // 
+            // EventPollingWorker
+            // 
+            this.EventPollingWorker.WorkerReportsProgress = true;
+            this.EventPollingWorker.WorkerSupportsCancellation = true;
+            this.EventPollingWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.EventPollingWorker_DoWork);
             // 
             // MainForm
             // 
@@ -4937,6 +4986,10 @@
         private System.Windows.Forms.Button Tool_Script;
         private System.Windows.Forms.TextBox resetNoBox;
         private System.Windows.Forms.Label labelreset;
+        private System.Windows.Forms.Button EventHandlerButton;
+        private System.ComponentModel.BackgroundWorker EventPollingWorker;
+        private System.Windows.Forms.Button StartPollingButton;
+        private System.Windows.Forms.Button StopPollingButton;
     }
 }
 

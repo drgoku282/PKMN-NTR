@@ -159,6 +159,12 @@
     <Compile Include="Sub-forms\MemoryAmie.Designer.cs">
       <DependentUpon>MemoryAmie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sub-forms\PokemonEventHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sub-forms\PokemonEventHandler.Designer.cs">
+      <DependentUpon>PokemonEventHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sub-forms\Scripting\ButtonAction.cs" />
     <Compile Include="Sub-forms\Scripting\DelayAction.cs" />
     <Compile Include="Sub-forms\Scripting\EndFor.cs" />
@@ -246,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sub-forms\MemoryAmie.resx">
       <DependentUpon>MemoryAmie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sub-forms\PokemonEventHandler.resx">
+      <DependentUpon>PokemonEventHandler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sub-forms\Scripting\ScriptBuilder.resx">
       <DependentUpon>ScriptBuilder.cs</DependentUpon>
