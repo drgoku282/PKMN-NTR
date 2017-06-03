@@ -57,6 +57,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Costura, Version=1.6.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.1.6.1\lib\dotnet\Costura.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Octokit, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Octokit.0.24.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
@@ -317,7 +321,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
     <Content Include="Pkmn NTR.ico" />
     <None Include="Resources\slotDel.png" />
     <None Include="Resources\slotTrans.png" />
@@ -369,13 +373,15 @@ foreach (var item in filesToCleanup)
   <Target Name="CleanReferenceCopyLocalPaths" AfterTargets="AfterBuild;NonWinFodyTarget">
     <CosturaCleanup Config="FodyWeavers.xml" Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
-  <Import Project="packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
+  <Import Project="packages\Fody.2.0.10\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.10\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Fody.2.0.10\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.0.10\build\dotnet\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets'))" />
   </Target>
+  <Import Project="packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
