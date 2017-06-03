@@ -96,7 +96,7 @@ namespace pkmn_ntr.Bot
                 DialogResult dialogResult = MessageBox.Show("This scirpt will try to Wonder Trade " + Trades.Value + " pokémon, starting from the slot " + Slot.Value + " of box " + Box.Value + ". Remember to read the wiki for this bot in GitHub before starting.\r\n\r\nDo you want to continue?", "Wonder Trade Bot", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes && Trades.Value > 0)
                 {
-                    if (Program.gCmdWindow.enableillegal)
+                    if (Program.gCmdWindow.HaX)
                     {
                         MessageBox.Show("Illegal mode enabled. If using a WT folder mode, it will write any pokémon to the game, regardless of legality. It will also attempt to Wonder Trade illegal pokémon it finds.", "Illegal mode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -274,7 +274,7 @@ namespace pkmn_ntr.Bot
                                 }
                                 else
                                 {
-                                    if (Program.gCmdWindow.enableillegal)
+                                    if (Program.gCmdWindow.HaX)
                                     {
                                         Report("Bot: Pokémon cannot be traded, is an egg or have special ribbons.");
                                     }

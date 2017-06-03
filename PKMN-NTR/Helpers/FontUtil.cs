@@ -7,7 +7,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
-using PKHeX.Core.Properties;
+using pkmn_ntr.Properties;
 
 namespace pkmn_ntr.Helpers
 {

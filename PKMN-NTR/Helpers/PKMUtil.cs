@@ -5,7 +5,7 @@
 
 using System.Drawing;
 using PKHeX.Core;
-using PKHeX.Core.Properties;
+using pkmn_ntr.Properties;
 
 namespace pkmn_ntr.Helpers
 {
@@ -65,14 +65,14 @@ namespace pkmn_ntr.Helpers
             return Resources.ResourceManager.GetObject("type_icon_" + type.ToString("00")) as Image;
         }
 
-        private static Image getSprite(MysteryGift gift)
+        private static Image getSprite(MysteryGift gift, SaveFile SAV)
         {
             if (gift.Empty)
                 return null;
 
             Image img;
             if (gift.IsPokémon)
-                img = getSprite(gift.convertToPKM(Program.gCmdWindow.SAV));
+                img = getSprite(gift.convertToPKM(SAV));
             else if (gift.IsItem)
                 img = (Image)(Resources.ResourceManager.GetObject("item_" + gift.Item) ?? Resources.unknown);
             else
@@ -93,11 +93,11 @@ namespace pkmn_ntr.Helpers
                 file = "tr_" + SAV.MultiplayerSpriteID.ToString("00");
             return Resources.ResourceManager.GetObject(file) as Image;
         }
-        private static Image getWallpaper(SaveFile SAV, int box)
-        {
-            string s = BoxWallpaper.getWallpaper(SAV, box);
-            return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
-        }
+        //private static Image getWallpaper(SaveFile SAV, int box)
+        //{
+        //    string s = BoxWallpaper.getWallpaper(SAV, box);
+        //    return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
+        //}
         private static Image getSprite(PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
         {
             if (!pkm.Valid)
@@ -111,25 +111,26 @@ namespace pkmn_ntr.Helpers
 
             if (flagIllegal)
             {
-                pkm.Box = box;
+                if (slot < 30)
+                    pkm.Box = box;
                 var la = new LegalityAnalysis(pkm);
-                if (la.Parsed && !la.Valid)
+                if (la.Parsed && !la.Valid && pkm.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
             }
-            if (inBox) // in box
-            {
-                if (SAV.getIsSlotLocked(box, slot))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-                else if (SAV.getIsTeamSet(box, slot))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
-            }
+            //if (inBox) // in box
+            //{
+            //    if (SAV.getIsSlotLocked(box, slot))
+            //        sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
+            //    else if (SAV.getIsTeamSet(box, slot))
+            //        sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
+            //}
 
             return sprite;
         }
 
         // Extension Methods
-        public static Image WallpaperImage(this SaveFile SAV, int box) => getWallpaper(SAV, box);
-        public static Image Sprite(this MysteryGift gift) => getSprite(gift);
+        //public static Image WallpaperImage(this SaveFile SAV, int box) => getWallpaper(SAV, box);
+        public static Image Sprite(this MysteryGift gift, SaveFile SAV) => getSprite(gift, SAV);
         public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
         public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => getSprite(pkm, isBoxBGRed);
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
