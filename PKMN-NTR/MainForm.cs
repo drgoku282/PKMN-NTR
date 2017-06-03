@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using pkmn_ntr.Sub_forms.Scripting;
+using System.ComponentModel;
 
 namespace pkmn_ntr
 {
@@ -44,7 +45,7 @@ namespace pkmn_ntr
             public decimal slot { get; set; }
         }
 
-        // New program-wide varialbes for PKHeX.Core
+        // New program-wide variables for PKHeX.Core
         public SaveFile SAV = SaveUtil.getBlankSAV(GameVersion.MN, "PKMN-NTR");
         public PKM pkm;
         private const string pkhexlang = "en";
@@ -102,6 +103,11 @@ namespace pkmn_ntr
         public bool botWorking;
         public string lastlog;
 
+        // Event handler variables
+        private AutoResetEvent pollingCancelledEvent = new AutoResetEvent(false);
+        public string slotChangeCommand = "";
+        public string hpZeroCommand = "";
+
         #endregion Class variables
 
         #region Main window
@@ -152,6 +158,8 @@ namespace pkmn_ntr
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
             InitializeFields();
+
+            PokemonEventHandler.RestoreCommands(this);
 
             disableControls();
             formInitialized = true;
@@ -561,6 +569,11 @@ namespace pkmn_ntr
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
             PerformDisconnect();
+
+            if (EventPollingWorker.IsBusy)
+            {
+                EventPollingWorker.CancelAsync();
+            }
         }
 
         public void PerformDisconnect()
@@ -2165,7 +2178,8 @@ namespace pkmn_ntr
 
         public int GetResetNumber()
         {
-            if (int.TryParse(resetNoBox.Text, out int number))
+            int number;
+            if (int.TryParse(resetNoBox.Text, out number))
             {
                 return number;
             }
@@ -4039,12 +4053,224 @@ namespace pkmn_ntr
             new ScriptBuilder().Show();
         }
 
+        // Event Handler
+        private void Tool_EventHandler_Click(object sender, EventArgs e)
+        {
+            Tool_Start();
+            new PokemonEventHandler(this).Show();
+        }
+
         private void DumpInstructionsBtn_Click(object sender, EventArgs e)
         {
             if (radioOpponent.Checked)
             {
                 new DumpOpponentHelp().Show();
             }
+        }
+
+        private void StartPollingButton_Click(object sender, EventArgs e)
+        {
+            EventPollingWorker.RunWorkerAsync();
+
+            StartPollingButton.Enabled = false;
+            StopPollingButton.Enabled = true;
+        }
+
+        private void StopPollingButton_Click(object sender, EventArgs e)
+        {
+            EventPollingWorker.CancelAsync();
+            pollingCancelledEvent.WaitOne();
+
+            StartPollingButton.Enabled = true;
+            StopPollingButton.Enabled = false;
+        }
+
+        delegate void handlePollingPkmDataDelegate(object args_obj);
+
+        private void handlePollingPkmData(object args_obj)
+        {
+            if (this.InvokeRequired)
+            {
+                BeginInvoke(new handlePollingPkmDataDelegate(handlePollingPkmData), args_obj);
+                return;
+            }
+            try
+            {
+                DataReadyWaiting args = (DataReadyWaiting)args_obj;
+                List<PKM> party = (List<PKM>)args.arguments;
+                PKM validator = SAV.BlankPKM;
+
+                validator.Data = PKX.decryptArray(args.data);
+                bool dataCorrect = validator.ChecksumValid && validator.Species > 0 && validator.Species < SAV.MaxSpeciesID;
+
+                if (dataCorrect)
+                { // Valid pkx file
+                    PKM new_pkm = validator.Clone();
+                    party.Add(new_pkm);
+                }
+                else
+                {
+                    // Ignore invalid/empty data
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void RunCommand(string cmd, string pokemonName, int slotNum)
+        {
+            if (cmd.Length > 0)
+            {
+                cmd = cmd.Replace("###SLOT###", slotNum.ToString());
+                cmd = cmd.Replace("###NAME###", pokemonName.ToLower());
+
+                Console.Out.WriteLine("Running command: " + cmd);
+
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/C \"" + cmd + "\"";
+                process.StartInfo = startInfo;
+                process.Start();
+            }
+        }
+
+        private void EventPollingWorker_DoWork(object sender, CancelEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            uint[] sequenceNumbers = new uint[6];
+            List<PKM> current_party = new List<PKM>();
+            List<PKM> last_party = new List<PKM>();
+            DataReadyWaiting args;
+
+            Console.Out.WriteLine("Started polling loop");
+
+            while (true)
+            {
+                // Read all 6 party slots
+                for (uint i = 0; i < 6; i++)
+                {
+                    // Obtain offset
+                    uint dumpOff = partyOff + i * 484;
+
+                    // Read at offset
+                    DataReadyWaiting myArgs = new DataReadyWaiting(new byte[2602], handlePollingPkmData, current_party);
+                    sequenceNumbers[i] = Program.scriptHelper.data(dumpOff, 260, pid);
+                    waitingForData.Add(sequenceNumbers[i], myArgs);
+
+                    // Don't query too frequently in quick succession
+                    Thread.Sleep(100);
+                }
+
+                // TODO: Come up with a more thread-safe way to check for completion
+                while (waitingForData.TryGetValue(sequenceNumbers[0], out args) &&
+                       waitingForData.TryGetValue(sequenceNumbers[1], out args) &&
+                       waitingForData.TryGetValue(sequenceNumbers[2], out args) &&
+                       waitingForData.TryGetValue(sequenceNumbers[3], out args) &&
+                       waitingForData.TryGetValue(sequenceNumbers[4], out args) &&
+                       waitingForData.TryGetValue(sequenceNumbers[5], out args))
+                {
+                    Thread.Sleep(100);
+                }
+
+                // We have our party data!
+                current_party = current_party.OrderBy(o => o.Slot).ToList();
+
+                for (int j = 0; j < current_party.Count; j++)
+                {
+                    PKM oldPKM = null;
+                    PKM newPKM = current_party[j];
+                    bool runSlotChange = false;
+                    string newPKM_Name = PKX.getSpeciesName(newPKM.Species, 2).ToLower();
+
+                    // TODO: Stat_HPCurrent values don't seem to be correct (at least on Omega Ruby)
+                    //Console.Out.WriteLine(newPKM.Stat_HPCurrent + " HP in slot " + (j + 1) + " -> " + newPKM_Name);
+
+                    if (last_party.Count > j)
+                    {
+                        oldPKM = last_party[j];
+                    }
+
+                    if (null != oldPKM)
+                    {
+                        if (oldPKM.Checksum != newPKM.Checksum)
+                        {
+                            Console.Out.WriteLine("Slot " + (j + 1) + " -> " + newPKM_Name);
+
+                            // New Pokemon, do we put Pokemon event or HP zero event?
+                            if (newPKM.Stat_HPCurrent == 0)
+                            {
+                                Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                                RunCommand(hpZeroCommand, newPKM_Name, j + 1);
+                            }
+                            else
+                            {
+                                runSlotChange = true;
+                            }
+                        }
+                        else if (oldPKM.Stat_HPCurrent != 0 && newPKM.Stat_HPCurrent == 0)
+                        {
+                            // Pokemon didn't change, but check for HP zero
+                            Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                            RunCommand(hpZeroCommand, newPKM_Name, j + 1);
+                        }
+                    }
+                    else
+                    {
+                        Console.Out.WriteLine("Slot " + ( j + 1 ) + " -> " + newPKM_Name);
+
+                        if (newPKM.Stat_HPCurrent == 0)
+                        {
+                            Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                            RunCommand(hpZeroCommand, newPKM_Name, j + 1);
+                        }
+                        else
+                        {
+                            runSlotChange = true;
+                        }
+                    }
+
+                    if (runSlotChange)
+                    {
+                        // Execute the SlotChanged event command
+                        RunCommand(slotChangeCommand, newPKM_Name, j + 1);
+                    }
+                }
+
+                // Handle any disappearances
+                if (current_party.Count() < last_party.Count())
+                {
+                    for (int j = current_party.Count(); j < last_party.Count(); j++)
+                    {
+                        Console.Out.WriteLine("Slot " + ( j + 1 ) + " -> (empty)");
+
+                        if (slotChangeCommand.Length > 0)
+                        {
+                            // Execute the SlotChanged event command
+                            RunCommand(slotChangeCommand, "000", j + 1);
+                        }
+                    }
+                }
+
+                if (worker.CancellationPending == true)
+                {
+                    break;
+                }
+
+                last_party.Clear();
+                current_party.ForEach((item) =>
+                {
+                    last_party.Add(item.Clone());
+                });
+                current_party.Clear();
+
+                Thread.Sleep(5000);
+            }
+
+            pollingCancelledEvent.Set();
+            Console.Out.WriteLine("Exited polling loop");
         }
 
         #endregion Sub-forms
