@@ -105,8 +105,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.lb_pkhexcorever = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.dragout = new System.Windows.Forms.PictureBox();
+            this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -1194,12 +1194,6 @@
             this.lb_pkhexcorever.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lb_pkhexcorever.Click += new System.EventHandler(this.updateLabel_Click);
             // 
-            // EventPollingWorker
-            // 
-            this.EventPollingWorker.WorkerReportsProgress = true;
-            this.EventPollingWorker.WorkerSupportsCancellation = true;
-            this.EventPollingWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.EventPollingWorker_DoWork);
-            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
@@ -1209,6 +1203,18 @@
             this.dragout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.dragout.TabIndex = 61;
             this.dragout.TabStop = false;
+            this.toolTip1.SetToolTip(this.dragout, "PKM QuickSave");
+            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragoutDrop);
+            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
+            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
+            this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
+            this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
+            // 
+            // EventPollingWorker
+            // 
+            this.EventPollingWorker.WorkerReportsProgress = true;
+            this.EventPollingWorker.WorkerSupportsCancellation = true;
+            this.EventPollingWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.EventPollingWorker_DoWork);
             // 
             // PB_Legal
             // 

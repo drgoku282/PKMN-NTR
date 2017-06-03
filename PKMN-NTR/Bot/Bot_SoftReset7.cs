@@ -39,7 +39,7 @@ namespace pkmn_ntr.Bot
         private uint battleOff = 0x6747E0;// 1.0: 0x6731A4: 1.1: 0x6747D8;
         private uint battleIn = 0x40400000; // 1.0: 0x00000000;
         private uint battleOut = 0x00000000; // 1.0: 0x00FFFFFF;
-        private uint partyOff = 0x34195E10;
+        // private uint partyOff = 0x34195E10;
         private uint opponentOff = 0x3254F4AC;
         private uint itemOff = 0x330D5934;
         private uint honey = 0x000F9C5E;
@@ -156,7 +156,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                while (botworking && Program.gCmdWindow.isConnected)
+                while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
                     {
@@ -908,7 +908,7 @@ namespace pkmn_ntr.Bot
             {
                 botresult = ErrorMessage.UserStop;
             }
-            else if (!Program.gCmdWindow.isConnected)
+            else if (!Program.gCmdWindow.IsConnected)
             {
                 botresult = ErrorMessage.Disconnect;
             }

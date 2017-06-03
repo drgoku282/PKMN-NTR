@@ -32,7 +32,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
             {
                 toolTip1.SetToolTip(ctrl, buttonMsg);
             }
-            if (Program.gCmdWindow.isConnected)
+            if (Program.gCmdWindow.IsConnected)
             {
                 btnStartStop.Text = "Start Script";
                 btnStartStop.Enabled = true;
@@ -243,7 +243,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
                     index = ((EndFor)actions[index]).StartInstruction - 1;
                     continue;
                 }
-                if (stopScript || !Program.gCmdWindow.isConnected)
+                if (stopScript || !Program.gCmdWindow.IsConnected)
                 {
                     break;
                 }
@@ -253,7 +253,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
             scriptRunning = false;
             Program.gCmdWindow.ScriptMode(false);
             MessageBox.Show("Script finished.", "Script Builder", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Program.gCmdWindow.isConnected)
+            if (Program.gCmdWindow.IsConnected)
             {
                 btnStartStop.Text = "Start Script";
                 btnStartStop.Enabled = true;

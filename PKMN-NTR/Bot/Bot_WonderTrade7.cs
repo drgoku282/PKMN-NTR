@@ -156,7 +156,7 @@ namespace pkmn_ntr.Bot
             try
             {
                 Program.gCmdWindow.botMode(true);
-                while (botworking && Program.gCmdWindow.isConnected)
+                while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botstate)
                     {
@@ -336,7 +336,7 @@ namespace pkmn_ntr.Bot
                             if (await waitTaskbool)
                             {
                                 Program.gCmdWindow.updateDumpBoxes(Box, Slot);
-                                Program.gCmdWindow.populateFields(pklist[currentfile]);
+                                Program.gCmdWindow.Pokemon = pklist[currentfile];
                                 currentCHK = pklist[currentfile].Checksum;
                                 if (sourceFolder.Checked)
                                 {
@@ -898,7 +898,7 @@ namespace pkmn_ntr.Bot
             {
                 botresult = ErrorMessage.UserStop;
             }
-            else if (!Program.gCmdWindow.isConnected)
+            else if (!Program.gCmdWindow.IsConnected)
             {
                 botresult = ErrorMessage.Disconnect;
             }

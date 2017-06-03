@@ -594,7 +594,7 @@ namespace pkmn_ntr.Helpers
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;
-                    Program.gCmdWindow.populateFields(validator);
+                    Program.gCmdWindow.Pokemon = validator;
                     Report("NTR: Read sucessful - PID 0x" + validator.PID.ToString("X8"));
                     return validator;
                 }
@@ -645,7 +645,7 @@ namespace pkmn_ntr.Helpers
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;
-                    Program.gCmdWindow.populateFields(validator);
+                    Program.gCmdWindow.Pokemon = validator;
                     Report("NTR: Read sucessful - PID 0x" + validator.PID.ToString("X8"));
                     return validator;
                 }
@@ -697,7 +697,7 @@ namespace pkmn_ntr.Helpers
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;
-                    Program.gCmdWindow.populateFields(validator);
+                    Program.gCmdWindow.Pokemon = validator;
                     Report("NTR: Read sucessful - PID 0x" + validator.PID.ToString("X8"));
                     return validator;
                 }
