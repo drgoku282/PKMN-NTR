@@ -1224,6 +1224,7 @@
             this.PB_Legal.Size = new System.Drawing.Size(16, 16);
             this.PB_Legal.TabIndex = 102;
             this.PB_Legal.TabStop = false;
+            this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
             // 
             // MainForm
             // 
