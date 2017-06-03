@@ -259,7 +259,7 @@ namespace pkmn_ntr.Bot
             try
             {
                 Program.gCmdWindow.botMode(true);
-                while (botworking && Program.gCmdWindow.isConnected)
+                while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
                     {
@@ -1253,7 +1253,7 @@ namespace pkmn_ntr.Bot
             {
                 botresult = ErrorMessage.UserStop;
             }
-            else if (!Program.gCmdWindow.isConnected)
+            else if (!Program.gCmdWindow.IsConnected)
             {
                 botresult = ErrorMessage.Disconnect;
             }

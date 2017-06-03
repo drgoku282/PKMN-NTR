@@ -15571,16 +15571,6 @@ namespace pkmn_ntr.Properties {
         }
         
         /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Byte[].
-        /// </summary>
-        internal static byte[] pgldings_normalregular {
-            get {
-                object obj = ResourceManager.GetObject("pgldings_normalregular", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap rare_icon {

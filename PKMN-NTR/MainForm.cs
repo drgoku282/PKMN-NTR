@@ -17,7 +17,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,29 +32,44 @@ namespace pkmn_ntr
         //A "waiting room", where functions wait for data to be acquired. Entries are indexed by their sequence number. Once a request with a given sequence number is fulfilled, handleDataReady() uses information in DataReadyWaiting object to process the data.
         public static Dictionary<uint, DataReadyWaiting> waitingForData = new Dictionary<uint, DataReadyWaiting>();
 
-        // Set this boolean to true to enable the write feature for the party pokémon.
-        public readonly bool enablepartywrite = false;
+        // Program-wide properties
+        public readonly bool EnablePartyWrite;
+        public readonly bool HaX;
 
-        // Set this boolean to true to enable the write feature for illegal pokémon
-        public readonly bool HaX = false;
+        public bool IsConnected
+        {
+            get
+            {
+                return _isConnected;
+            }
+        }
+        private bool _isConnected = false;
+        public PKM Pokemon
+        {
+            get
+            {
+                return pkm;
+            }
+            set
+            {
+                pkm = value.Clone();
+                PKME_Tabs.populateFields(value);
+            }
+        }
+        private PKM pkm;
 
         // Structure for box/slot last position
         struct LastBoxSlot
         {
-            public decimal box { get; set; }
-            public decimal slot { get; set; }
+            public decimal Box { get; set; }
+            public decimal Slot { get; set; }
         }
 
         // New program-wide variables for PKHeX.Core
         public SaveFile SAV = SaveUtil.getBlankSAV(GameVersion.MN, "PKMN-NTR");
-        public PKM pkm;
         public PKMEditor PKME_Tabs;
-        private const string pkhexlang = "en";
-        public static string[] gendersymbols = { "♂", "♀", "-" };
         public byte[] fileinfo;
         public byte[] iteminfo;
-        public bool isConnected = false;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();
         byte[] oppdata;
         public static string MGDatabasePath => Path.Combine(System.Windows.Forms.Application.StartupPath, "mgdb");
 
@@ -108,14 +122,19 @@ namespace pkmn_ntr
 
         public MainForm()
         {
+            // Read command line arguments to enable illegal mode and party editing
+            string[] cmdargs = Environment.GetCommandLineArgs();
+            HaX = cmdargs.Any(x => x.Trim('-').ToLower() == "hax");
+            EnablePartyWrite = cmdargs.Any(x => x.Trim('-').ToLower() == "party");
+
+            // Add event handlers for NTR and log
             Program.ntrClient.DataReady += handleDataReady;
             Program.ntrClient.Connected += connectCheck;
             Program.ntrClient.InfoReady += getGame;
             delAddLog = new LogDelegate(Addlog);
+
+            // Draw the window
             InitializeComponent();
-
-            pkm = SAV.BlankPKM;
-
             PKME_Tabs = new PKMEditor()
             {
                 Location = new Point(318, 33),
@@ -124,8 +143,14 @@ namespace pkmn_ntr
             InitializePKMEditor();
             Controls.Add(PKME_Tabs);
 
+            // Initialize other components
             PokemonEventHandler.RestoreCommands(this);
+            pkm = SAV.BlankPKM;
+            dragout.AllowDrop = true;
+            dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
 
+            // Disable all controls
             disableControls();
         }
 
@@ -133,6 +158,7 @@ namespace pkmn_ntr
         {
             PKME_Tabs.LegalityChanged += new EventHandler(PKME_Tabs_LegalityChanged);
             PKME_Tabs.UpdatePreviewSprite += new EventHandler(PKME_Tabs_UpdatePreviewSprite);
+            PKME_Tabs.SaveFileRequested += new PKMEditor.ReturnSAVEventHandler(PKME_Tabs_SaveFileRequested);
             PKME_Tabs.EnableDragDrop(EnterTabDrag, DropTabDrag);
             PKME_Tabs.fieldsInitialized = false;
             GameInfo.Strings = GameInfo.getStrings("en");
@@ -285,17 +311,17 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
+            Delg.SetEnabled(Btn_ReloadFields, true);
+            foreach (TabPage tab in PKME_Tabs.Controls.OfType<TabControl>().FirstOrDefault().TabPages)
+            {
+                Delg.SetEnabled(tab, true);
+            }
         }
 
         private void disableControls()
         {
-            foreach (TabPage tab in Tabs_General.TabPages)
-            {
-                if (!(tab.Name == "Tab_Log" || tab.Name == "Tab_About" || tab.Name == "Tab_Tools"))
-                {
-                    Delg.SetEnabled(tab, false);
-                }
-            }
+            Delg.SetEnabled(Tab_Dump, false);
+            Delg.SetEnabled(Tab_Clone, false);
             Delg.SetEnabled(Tool_Trainer, false);
             Delg.SetEnabled(Tool_Items, false);
             Delg.SetEnabled(Tool_Controls, false);
@@ -304,6 +330,11 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_WonderTrade, false);
             Delg.SetEnabled(Tools_PokeDigger, false);
             Delg.SetEnabled(resetNoBox, false);
+            Delg.SetEnabled(Btn_ReloadFields, false);
+            foreach (TabPage tab in PKME_Tabs.Controls.OfType<TabControl>().FirstOrDefault().TabPages)
+            {
+                Delg.SetEnabled(tab, false);
+            }
         }
 
         public void Addlog(string l)
@@ -406,7 +437,7 @@ namespace pkmn_ntr
             buttonConnect.Text = "Connect";
             buttonConnect.Enabled = true;
             buttonDisconnect.Enabled = false;
-            isConnected = false;
+            _isConnected = false;
             disableControls();
         }
 
@@ -416,7 +447,7 @@ namespace pkmn_ntr
             buttonConnect.Text = "Connected";
             buttonConnect.Enabled = false;
             buttonDisconnect.Enabled = true;
-            isConnected = true;
+            _isConnected = true;
             Settings.Default.IP = host.Text;
             Settings.Default.Save();
             saveIP();
@@ -575,10 +606,6 @@ namespace pkmn_ntr
             }
         }
 
-        public void populateFields(PKM poke)
-        {
-            return;
-        }
         #endregion Main Window
 
         #region R/W trainer data
@@ -796,7 +823,7 @@ namespace pkmn_ntr
                 if (dataCorrect)
                 { // Valid pkx file
                     pkm = validator.Clone();
-                    //populateFields(pkm);
+                    PKME_Tabs.populateFields(pkm);
                     if (backupPKM.Checked)
                     {
                         savePKMtoFile();
@@ -821,20 +848,17 @@ namespace pkmn_ntr
         {
             try
             {
-                //if (!verifiedPKM())
-                //    return;
+                // Create Temp File to Drag
+                PKM pkx = preparePKM();
+                string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+                string filename = $"{fn}{"." + pkx.Extension}";
+                byte[] data = pkx.DecryptedBoxData;
 
-                //// Create Temp File to Drag
-                //PKM pkx = preparePKM();
-                //string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-                //string filename = $"{fn}{"." + pkx.Extension}";
-                //byte[] data = pkx.DecryptedBoxData;
-
-                //// Make file
-                //string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + FOLDERPOKE + "\\";
-                //new FileInfo(folderPath).Directory.Create();
-                //string newfile = Path.Combine(folderPath, Util.CleanFileName(filename));
-                //File.WriteAllBytes(newfile, data);
+                // Make file
+                string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + FOLDERPOKE + "\\";
+                new FileInfo(folderPath).Directory.Create();
+                string newfile = Path.Combine(folderPath, Util.CleanFileName(filename));
+                File.WriteAllBytes(newfile, data);
             }
             catch (Exception ex)
             {
@@ -878,7 +902,7 @@ namespace pkmn_ntr
 
         public void handleOpponentData(object args_obj)
         {
-            DataReadyWaiting args = (DataReadyWaiting)args_obj;            
+            DataReadyWaiting args = (DataReadyWaiting)args_obj;
 
             List<uint> occurences = findOccurences(args.data, LookupTable.oppPattern);
             int count = 0;
@@ -930,7 +954,7 @@ namespace pkmn_ntr
             }
             return occurences;
         }
-        
+
         // Save all boxes
         private void dumpBoxes_Click(object sender, EventArgs e)
         {
@@ -1086,6 +1110,8 @@ namespace pkmn_ntr
 
         private void PKME_Tabs_UpdatePreviewSprite(object sender, EventArgs e) => getPreview(dragout);
 
+        private SaveFile PKME_Tabs_SaveFileRequested(object sender, EventArgs e) => SAV;
+
         private void getPreview(PictureBox pb, PKM pk = null)
         {
             if (!PKME_Tabs.fieldsInitialized) return;
@@ -1147,12 +1173,68 @@ namespace pkmn_ntr
             PKME_Tabs.populateFields(pk);
         }
 
+        private void dragoutDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            OpenQuick(files[0]);
+            e.Effect = DragDropEffects.Copy;
+
+            Cursor = DefaultCursor;
+        }
+
+        private void dragout_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void dragout_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                return;
+            if (!PKME_Tabs.verifiedPKM())
+                return;
+
+            // Create Temp File to Drag
+            PKM pkx = preparePKM();
+            bool encrypt = ModifierKeys == Keys.Control;
+            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+            string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
+            byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
+            // Make file
+            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+            try
+            {
+                File.WriteAllBytes(newfile, dragdata);
+                PictureBox pb = (PictureBox)sender;
+                //C_SAV.M.DragInfo.Source.PKM = pkx;
+                Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+            }
+            catch (Exception x)
+            { WinFormsUtil.Error("Drag & Drop Error", x); }
+            Cursor = Cursors.Default;
+            File.Delete(newfile);
+        }
+
+        private void dragoutLeave(object sender, EventArgs e)
+        {
+            dragout.BackgroundImage = Resources.slotTrans;
+            if (Cursor == Cursors.Hand)
+                Cursor = Cursors.Default;
+        }
+
+        private void dragoutEnter(object sender, EventArgs e)
+        {
+            dragout.BackgroundImage = WinFormsUtil.getIndex(PKME_Tabs.CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
+            Cursor = Cursors.Hand;
+        }
+
         // Radio boxes for pokémon source
         private void radioBoxes_CheckedChanged(object sender, EventArgs e)
         {
             if (radioBoxes.Tag == null)
             {
-                radioBoxes.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioBoxes.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
 
             if (radioBoxes.Checked)
@@ -1165,12 +1247,12 @@ namespace pkmn_ntr
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
                 Write_PKM.Enabled = true;
-                boxDump.Value = ((LastBoxSlot)radioBoxes.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioBoxes.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioBoxes.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioBoxes.Tag).Slot;
             }
             else
             {
-                radioBoxes.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioBoxes.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
             }
 
         }
@@ -1179,7 +1261,7 @@ namespace pkmn_ntr
         {
             if (radioDaycare.Tag == null)
             {
-                radioDaycare.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioDaycare.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
             if (radioDaycare.Checked)
             {
@@ -1198,12 +1280,12 @@ namespace pkmn_ntr
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
                 Write_PKM.Enabled = false;
-                boxDump.Value = ((LastBoxSlot)radioDaycare.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioDaycare.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioDaycare.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioDaycare.Tag).Slot;
             }
             else
             {
-                radioDaycare.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioDaycare.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
             }
         }
 
@@ -1211,7 +1293,7 @@ namespace pkmn_ntr
         {
             if (radioBattleBox.Tag == null)
             {
-                radioBattleBox.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioBattleBox.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
             if (radioBattleBox.Checked)
             {
@@ -1223,12 +1305,12 @@ namespace pkmn_ntr
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
                 Write_PKM.Enabled = false;
-                boxDump.Value = ((LastBoxSlot)radioBattleBox.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioBattleBox.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Slot;
             }
             else
             {
-                radioBattleBox.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioBattleBox.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
             }
         }
 
@@ -1236,7 +1318,7 @@ namespace pkmn_ntr
         {
             if (radioTrade.Tag == null)
             {
-                radioTrade.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioTrade.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
             if (radioTrade.Checked)
             {
@@ -1249,12 +1331,12 @@ namespace pkmn_ntr
                 backupPKM.Checked = true;
                 backupPKM.Enabled = false;
                 Write_PKM.Enabled = false;
-                boxDump.Value = ((LastBoxSlot)radioTrade.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioTrade.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioTrade.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioTrade.Tag).Slot;
             }
             else
             {
-                radioTrade.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioTrade.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
             }
         }
 
@@ -1262,7 +1344,7 @@ namespace pkmn_ntr
         {
             if (radioOpponent.Tag == null)
             {
-                radioOpponent.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioOpponent.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
             if (radioOpponent.Checked)
             {
@@ -1290,12 +1372,12 @@ namespace pkmn_ntr
                 backupPKM.Enabled = false;
                 BoxLabel.Text = "Opp.:";
                 Write_PKM.Enabled = false;
-                boxDump.Value = ((LastBoxSlot)radioOpponent.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioOpponent.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioOpponent.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioOpponent.Tag).Slot;
             }
             else
             {
-                radioOpponent.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioOpponent.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
                 BoxLabel.Text = "Box:";
                 if (SAV.Generation == 7)
                 {
@@ -1308,11 +1390,11 @@ namespace pkmn_ntr
         {
             if (radioParty.Tag == null)
             {
-                radioParty.Tag = new LastBoxSlot { box = 1, slot = 1 };
+                radioParty.Tag = new LastBoxSlot { Box = 1, Slot = 1 };
             }
             if (radioParty.Checked)
             {
-                if (!enablepartywrite && Tabs_General.TabPages[0].Enabled)
+                if (!EnablePartyWrite && Tabs_General.TabPages[0].Enabled)
                 {
                     MessageBox.Show("Important:\r\n\r\nThis feature is experimental, the slots that is selected in this application might not be the same slots that are shown in your party. Due the unkonown mechanics of this, the write feature has been disabled.\r\n\r\nIf you wish to edit a pokémon in your party, deposit it the PC.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -1324,12 +1406,12 @@ namespace pkmn_ntr
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
                 Write_PKM.Enabled = false;
-                boxDump.Value = ((LastBoxSlot)radioParty.Tag).box;
-                slotDump.Value = ((LastBoxSlot)radioParty.Tag).slot;
+                boxDump.Value = ((LastBoxSlot)radioParty.Tag).Box;
+                slotDump.Value = ((LastBoxSlot)radioParty.Tag).Slot;
             }
             else
             {
-                radioParty.Tag = new LastBoxSlot { box = boxDump.Value, slot = slotDump.Value };
+                radioParty.Tag = new LastBoxSlot { Box = boxDump.Value, Slot = slotDump.Value };
             }
         }
 
@@ -1395,7 +1477,7 @@ namespace pkmn_ntr
 
         public void Tool_Finish()
         {
-            if (isConnected)
+            if (_isConnected)
             {
                 enableControls();
             }
@@ -1513,7 +1595,7 @@ namespace pkmn_ntr
         private void Tools_PokeDigger_Click(object sender, EventArgs e)
         {
             Tool_Start();
-            new PokeDigger(pid, isConnected).ShowDialog();
+            new PokeDigger(pid, _isConnected).ShowDialog();
         }
 
         // Script Builder
@@ -1689,7 +1771,7 @@ namespace pkmn_ntr
                     }
                     else
                     {
-                        Console.Out.WriteLine("Slot " + ( j + 1 ) + " -> " + newPKM_Name);
+                        Console.Out.WriteLine("Slot " + (j + 1) + " -> " + newPKM_Name);
 
                         if (newPKM.Stat_HPCurrent == 0)
                         {
@@ -1714,7 +1796,7 @@ namespace pkmn_ntr
                 {
                     for (int j = current_party.Count(); j < last_party.Count(); j++)
                     {
-                        Console.Out.WriteLine("Slot " + ( j + 1 ) + " -> (empty)");
+                        Console.Out.WriteLine("Slot " + (j + 1) + " -> (empty)");
 
                         if (slotChangeCommand.Length > 0)
                         {
@@ -1801,7 +1883,7 @@ namespace pkmn_ntr
                 if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= MAXSPECIES)
                 { // Valid pokemon
                     Program.helper.lastRead = validator.Checksum;
-                    //populateFields(validator);
+                    PKME_Tabs.populateFields(validator);
                     addtoLog("NTR: Read sucessful - PID 0x" + validator.PID.ToString("X8"));
                     return validator;
                 }
@@ -1896,107 +1978,6 @@ namespace pkmn_ntr
             this.data = data_;
             this.handler = handler_;
             this.arguments = arguments_;
-        }
-    }
-
-    public static class DragInfo
-    {
-        public static bool slotLeftMouseIsDown;
-        public static bool slotRightMouseIsDown;
-        public static bool slotDragDropInProgress;
-
-        public static byte[] slotPkmSource;
-        public static byte[] slotPkmDestination;
-
-        public static object slotSource;
-        public static int slotSourceOffset = -1;
-        public static int slotSourceSlotNumber = -1;
-        public static int slotSourceBoxNumber = -1;
-
-        public static object slotDestination;
-        public static int slotDestinationOffset = -1;
-        public static int slotDestinationSlotNumber = -1;
-        public static int slotDestinationBoxNumber = -1;
-
-        public static Cursor Cursor;
-        public static string CurrentPath;
-
-        public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
-        public static bool SameSlot => slotSourceSlotNumber == slotDestinationSlotNumber && slotSourceBoxNumber == slotDestinationBoxNumber;
-        public static bool SourceValid => slotSourceSlotNumber > -1 && (slotSourceBoxNumber > -1 || SourceParty);
-        public static bool DestinationValid => slotDestinationSlotNumber > -1 && (slotDestinationBoxNumber > -1 || DestinationParty);
-        public static bool SourceParty => 30 <= slotSourceSlotNumber && slotSourceSlotNumber < 36;
-        public static bool DestinationParty => 30 <= slotDestinationSlotNumber && slotDestinationSlotNumber < 36;
-
-        // PKM Get Set
-        public static PKM getPKMfromSource(SaveFile SAV)
-        {
-            int o = slotSourceOffset;
-            return SourceParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
-        }
-        public static PKM getPKMfromDestination(SaveFile SAV)
-        {
-            int o = slotDestinationOffset;
-            return DestinationParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
-        }
-        public static void setPKMtoSource(SaveFile SAV, PKM pk)
-        {
-            int o = slotSourceOffset;
-            if (!SourceParty)
-            { SAV.setStoredSlot(pk, o); return; }
-
-            if (pk.Species == 0) // Empty Slot
-            { SAV.deletePartySlot(slotSourceSlotNumber - 30); return; }
-
-            if (pk.Stat_HPMax == 0) // Without Stats (Box)
-            {
-                pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
-                pk.Stat_Level = pk.CurrentLevel;
-            }
-            SAV.setPartySlot(pk, o);
-        }
-        public static void setPKMtoDestination(SaveFile SAV, PKM pk)
-        {
-            int o = slotDestinationOffset;
-            if (!DestinationParty)
-            { SAV.setStoredSlot(pk, o); return; }
-
-            if (30 + SAV.PartyCount < slotDestinationSlotNumber)
-            {
-                o = SAV.getPartyOffset(SAV.PartyCount);
-                slotDestinationSlotNumber = 30 + SAV.PartyCount;
-            }
-            if (pk.Stat_HPMax == 0) // Without Stats (Box/File)
-            {
-                pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
-                pk.Stat_Level = pk.CurrentLevel;
-            }
-            SAV.setPartySlot(pk, o);
-        }
-
-        public static void Reset()
-        {
-            slotLeftMouseIsDown = false;
-            slotRightMouseIsDown = false;
-            slotDragDropInProgress = false;
-
-            slotPkmSource = null;
-            slotSourceOffset = slotSourceSlotNumber = slotSourceBoxNumber = -1;
-            slotPkmDestination = null;
-            slotDestinationOffset = slotSourceBoxNumber = slotDestinationBoxNumber = -1;
-
-            Cursor = null;
-            CurrentPath = null;
-
-            slotSource = null;
-            slotDestination = null;
-        }
-
-        public static bool? WasDragParticipant(object form, int index)
-        {
-            if (slotDestinationBoxNumber != index && slotSourceBoxNumber != index)
-                return null; // form was not watching box
-            return slotSource == form || slotDestination == form; // form already updated?
         }
     }
 }
