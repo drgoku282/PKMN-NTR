@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using pkmn_ntr.Sub_forms.Scripting;
 using System.ComponentModel;
+using System.Media;
 
 namespace pkmn_ntr
 {
@@ -1227,6 +1228,31 @@ namespace pkmn_ntr
         {
             dragout.BackgroundImage = WinFormsUtil.getIndex(PKME_Tabs.CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
             Cursor = Cursors.Hand;
+        }
+
+        private void clickLegality(object sender, EventArgs e)
+        {
+            if (!PKME_Tabs.verifiedPKM())
+            { SystemSounds.Asterisk.Play(); return; }
+
+            var pk = preparePKM();
+
+            if (pk.Species == 0 || !pk.ChecksumValid)
+            { SystemSounds.Asterisk.Play(); return; }
+
+            LegalityAnalysis la = new LegalityAnalysis(pk);
+            if (pk.Slot < 0)
+                PKME_Tabs.updateLegality(la);
+            bool verbose = ModifierKeys == Keys.Control;
+            var report = la.Report(verbose);
+            if (verbose)
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, "Copy report to Clipboard?");
+                if (dr == DialogResult.Yes)
+                    Clipboard.SetText(report);
+            }
+            else
+                WinFormsUtil.Alert(report);
         }
 
         // Radio boxes for pokémon source
