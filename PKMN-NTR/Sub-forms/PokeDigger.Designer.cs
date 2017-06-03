@@ -355,6 +355,7 @@
             this.Controls.Add(this.ResultsGrid);
             this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.DoItBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PokeDigger";
