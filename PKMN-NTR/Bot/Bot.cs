@@ -16,7 +16,7 @@ namespace pkmn_ntr.Bot
 
         public static bool IsLegal(PKM poke)
         {
-            if (Program.gCmdWindow.enableillegal)
+            if (Program.gCmdWindow.HaX)
             {
                 Report("Bot: Illegal mode enabled, skip check");
                 return true;
