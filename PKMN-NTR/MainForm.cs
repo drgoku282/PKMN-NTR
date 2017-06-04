@@ -1,4 +1,5 @@
-﻿/// I do not own the code used for pokémon editing in this class. 
+﻿
+/// I do not own the code used for pokémon editing in this class. 
 /// All rights and credits for that code in this class belong to Kaphotics.
 /// Code was taken from PKHeX https://github.com/kwsch/PKHeX with minor modifications
 /// 
@@ -552,11 +553,20 @@ namespace pkmn_ntr
             // Clear tabs to avoid writting wrong data
             if (!botWorking)
             {
-                pkm = SAV.BlankPKM;
+                pkm = PKME_Tabs.pkm = SAV.BlankPKM;
+                PKME_Tabs.setPKMFormatMode(SAV.Generation);
+                PKME_Tabs.populateFields(PKME_Tabs.pkm);
+                PKME_Tabs.ToggleInterface();
+                bool init = PKME_Tabs.fieldsInitialized;
+                PKME_Tabs.fieldsInitialized = false;
+                PKME_Tabs.fieldsLoaded = false;
+                PKME_Tabs.FinalizeInterface(init, SAV, pkm);
+                PKME_Tabs.FlickerInterface();
+                PKME_Tabs.TemplateFields(null);
                 MAXSPECIES = SAV.MaxSpeciesID;
-
                 if (SAV.Generation == 7)
                 {
+
                     PKXEXT = ".pk7";
                     BOXEXT = ".ek7";
                     BOXES = 32;
