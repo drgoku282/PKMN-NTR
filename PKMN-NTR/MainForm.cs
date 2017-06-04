@@ -1295,6 +1295,7 @@ namespace pkmn_ntr
                 boxDump.Enabled = true;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
+                Write_PKM.Enabled = true;
                 boxDump.Value = ((LastBoxSlot)radioBoxes.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioBoxes.Tag).Slot;
             }
@@ -1327,6 +1328,7 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
+                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioDaycare.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioDaycare.Tag).Slot;
             }
@@ -1351,6 +1353,7 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
+                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Slot;
             }
@@ -1374,8 +1377,8 @@ namespace pkmn_ntr
                 slotDump.Maximum = 1;
                 boxDump.Enabled = false;
                 slotDump.Enabled = false;
-                backupPKM.Checked = true;
                 backupPKM.Enabled = false;
+                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioTrade.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioTrade.Tag).Slot;
             }
@@ -1415,6 +1418,7 @@ namespace pkmn_ntr
                     DumpInstructionsBtn.Visible = true;
                 }
                 backupPKM.Enabled = false;
+                Write_PKM.Enabled = false;
                 BoxLabel.Text = "Opp.:";
                 boxDump.Value = ((LastBoxSlot)radioOpponent.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioOpponent.Tag).Slot;
@@ -1445,6 +1449,7 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
+                Write_PKM.Enabled = EnablePartyWrite;
                 boxDump.Value = ((LastBoxSlot)radioParty.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioParty.Tag).Slot;
             }
