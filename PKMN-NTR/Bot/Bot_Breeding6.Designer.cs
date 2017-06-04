@@ -29,38 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bot_Breeding6));
-            this.Breed_esvtsv = new System.Windows.Forms.GroupBox();
-            this.label50 = new System.Windows.Forms.Label();
-            this.esvList = new System.Windows.Forms.DataGridView();
+            this.grpESVTSV = new System.Windows.Forms.GroupBox();
+            this.lblTSV = new System.Windows.Forms.Label();
+            this.dgvEggs = new System.Windows.Forms.DataGridView();
             this.ESVlistBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ESVlistSlot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ESVlistValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.esvSave = new System.Windows.Forms.Button();
-            this.TSVlist = new System.Windows.Forms.ListBox();
-            this.TSVlistNum = new System.Windows.Forms.NumericUpDown();
-            this.tsvAdd = new System.Windows.Forms.Button();
-            this.tsvLoad = new System.Windows.Forms.Button();
-            this.tsvRemove = new System.Windows.Forms.Button();
-            this.tsvSave = new System.Windows.Forms.Button();
-            this.Breed_options = new System.Windows.Forms.GroupBox();
-            this.Mode = new System.Windows.Forms.ComboBox();
-            this.ReadESV = new System.Windows.Forms.CheckBox();
-            this.Breed_labelBox = new System.Windows.Forms.Label();
-            this.label75 = new System.Windows.Forms.Label();
-            this.QuickBreed = new System.Windows.Forms.CheckBox();
-            this.Slot = new System.Windows.Forms.NumericUpDown();
-            this.label84 = new System.Windows.Forms.Label();
-            this.Box = new System.Windows.Forms.NumericUpDown();
-            this.Breed_labelSlot = new System.Windows.Forms.Label();
-            this.Eggs = new System.Windows.Forms.NumericUpDown();
-            this.daycare_select = new System.Windows.Forms.GroupBox();
-            this.daycareRoute117 = new System.Windows.Forms.RadioButton();
-            this.daycareBattleResort = new System.Windows.Forms.RadioButton();
-            this.orgbox_pos = new System.Windows.Forms.GroupBox();
-            this.orgboxMiddle = new System.Windows.Forms.RadioButton();
-            this.orgboxTop = new System.Windows.Forms.RadioButton();
-            this.clearAll = new System.Windows.Forms.Button();
-            this.filterList = new System.Windows.Forms.DataGridView();
+            this.btnSaveESV = new System.Windows.Forms.Button();
+            this.lstTSV = new System.Windows.Forms.ListBox();
+            this.numTSV = new System.Windows.Forms.NumericUpDown();
+            this.btnAddTSV = new System.Windows.Forms.Button();
+            this.btnLoadTSV = new System.Windows.Forms.Button();
+            this.btnRemoveTSV = new System.Windows.Forms.Button();
+            this.btnSaveTSV = new System.Windows.Forms.Button();
+            this.grpOptions = new System.Windows.Forms.GroupBox();
+            this.cmbMode = new System.Windows.Forms.ComboBox();
+            this.chkReadESV = new System.Windows.Forms.CheckBox();
+            this.lblBox = new System.Windows.Forms.Label();
+            this.lblEggs = new System.Windows.Forms.Label();
+            this.chkQuickBreed = new System.Windows.Forms.CheckBox();
+            this.numSlot = new System.Windows.Forms.NumericUpDown();
+            this.lblMode = new System.Windows.Forms.Label();
+            this.numBox = new System.Windows.Forms.NumericUpDown();
+            this.lblSlot = new System.Windows.Forms.Label();
+            this.numEggs = new System.Windows.Forms.NumericUpDown();
+            this.grpDaycare = new System.Windows.Forms.GroupBox();
+            this.radRoute117 = new System.Windows.Forms.RadioButton();
+            this.radBattleResort = new System.Windows.Forms.RadioButton();
+            this.grpOrganizeBoxes = new System.Windows.Forms.GroupBox();
+            this.radOrganizeMiddle = new System.Windows.Forms.RadioButton();
+            this.radOrganizeTop = new System.Windows.Forms.RadioButton();
+            this.btnResetFields = new System.Windows.Forms.Button();
+            this.dgvFilters = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,67 +80,67 @@
             this.dataGridViewTextBoxColumn29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.filterLoad = new System.Windows.Forms.Button();
-            this.RunStop = new System.Windows.Forms.Button();
-            this.Breed_esvtsv.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.esvList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TSVlistNum)).BeginInit();
-            this.Breed_options.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Slot)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Box)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eggs)).BeginInit();
-            this.daycare_select.SuspendLayout();
-            this.orgbox_pos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.filterList)).BeginInit();
+            this.btnLoadFilters = new System.Windows.Forms.Button();
+            this.btnRunStop = new System.Windows.Forms.Button();
+            this.grpESVTSV.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEggs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTSV)).BeginInit();
+            this.grpOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSlot)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEggs)).BeginInit();
+            this.grpDaycare.SuspendLayout();
+            this.grpOrganizeBoxes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFilters)).BeginInit();
             this.SuspendLayout();
             // 
-            // Breed_esvtsv
+            // grpESVTSV
             // 
-            this.Breed_esvtsv.Controls.Add(this.label50);
-            this.Breed_esvtsv.Controls.Add(this.esvList);
-            this.Breed_esvtsv.Controls.Add(this.esvSave);
-            this.Breed_esvtsv.Controls.Add(this.TSVlist);
-            this.Breed_esvtsv.Controls.Add(this.TSVlistNum);
-            this.Breed_esvtsv.Controls.Add(this.tsvAdd);
-            this.Breed_esvtsv.Controls.Add(this.tsvLoad);
-            this.Breed_esvtsv.Controls.Add(this.tsvRemove);
-            this.Breed_esvtsv.Controls.Add(this.tsvSave);
-            this.Breed_esvtsv.Location = new System.Drawing.Point(278, 12);
-            this.Breed_esvtsv.Name = "Breed_esvtsv";
-            this.Breed_esvtsv.Size = new System.Drawing.Size(280, 177);
-            this.Breed_esvtsv.TabIndex = 1;
-            this.Breed_esvtsv.TabStop = false;
-            this.Breed_esvtsv.Text = "ESV/TSV";
+            this.grpESVTSV.Controls.Add(this.lblTSV);
+            this.grpESVTSV.Controls.Add(this.dgvEggs);
+            this.grpESVTSV.Controls.Add(this.btnSaveESV);
+            this.grpESVTSV.Controls.Add(this.lstTSV);
+            this.grpESVTSV.Controls.Add(this.numTSV);
+            this.grpESVTSV.Controls.Add(this.btnAddTSV);
+            this.grpESVTSV.Controls.Add(this.btnLoadTSV);
+            this.grpESVTSV.Controls.Add(this.btnRemoveTSV);
+            this.grpESVTSV.Controls.Add(this.btnSaveTSV);
+            this.grpESVTSV.Location = new System.Drawing.Point(278, 12);
+            this.grpESVTSV.Name = "grpESVTSV";
+            this.grpESVTSV.Size = new System.Drawing.Size(280, 177);
+            this.grpESVTSV.TabIndex = 1;
+            this.grpESVTSV.TabStop = false;
+            this.grpESVTSV.Text = "ESV/TSV";
             // 
-            // label50
+            // lblTSV
             // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(218, 16);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(31, 13);
-            this.label50.TabIndex = 8;
-            this.label50.Text = "TSV:";
+            this.lblTSV.AutoSize = true;
+            this.lblTSV.Location = new System.Drawing.Point(218, 16);
+            this.lblTSV.Name = "lblTSV";
+            this.lblTSV.Size = new System.Drawing.Size(31, 13);
+            this.lblTSV.TabIndex = 8;
+            this.lblTSV.Text = "TSV:";
             // 
-            // esvList
+            // dgvEggs
             // 
-            this.esvList.AllowUserToAddRows = false;
-            this.esvList.AllowUserToDeleteRows = false;
-            this.esvList.AllowUserToResizeColumns = false;
-            this.esvList.AllowUserToResizeRows = false;
-            this.esvList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.esvList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            this.esvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.esvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvEggs.AllowUserToAddRows = false;
+            this.dgvEggs.AllowUserToDeleteRows = false;
+            this.dgvEggs.AllowUserToResizeColumns = false;
+            this.dgvEggs.AllowUserToResizeRows = false;
+            this.dgvEggs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvEggs.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.dgvEggs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEggs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ESVlistBox,
             this.ESVlistSlot,
             this.ESVlistValue});
-            this.esvList.Location = new System.Drawing.Point(6, 17);
-            this.esvList.Name = "esvList";
-            this.esvList.ReadOnly = true;
-            this.esvList.RowHeadersWidth = 21;
-            this.esvList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.esvList.Size = new System.Drawing.Size(150, 125);
-            this.esvList.TabIndex = 0;
+            this.dgvEggs.Location = new System.Drawing.Point(6, 17);
+            this.dgvEggs.Name = "dgvEggs";
+            this.dgvEggs.ReadOnly = true;
+            this.dgvEggs.RowHeadersWidth = 21;
+            this.dgvEggs.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvEggs.Size = new System.Drawing.Size(150, 125);
+            this.dgvEggs.TabIndex = 0;
             // 
             // ESVlistBox
             // 
@@ -162,315 +162,315 @@
             this.ESVlistValue.Name = "ESVlistValue";
             this.ESVlistValue.ReadOnly = true;
             // 
-            // esvSave
+            // btnSaveESV
             // 
-            this.esvSave.Location = new System.Drawing.Point(6, 148);
-            this.esvSave.Name = "esvSave";
-            this.esvSave.Size = new System.Drawing.Size(150, 23);
-            this.esvSave.TabIndex = 1;
-            this.esvSave.Text = "Save ESV List";
-            this.esvSave.UseVisualStyleBackColor = true;
-            this.esvSave.Click += new System.EventHandler(this.esvSave_Click);
+            this.btnSaveESV.Location = new System.Drawing.Point(6, 148);
+            this.btnSaveESV.Name = "btnSaveESV";
+            this.btnSaveESV.Size = new System.Drawing.Size(150, 23);
+            this.btnSaveESV.TabIndex = 1;
+            this.btnSaveESV.Text = "Save ESV List";
+            this.btnSaveESV.UseVisualStyleBackColor = true;
+            this.btnSaveESV.Click += new System.EventHandler(this.SaveESVList);
             // 
-            // TSVlist
+            // lstTSV
             // 
-            this.TSVlist.FormattingEnabled = true;
-            this.TSVlist.Location = new System.Drawing.Point(162, 17);
-            this.TSVlist.Name = "TSVlist";
-            this.TSVlist.Size = new System.Drawing.Size(50, 147);
-            this.TSVlist.TabIndex = 2;
+            this.lstTSV.FormattingEnabled = true;
+            this.lstTSV.Location = new System.Drawing.Point(162, 17);
+            this.lstTSV.Name = "lstTSV";
+            this.lstTSV.Size = new System.Drawing.Size(50, 147);
+            this.lstTSV.TabIndex = 2;
             // 
-            // TSVlistNum
+            // numTSV
             // 
-            this.TSVlistNum.Location = new System.Drawing.Point(218, 32);
-            this.TSVlistNum.Maximum = new decimal(new int[] {
+            this.numTSV.Location = new System.Drawing.Point(218, 32);
+            this.numTSV.Maximum = new decimal(new int[] {
             4095,
             0,
             0,
             0});
-            this.TSVlistNum.Name = "TSVlistNum";
-            this.TSVlistNum.Size = new System.Drawing.Size(56, 20);
-            this.TSVlistNum.TabIndex = 3;
+            this.numTSV.Name = "numTSV";
+            this.numTSV.Size = new System.Drawing.Size(56, 20);
+            this.numTSV.TabIndex = 3;
             // 
-            // tsvAdd
+            // btnAddTSV
             // 
-            this.tsvAdd.Location = new System.Drawing.Point(218, 58);
-            this.tsvAdd.Name = "tsvAdd";
-            this.tsvAdd.Size = new System.Drawing.Size(56, 23);
-            this.tsvAdd.TabIndex = 4;
-            this.tsvAdd.Text = "Add";
-            this.tsvAdd.UseVisualStyleBackColor = true;
-            this.tsvAdd.Click += new System.EventHandler(this.tsvAdd_Click);
+            this.btnAddTSV.Location = new System.Drawing.Point(218, 58);
+            this.btnAddTSV.Name = "btnAddTSV";
+            this.btnAddTSV.Size = new System.Drawing.Size(56, 23);
+            this.btnAddTSV.TabIndex = 4;
+            this.btnAddTSV.Text = "Add";
+            this.btnAddTSV.UseVisualStyleBackColor = true;
+            this.btnAddTSV.Click += new System.EventHandler(this.AddTSV);
             // 
-            // tsvLoad
+            // btnLoadTSV
             // 
-            this.tsvLoad.Location = new System.Drawing.Point(218, 145);
-            this.tsvLoad.Name = "tsvLoad";
-            this.tsvLoad.Size = new System.Drawing.Size(56, 23);
-            this.tsvLoad.TabIndex = 7;
-            this.tsvLoad.Text = "Load";
-            this.tsvLoad.UseVisualStyleBackColor = true;
-            this.tsvLoad.Click += new System.EventHandler(this.tsvLoad_Click);
+            this.btnLoadTSV.Location = new System.Drawing.Point(218, 145);
+            this.btnLoadTSV.Name = "btnLoadTSV";
+            this.btnLoadTSV.Size = new System.Drawing.Size(56, 23);
+            this.btnLoadTSV.TabIndex = 7;
+            this.btnLoadTSV.Text = "Load";
+            this.btnLoadTSV.UseVisualStyleBackColor = true;
+            this.btnLoadTSV.Click += new System.EventHandler(this.LoadTSVList);
             // 
-            // tsvRemove
+            // btnRemoveTSV
             // 
-            this.tsvRemove.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tsvRemove.Location = new System.Drawing.Point(218, 87);
-            this.tsvRemove.Name = "tsvRemove";
-            this.tsvRemove.Size = new System.Drawing.Size(56, 23);
-            this.tsvRemove.TabIndex = 5;
-            this.tsvRemove.Text = "Remove";
-            this.tsvRemove.UseVisualStyleBackColor = true;
-            this.tsvRemove.Click += new System.EventHandler(this.tsvRemove_Click);
+            this.btnRemoveTSV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRemoveTSV.Location = new System.Drawing.Point(218, 87);
+            this.btnRemoveTSV.Name = "btnRemoveTSV";
+            this.btnRemoveTSV.Size = new System.Drawing.Size(56, 23);
+            this.btnRemoveTSV.TabIndex = 5;
+            this.btnRemoveTSV.Text = "Remove";
+            this.btnRemoveTSV.UseVisualStyleBackColor = true;
+            this.btnRemoveTSV.Click += new System.EventHandler(this.RemoveTSV);
             // 
-            // tsvSave
+            // btnSaveTSV
             // 
-            this.tsvSave.Location = new System.Drawing.Point(218, 116);
-            this.tsvSave.Name = "tsvSave";
-            this.tsvSave.Size = new System.Drawing.Size(56, 23);
-            this.tsvSave.TabIndex = 6;
-            this.tsvSave.Text = "Save";
-            this.tsvSave.UseVisualStyleBackColor = true;
-            this.tsvSave.Click += new System.EventHandler(this.tsvSave_Click);
+            this.btnSaveTSV.Location = new System.Drawing.Point(218, 116);
+            this.btnSaveTSV.Name = "btnSaveTSV";
+            this.btnSaveTSV.Size = new System.Drawing.Size(56, 23);
+            this.btnSaveTSV.TabIndex = 6;
+            this.btnSaveTSV.Text = "Save";
+            this.btnSaveTSV.UseVisualStyleBackColor = true;
+            this.btnSaveTSV.Click += new System.EventHandler(this.SaveTSVList);
             // 
-            // Breed_options
+            // grpOptions
             // 
-            this.Breed_options.Controls.Add(this.Mode);
-            this.Breed_options.Controls.Add(this.ReadESV);
-            this.Breed_options.Controls.Add(this.Breed_labelBox);
-            this.Breed_options.Controls.Add(this.label75);
-            this.Breed_options.Controls.Add(this.QuickBreed);
-            this.Breed_options.Controls.Add(this.Slot);
-            this.Breed_options.Controls.Add(this.label84);
-            this.Breed_options.Controls.Add(this.Box);
-            this.Breed_options.Controls.Add(this.Breed_labelSlot);
-            this.Breed_options.Controls.Add(this.Eggs);
-            this.Breed_options.Controls.Add(this.daycare_select);
-            this.Breed_options.Controls.Add(this.orgbox_pos);
-            this.Breed_options.Location = new System.Drawing.Point(12, 12);
-            this.Breed_options.Name = "Breed_options";
-            this.Breed_options.Size = new System.Drawing.Size(260, 177);
-            this.Breed_options.TabIndex = 0;
-            this.Breed_options.TabStop = false;
-            this.Breed_options.Text = "Options";
+            this.grpOptions.Controls.Add(this.cmbMode);
+            this.grpOptions.Controls.Add(this.chkReadESV);
+            this.grpOptions.Controls.Add(this.lblBox);
+            this.grpOptions.Controls.Add(this.lblEggs);
+            this.grpOptions.Controls.Add(this.chkQuickBreed);
+            this.grpOptions.Controls.Add(this.numSlot);
+            this.grpOptions.Controls.Add(this.lblMode);
+            this.grpOptions.Controls.Add(this.numBox);
+            this.grpOptions.Controls.Add(this.lblSlot);
+            this.grpOptions.Controls.Add(this.numEggs);
+            this.grpOptions.Controls.Add(this.grpDaycare);
+            this.grpOptions.Controls.Add(this.grpOrganizeBoxes);
+            this.grpOptions.Location = new System.Drawing.Point(12, 12);
+            this.grpOptions.Name = "grpOptions";
+            this.grpOptions.Size = new System.Drawing.Size(260, 177);
+            this.grpOptions.TabIndex = 0;
+            this.grpOptions.TabStop = false;
+            this.grpOptions.Text = "Options";
             // 
-            // Mode
+            // cmbMode
             // 
-            this.Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
-            this.Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.Mode.FormattingEnabled = true;
-            this.Mode.Items.AddRange(new object[] {
+            this.cmbMode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.cmbMode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbMode.FormattingEnabled = true;
+            this.cmbMode.Items.AddRange(new object[] {
             "Simple",
             "Filter",
             "ESV/TSV"});
-            this.Mode.Location = new System.Drawing.Point(49, 13);
-            this.Mode.Name = "Mode";
-            this.Mode.Size = new System.Drawing.Size(205, 21);
-            this.Mode.TabIndex = 0;
+            this.cmbMode.Location = new System.Drawing.Point(49, 13);
+            this.cmbMode.Name = "cmbMode";
+            this.cmbMode.Size = new System.Drawing.Size(205, 21);
+            this.cmbMode.TabIndex = 0;
             // 
-            // ReadESV
+            // chkReadESV
             // 
-            this.ReadESV.AutoSize = true;
-            this.ReadESV.Location = new System.Drawing.Point(6, 148);
-            this.ReadESV.Name = "ReadESV";
-            this.ReadESV.Size = new System.Drawing.Size(137, 17);
-            this.ReadESV.TabIndex = 6;
-            this.ReadESV.Text = "Read ESV after deposit";
-            this.ReadESV.UseVisualStyleBackColor = true;
+            this.chkReadESV.AutoSize = true;
+            this.chkReadESV.Location = new System.Drawing.Point(6, 148);
+            this.chkReadESV.Name = "chkReadESV";
+            this.chkReadESV.Size = new System.Drawing.Size(137, 17);
+            this.chkReadESV.TabIndex = 6;
+            this.chkReadESV.Text = "Read ESV after deposit";
+            this.chkReadESV.UseVisualStyleBackColor = true;
             // 
-            // Breed_labelBox
+            // lblBox
             // 
-            this.Breed_labelBox.AutoSize = true;
-            this.Breed_labelBox.Location = new System.Drawing.Point(3, 48);
-            this.Breed_labelBox.Name = "Breed_labelBox";
-            this.Breed_labelBox.Size = new System.Drawing.Size(28, 13);
-            this.Breed_labelBox.TabIndex = 9;
-            this.Breed_labelBox.Text = "Box:";
+            this.lblBox.AutoSize = true;
+            this.lblBox.Location = new System.Drawing.Point(3, 48);
+            this.lblBox.Name = "lblBox";
+            this.lblBox.Size = new System.Drawing.Size(28, 13);
+            this.lblBox.TabIndex = 9;
+            this.lblBox.Text = "Box:";
             // 
-            // label75
+            // lblEggs
             // 
-            this.label75.AutoSize = true;
-            this.label75.Location = new System.Drawing.Point(165, 48);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(43, 13);
-            this.label75.TabIndex = 11;
-            this.label75.Text = "# eggs:";
+            this.lblEggs.AutoSize = true;
+            this.lblEggs.Location = new System.Drawing.Point(165, 48);
+            this.lblEggs.Name = "lblEggs";
+            this.lblEggs.Size = new System.Drawing.Size(43, 13);
+            this.lblEggs.TabIndex = 11;
+            this.lblEggs.Text = "# eggs:";
             // 
-            // QuickBreed
+            // chkQuickBreed
             // 
-            this.QuickBreed.AutoSize = true;
-            this.QuickBreed.Location = new System.Drawing.Point(150, 148);
-            this.QuickBreed.Name = "QuickBreed";
-            this.QuickBreed.Size = new System.Drawing.Size(85, 17);
-            this.QuickBreed.TabIndex = 7;
-            this.QuickBreed.Text = "Quick Breed";
-            this.QuickBreed.UseVisualStyleBackColor = true;
+            this.chkQuickBreed.AutoSize = true;
+            this.chkQuickBreed.Location = new System.Drawing.Point(150, 148);
+            this.chkQuickBreed.Name = "chkQuickBreed";
+            this.chkQuickBreed.Size = new System.Drawing.Size(85, 17);
+            this.chkQuickBreed.TabIndex = 7;
+            this.chkQuickBreed.Text = "Quick Breed";
+            this.chkQuickBreed.UseVisualStyleBackColor = true;
             // 
-            // Slot
+            // numSlot
             // 
-            this.Slot.Location = new System.Drawing.Point(118, 46);
-            this.Slot.Maximum = new decimal(new int[] {
+            this.numSlot.Location = new System.Drawing.Point(118, 46);
+            this.numSlot.Maximum = new decimal(new int[] {
             30,
             0,
             0,
             0});
-            this.Slot.Minimum = new decimal(new int[] {
+            this.numSlot.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.Slot.Name = "Slot";
-            this.Slot.Size = new System.Drawing.Size(41, 20);
-            this.Slot.TabIndex = 2;
-            this.Slot.Value = new decimal(new int[] {
+            this.numSlot.Name = "numSlot";
+            this.numSlot.Size = new System.Drawing.Size(41, 20);
+            this.numSlot.TabIndex = 2;
+            this.numSlot.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.Slot.ValueChanged += new System.EventHandler(this.Box_ValueChanged);
+            this.numSlot.ValueChanged += new System.EventHandler(this.SetMaximumEggs);
             // 
-            // label84
+            // lblMode
             // 
-            this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(6, 20);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(37, 13);
-            this.label84.TabIndex = 8;
-            this.label84.Text = "Mode:";
+            this.lblMode.AutoSize = true;
+            this.lblMode.Location = new System.Drawing.Point(6, 20);
+            this.lblMode.Name = "lblMode";
+            this.lblMode.Size = new System.Drawing.Size(37, 13);
+            this.lblMode.TabIndex = 8;
+            this.lblMode.Text = "Mode:";
             // 
-            // Box
+            // numBox
             // 
-            this.Box.Location = new System.Drawing.Point(37, 46);
-            this.Box.Maximum = new decimal(new int[] {
+            this.numBox.Location = new System.Drawing.Point(37, 46);
+            this.numBox.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.Box.Minimum = new decimal(new int[] {
+            this.numBox.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(41, 20);
-            this.Box.TabIndex = 1;
-            this.Box.Value = new decimal(new int[] {
+            this.numBox.Name = "numBox";
+            this.numBox.Size = new System.Drawing.Size(41, 20);
+            this.numBox.TabIndex = 1;
+            this.numBox.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.Box.ValueChanged += new System.EventHandler(this.Box_ValueChanged);
+            this.numBox.ValueChanged += new System.EventHandler(this.SetMaximumEggs);
             // 
-            // Breed_labelSlot
+            // lblSlot
             // 
-            this.Breed_labelSlot.AutoSize = true;
-            this.Breed_labelSlot.Location = new System.Drawing.Point(84, 48);
-            this.Breed_labelSlot.Name = "Breed_labelSlot";
-            this.Breed_labelSlot.Size = new System.Drawing.Size(28, 13);
-            this.Breed_labelSlot.TabIndex = 10;
-            this.Breed_labelSlot.Text = "Slot:";
+            this.lblSlot.AutoSize = true;
+            this.lblSlot.Location = new System.Drawing.Point(84, 48);
+            this.lblSlot.Name = "lblSlot";
+            this.lblSlot.Size = new System.Drawing.Size(28, 13);
+            this.lblSlot.TabIndex = 10;
+            this.lblSlot.Text = "Slot:";
             // 
-            // Eggs
+            // numEggs
             // 
-            this.Eggs.Location = new System.Drawing.Point(214, 46);
-            this.Eggs.Maximum = new decimal(new int[] {
+            this.numEggs.Location = new System.Drawing.Point(214, 46);
+            this.numEggs.Maximum = new decimal(new int[] {
             930,
             0,
             0,
             0});
-            this.Eggs.Name = "Eggs";
-            this.Eggs.Size = new System.Drawing.Size(40, 20);
-            this.Eggs.TabIndex = 3;
-            this.Eggs.Value = new decimal(new int[] {
+            this.numEggs.Name = "numEggs";
+            this.numEggs.Size = new System.Drawing.Size(40, 20);
+            this.numEggs.TabIndex = 3;
+            this.numEggs.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // daycare_select
+            // grpDaycare
             // 
-            this.daycare_select.Controls.Add(this.daycareRoute117);
-            this.daycare_select.Controls.Add(this.daycareBattleResort);
-            this.daycare_select.Location = new System.Drawing.Point(150, 72);
-            this.daycare_select.Name = "daycare_select";
-            this.daycare_select.Size = new System.Drawing.Size(104, 70);
-            this.daycare_select.TabIndex = 5;
-            this.daycare_select.TabStop = false;
-            this.daycare_select.Text = "Daycare:";
+            this.grpDaycare.Controls.Add(this.radRoute117);
+            this.grpDaycare.Controls.Add(this.radBattleResort);
+            this.grpDaycare.Location = new System.Drawing.Point(150, 72);
+            this.grpDaycare.Name = "grpDaycare";
+            this.grpDaycare.Size = new System.Drawing.Size(104, 70);
+            this.grpDaycare.TabIndex = 5;
+            this.grpDaycare.TabStop = false;
+            this.grpDaycare.Text = "Daycare:";
             // 
-            // daycareRoute117
+            // radRoute117
             // 
-            this.daycareRoute117.AutoSize = true;
-            this.daycareRoute117.Checked = true;
-            this.daycareRoute117.Location = new System.Drawing.Point(6, 19);
-            this.daycareRoute117.Name = "daycareRoute117";
-            this.daycareRoute117.Size = new System.Drawing.Size(75, 17);
-            this.daycareRoute117.TabIndex = 0;
-            this.daycareRoute117.TabStop = true;
-            this.daycareRoute117.Text = "Route 117";
-            this.daycareRoute117.UseVisualStyleBackColor = true;
+            this.radRoute117.AutoSize = true;
+            this.radRoute117.Checked = true;
+            this.radRoute117.Location = new System.Drawing.Point(6, 19);
+            this.radRoute117.Name = "radRoute117";
+            this.radRoute117.Size = new System.Drawing.Size(75, 17);
+            this.radRoute117.TabIndex = 0;
+            this.radRoute117.TabStop = true;
+            this.radRoute117.Text = "Route 117";
+            this.radRoute117.UseVisualStyleBackColor = true;
             // 
-            // daycareBattleResort
+            // radBattleResort
             // 
-            this.daycareBattleResort.AutoSize = true;
-            this.daycareBattleResort.Location = new System.Drawing.Point(6, 42);
-            this.daycareBattleResort.Name = "daycareBattleResort";
-            this.daycareBattleResort.Size = new System.Drawing.Size(86, 17);
-            this.daycareBattleResort.TabIndex = 1;
-            this.daycareBattleResort.Text = "Battle Resort";
-            this.daycareBattleResort.UseVisualStyleBackColor = true;
+            this.radBattleResort.AutoSize = true;
+            this.radBattleResort.Location = new System.Drawing.Point(6, 42);
+            this.radBattleResort.Name = "radBattleResort";
+            this.radBattleResort.Size = new System.Drawing.Size(86, 17);
+            this.radBattleResort.TabIndex = 1;
+            this.radBattleResort.Text = "Battle Resort";
+            this.radBattleResort.UseVisualStyleBackColor = true;
             // 
-            // orgbox_pos
+            // grpOrganizeBoxes
             // 
-            this.orgbox_pos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.orgbox_pos.Controls.Add(this.orgboxMiddle);
-            this.orgbox_pos.Controls.Add(this.orgboxTop);
-            this.orgbox_pos.Location = new System.Drawing.Point(6, 71);
-            this.orgbox_pos.Name = "orgbox_pos";
-            this.orgbox_pos.Size = new System.Drawing.Size(138, 71);
-            this.orgbox_pos.TabIndex = 4;
-            this.orgbox_pos.TabStop = false;
-            this.orgbox_pos.Text = "Organize Boxes position:";
+            this.grpOrganizeBoxes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grpOrganizeBoxes.Controls.Add(this.radOrganizeMiddle);
+            this.grpOrganizeBoxes.Controls.Add(this.radOrganizeTop);
+            this.grpOrganizeBoxes.Location = new System.Drawing.Point(6, 71);
+            this.grpOrganizeBoxes.Name = "grpOrganizeBoxes";
+            this.grpOrganizeBoxes.Size = new System.Drawing.Size(138, 71);
+            this.grpOrganizeBoxes.TabIndex = 4;
+            this.grpOrganizeBoxes.TabStop = false;
+            this.grpOrganizeBoxes.Text = "Organize Boxes position:";
             // 
-            // orgboxMiddle
+            // radOrganizeMiddle
             // 
-            this.orgboxMiddle.AutoSize = true;
-            this.orgboxMiddle.Checked = true;
-            this.orgboxMiddle.Location = new System.Drawing.Point(6, 19);
-            this.orgboxMiddle.Name = "orgboxMiddle";
-            this.orgboxMiddle.Size = new System.Drawing.Size(56, 17);
-            this.orgboxMiddle.TabIndex = 0;
-            this.orgboxMiddle.TabStop = true;
-            this.orgboxMiddle.Text = "Middle";
-            this.orgboxMiddle.UseVisualStyleBackColor = true;
+            this.radOrganizeMiddle.AutoSize = true;
+            this.radOrganizeMiddle.Checked = true;
+            this.radOrganizeMiddle.Location = new System.Drawing.Point(6, 19);
+            this.radOrganizeMiddle.Name = "radOrganizeMiddle";
+            this.radOrganizeMiddle.Size = new System.Drawing.Size(56, 17);
+            this.radOrganizeMiddle.TabIndex = 0;
+            this.radOrganizeMiddle.TabStop = true;
+            this.radOrganizeMiddle.Text = "Middle";
+            this.radOrganizeMiddle.UseVisualStyleBackColor = true;
             // 
-            // orgboxTop
+            // radOrganizeTop
             // 
-            this.orgboxTop.AutoSize = true;
-            this.orgboxTop.Location = new System.Drawing.Point(6, 42);
-            this.orgboxTop.Name = "orgboxTop";
-            this.orgboxTop.Size = new System.Drawing.Size(44, 17);
-            this.orgboxTop.TabIndex = 1;
-            this.orgboxTop.Text = "Top";
-            this.orgboxTop.UseVisualStyleBackColor = true;
+            this.radOrganizeTop.AutoSize = true;
+            this.radOrganizeTop.Location = new System.Drawing.Point(6, 42);
+            this.radOrganizeTop.Name = "radOrganizeTop";
+            this.radOrganizeTop.Size = new System.Drawing.Size(44, 17);
+            this.radOrganizeTop.TabIndex = 1;
+            this.radOrganizeTop.Text = "Top";
+            this.radOrganizeTop.UseVisualStyleBackColor = true;
             // 
-            // clearAll
+            // btnResetFields
             // 
-            this.clearAll.Location = new System.Drawing.Point(284, 195);
-            this.clearAll.Name = "clearAll";
-            this.clearAll.Size = new System.Drawing.Size(150, 23);
-            this.clearAll.TabIndex = 3;
-            this.clearAll.Text = "Reset all fields";
-            this.clearAll.UseVisualStyleBackColor = true;
-            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
+            this.btnResetFields.Location = new System.Drawing.Point(284, 195);
+            this.btnResetFields.Name = "btnResetFields";
+            this.btnResetFields.Size = new System.Drawing.Size(150, 23);
+            this.btnResetFields.TabIndex = 3;
+            this.btnResetFields.Text = "Reset all fields";
+            this.btnResetFields.UseVisualStyleBackColor = true;
+            this.btnResetFields.Click += new System.EventHandler(this.ResetForm);
             // 
-            // filterList
+            // dgvFilters
             // 
-            this.filterList.AllowUserToAddRows = false;
-            this.filterList.AllowUserToDeleteRows = false;
-            this.filterList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.filterList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.filterList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvFilters.AllowUserToAddRows = false;
+            this.dgvFilters.AllowUserToDeleteRows = false;
+            this.dgvFilters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvFilters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFilters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn13,
             this.dataGridViewTextBoxColumn14,
             this.dataGridViewTextBoxColumn15,
@@ -490,13 +490,13 @@
             this.dataGridViewTextBoxColumn29,
             this.dataGridViewTextBoxColumn30,
             this.dataGridViewTextBoxColumn31});
-            this.filterList.Location = new System.Drawing.Point(12, 224);
-            this.filterList.MultiSelect = false;
-            this.filterList.Name = "filterList";
-            this.filterList.ReadOnly = true;
-            this.filterList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.filterList.Size = new System.Drawing.Size(546, 146);
-            this.filterList.TabIndex = 5;
+            this.dgvFilters.Location = new System.Drawing.Point(12, 224);
+            this.dgvFilters.MultiSelect = false;
+            this.dgvFilters.Name = "dgvFilters";
+            this.dgvFilters.ReadOnly = true;
+            this.dgvFilters.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvFilters.Size = new System.Drawing.Size(546, 146);
+            this.dgvFilters.TabIndex = 5;
             // 
             // dataGridViewTextBoxColumn13
             // 
@@ -631,25 +631,25 @@
             this.dataGridViewTextBoxColumn31.ReadOnly = true;
             this.dataGridViewTextBoxColumn31.Width = 80;
             // 
-            // filterLoad
+            // btnLoadFilters
             // 
-            this.filterLoad.Location = new System.Drawing.Point(445, 195);
-            this.filterLoad.Name = "filterLoad";
-            this.filterLoad.Size = new System.Drawing.Size(113, 23);
-            this.filterLoad.TabIndex = 4;
-            this.filterLoad.Text = "Load filter set...";
-            this.filterLoad.UseVisualStyleBackColor = true;
-            this.filterLoad.Click += new System.EventHandler(this.filterLoad_Click);
+            this.btnLoadFilters.Location = new System.Drawing.Point(445, 195);
+            this.btnLoadFilters.Name = "btnLoadFilters";
+            this.btnLoadFilters.Size = new System.Drawing.Size(113, 23);
+            this.btnLoadFilters.TabIndex = 4;
+            this.btnLoadFilters.Text = "Load filter set...";
+            this.btnLoadFilters.UseVisualStyleBackColor = true;
+            this.btnLoadFilters.Click += new System.EventHandler(this.LoadFilterList);
             // 
-            // RunStop
+            // btnRunStop
             // 
-            this.RunStop.Location = new System.Drawing.Point(12, 195);
-            this.RunStop.Name = "RunStop";
-            this.RunStop.Size = new System.Drawing.Size(260, 23);
-            this.RunStop.TabIndex = 2;
-            this.RunStop.Text = "Start Bot";
-            this.RunStop.UseVisualStyleBackColor = true;
-            this.RunStop.Click += new System.EventHandler(this.RunStop_Click);
+            this.btnRunStop.Location = new System.Drawing.Point(12, 195);
+            this.btnRunStop.Name = "btnRunStop";
+            this.btnRunStop.Size = new System.Drawing.Size(260, 23);
+            this.btnRunStop.TabIndex = 2;
+            this.btnRunStop.Text = "Start Bot";
+            this.btnRunStop.UseVisualStyleBackColor = true;
+            this.btnRunStop.Click += new System.EventHandler(this.RunStopBot);
             // 
             // Bot_Breeding6
             // 
@@ -658,72 +658,72 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(582, 383);
-            this.Controls.Add(this.Breed_esvtsv);
-            this.Controls.Add(this.Breed_options);
-            this.Controls.Add(this.clearAll);
-            this.Controls.Add(this.filterList);
-            this.Controls.Add(this.filterLoad);
-            this.Controls.Add(this.RunStop);
+            this.Controls.Add(this.grpESVTSV);
+            this.Controls.Add(this.grpOptions);
+            this.Controls.Add(this.btnResetFields);
+            this.Controls.Add(this.dgvFilters);
+            this.Controls.Add(this.btnLoadFilters);
+            this.Controls.Add(this.btnRunStop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Bot_Breeding6";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.Text = "Breeding Bot";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Bot_Breeding6_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Bot_Breeding6_FormClosed);
-            this.Load += new System.EventHandler(this.Bot_Breeding6_Load);
-            this.Breed_esvtsv.ResumeLayout(false);
-            this.Breed_esvtsv.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.esvList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TSVlistNum)).EndInit();
-            this.Breed_options.ResumeLayout(false);
-            this.Breed_options.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Slot)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Box)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eggs)).EndInit();
-            this.daycare_select.ResumeLayout(false);
-            this.daycare_select.PerformLayout();
-            this.orgbox_pos.ResumeLayout(false);
-            this.orgbox_pos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.filterList)).EndInit();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingForm);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseForm);
+            this.Load += new System.EventHandler(this.LoadForm);
+            this.grpESVTSV.ResumeLayout(false);
+            this.grpESVTSV.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEggs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTSV)).EndInit();
+            this.grpOptions.ResumeLayout(false);
+            this.grpOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSlot)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEggs)).EndInit();
+            this.grpDaycare.ResumeLayout(false);
+            this.grpDaycare.PerformLayout();
+            this.grpOrganizeBoxes.ResumeLayout(false);
+            this.grpOrganizeBoxes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFilters)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox Breed_esvtsv;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.DataGridView esvList;
+        private System.Windows.Forms.GroupBox grpESVTSV;
+        private System.Windows.Forms.Label lblTSV;
+        private System.Windows.Forms.DataGridView dgvEggs;
         private System.Windows.Forms.DataGridViewTextBoxColumn ESVlistBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn ESVlistSlot;
         private System.Windows.Forms.DataGridViewTextBoxColumn ESVlistValue;
-        private System.Windows.Forms.Button esvSave;
-        private System.Windows.Forms.ListBox TSVlist;
-        private System.Windows.Forms.NumericUpDown TSVlistNum;
-        private System.Windows.Forms.Button tsvAdd;
-        private System.Windows.Forms.Button tsvLoad;
-        private System.Windows.Forms.Button tsvRemove;
-        private System.Windows.Forms.Button tsvSave;
-        private System.Windows.Forms.GroupBox Breed_options;
-        private System.Windows.Forms.ComboBox Mode;
-        private System.Windows.Forms.CheckBox ReadESV;
-        private System.Windows.Forms.Label Breed_labelBox;
-        private System.Windows.Forms.Label label75;
-        private System.Windows.Forms.CheckBox QuickBreed;
-        private System.Windows.Forms.NumericUpDown Slot;
-        private System.Windows.Forms.Label label84;
-        private System.Windows.Forms.NumericUpDown Box;
-        private System.Windows.Forms.Label Breed_labelSlot;
-        private System.Windows.Forms.NumericUpDown Eggs;
-        private System.Windows.Forms.GroupBox daycare_select;
-        private System.Windows.Forms.RadioButton daycareRoute117;
-        private System.Windows.Forms.RadioButton daycareBattleResort;
-        private System.Windows.Forms.GroupBox orgbox_pos;
-        private System.Windows.Forms.RadioButton orgboxMiddle;
-        private System.Windows.Forms.RadioButton orgboxTop;
-        private System.Windows.Forms.Button clearAll;
-        private System.Windows.Forms.DataGridView filterList;
+        private System.Windows.Forms.Button btnSaveESV;
+        private System.Windows.Forms.ListBox lstTSV;
+        private System.Windows.Forms.NumericUpDown numTSV;
+        private System.Windows.Forms.Button btnAddTSV;
+        private System.Windows.Forms.Button btnLoadTSV;
+        private System.Windows.Forms.Button btnRemoveTSV;
+        private System.Windows.Forms.Button btnSaveTSV;
+        private System.Windows.Forms.GroupBox grpOptions;
+        private System.Windows.Forms.ComboBox cmbMode;
+        private System.Windows.Forms.CheckBox chkReadESV;
+        private System.Windows.Forms.Label lblBox;
+        private System.Windows.Forms.Label lblEggs;
+        private System.Windows.Forms.CheckBox chkQuickBreed;
+        private System.Windows.Forms.NumericUpDown numSlot;
+        private System.Windows.Forms.Label lblMode;
+        private System.Windows.Forms.NumericUpDown numBox;
+        private System.Windows.Forms.Label lblSlot;
+        private System.Windows.Forms.NumericUpDown numEggs;
+        private System.Windows.Forms.GroupBox grpDaycare;
+        private System.Windows.Forms.RadioButton radRoute117;
+        private System.Windows.Forms.RadioButton radBattleResort;
+        private System.Windows.Forms.GroupBox grpOrganizeBoxes;
+        private System.Windows.Forms.RadioButton radOrganizeMiddle;
+        private System.Windows.Forms.RadioButton radOrganizeTop;
+        private System.Windows.Forms.Button btnResetFields;
+        private System.Windows.Forms.DataGridView dgvFilters;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
@@ -743,7 +743,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn29;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn30;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
-        private System.Windows.Forms.Button filterLoad;
-        private System.Windows.Forms.Button RunStop;
+        private System.Windows.Forms.Button btnLoadFilters;
+        private System.Windows.Forms.Button btnRunStop;
     }
 }

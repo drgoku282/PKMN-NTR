@@ -11,14 +11,20 @@ using static pkmn_ntr.Bot.Bot;
 
 namespace pkmn_ntr.Bot
 {
+    /// <summary>
+    /// Generation 7 Breeding bot.
+    /// </summary>
     public partial class Bot_Breeding7 : Form
     {
-        public enum breedbotstates { botstart, selectbox, readslot, eggseed, quickegg, triggerdialog, testdialog1, continuedialog, fixdialog, checknoegg, exitdialog, testdialog2, filter, testspassed, botexit };
+        /// <summary>
+        /// Secuency of steps done by the bot.
+        /// </summary>
+        public enum BotState { botstart, selectbox, readslot, eggseed, quickegg, triggerdialog, testdialog1, continuedialog, fixdialog, checknoegg, exitdialog, testdialog2, filter, testspassed, botexit };
 
         // General bot variables
         private bool botworking;
         private bool userstop;
-        private breedbotstates botState;
+        private BotState botState;
         private ErrorMessage botresult;
         private int attempts;
         private int maxreconnect;
@@ -94,7 +100,7 @@ namespace pkmn_ntr.Bot
                     // Initialize variables
                     botworking = true;
                     userstop = false;
-                    botState = breedbotstates.botstart;
+                    botState = BotState.botstart;
                     attempts = 0;
                     maxreconnect = 10;
                     // Run the bot
@@ -139,41 +145,41 @@ namespace pkmn_ntr.Bot
                 {
                     switch (botState)
                     {
-                        case (int)breedbotstates.botstart:
+                        case (int)BotState.botstart:
                             Report("Bot: START Gen 7 Breding bot");
                             if (Mode.SelectedIndex >= 0 && Mode.SelectedIndex != 3 && Eggs.Value > 0)
                             {
                                 Delg.SetValue(Slot, 1);
-                                botState = breedbotstates.selectbox;
+                                botState = BotState.selectbox;
                             }
                             else if (Mode.SelectedIndex == 3 && (Accept.Value > 0 || Reject.Value > 0))
                             {
-                                botState = breedbotstates.eggseed;
+                                botState = BotState.eggseed;
                             }
                             else
                             {
                                 botresult = ErrorMessage.Finished;
-                                botState = breedbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             break;
 
-                        case breedbotstates.selectbox:
+                        case BotState.selectbox:
                             Report("Bot: Set start box");
                             waitTaskbool = Program.helper.waitNTRwrite(currentboxOff, (uint)GetIndex(Box), Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = breedbotstates.readslot;
+                                botState = BotState.readslot;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.WriteError;
-                                botState = breedbotstates.selectbox;
+                                botState = BotState.selectbox;
                             }
                             break;
 
-                        case breedbotstates.readslot:
+                        case BotState.readslot:
                             Report("Bot: Search for empty slot");
                             waitTaskPKM = Program.helper.waitPokeRead(Box, Slot);
                             breedPoke = await waitTaskPKM;
@@ -181,22 +187,22 @@ namespace pkmn_ntr.Bot
                             { // No data or invalid
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.readslot;
+                                botState = BotState.readslot;
                             }
                             else if (breedPoke.Species == 0)
                             { // Empty space
                                 Report("Bot: Empty slot");
                                 attempts = 0;
-                                botState = breedbotstates.eggseed;
+                                botState = BotState.eggseed;
                             }
                             else
                             {
                                 getNextSlot();
-                                botState = breedbotstates.readslot;
+                                botState = BotState.readslot;
                             }
                             break;
 
-                        case breedbotstates.eggseed:
+                        case BotState.eggseed:
                             Report("Bot: Update Egg seed");
                             waitTaskbool = Program.helper.waitNTRmultiread(eggseedOff, 0x10);
                             if (await waitTaskbool)
@@ -205,18 +211,18 @@ namespace pkmn_ntr.Bot
                                 attempts = 0;
                                 if (Mode.SelectedIndex != 3)
                                 {
-                                    botState = breedbotstates.quickegg;
+                                    botState = BotState.quickegg;
                                 }
                                 else
                                 {
                                     if (Accept.Value == 0 && Reject.Value == 0)
                                     {
                                         botresult = ErrorMessage.Finished;
-                                        botState = breedbotstates.botexit;
+                                        botState = BotState.botexit;
                                     }
                                     else
                                     {
-                                        botState = breedbotstates.quickegg;
+                                        botState = BotState.quickegg;
                                     }
                                 }
                             }
@@ -224,58 +230,58 @@ namespace pkmn_ntr.Bot
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.eggseed;
+                                botState = BotState.eggseed;
                             }
                             break;
 
-                        case breedbotstates.quickegg:
+                        case BotState.quickegg:
                             Report("Bot: Produce Egg in Nursery");
                             waitTaskbool = Program.helper.waitNTRwrite(eggOff, 0x01, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = breedbotstates.triggerdialog;
+                                botState = BotState.triggerdialog;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.WriteError;
-                                botState = breedbotstates.quickegg;
+                                botState = BotState.quickegg;
                             }
                             break;
 
-                        case breedbotstates.triggerdialog:
+                        case BotState.triggerdialog:
                             Report("Bot: Start dialog");
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botState = breedbotstates.testdialog1;
+                                botState = BotState.testdialog1;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = breedbotstates.triggerdialog;
+                                botState = BotState.triggerdialog;
                             }
                             break;
 
-                        case breedbotstates.testdialog1:
+                        case BotState.testdialog1:
                             Report("Bot: Test if dialog has started");
                             waitTaskbool = Program.helper.memoryinrange(dialogOff, dialogIn, 0x10000000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = breedbotstates.continuedialog;
+                                botState = BotState.continuedialog;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.triggerdialog;
+                                botState = BotState.triggerdialog;
                             }
                             break;
 
-                        case breedbotstates.continuedialog:
+                        case BotState.continuedialog:
                             Report("Bot: Continue dialog");
                             int maxi;
                             if (Mode.SelectedIndex == 3 && Accept.Value == 0)
@@ -299,49 +305,49 @@ namespace pkmn_ntr.Bot
                             }
                             if (i == 6)
                             {
-                                botState = breedbotstates.checknoegg;
+                                botState = BotState.checknoegg;
                             }
                             if (i == 9)
                             {
-                                botState = breedbotstates.testdialog2;
+                                botState = BotState.testdialog2;
                             }
                             else
                             {
-                                botState = breedbotstates.fixdialog;
+                                botState = BotState.fixdialog;
                             }
                             break;
 
-                        case breedbotstates.fixdialog:
+                        case BotState.fixdialog:
                             waitTaskbool = Program.helper.waitbutton(key);
                             if (await waitTaskbool)
                             {
-                                botState = breedbotstates.checknoegg;
+                                botState = BotState.checknoegg;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = breedbotstates.fixdialog;
+                                botState = BotState.fixdialog;
                             }
                             break;
 
-                        case breedbotstates.checknoegg:
+                        case BotState.checknoegg:
                             waitTaskbool = Program.helper.memoryinrange(eggOff, 0x00, 0x01);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
                                 Report("Bot: Egg received");
-                                botState = breedbotstates.exitdialog;
+                                botState = BotState.exitdialog;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.fixdialog;
+                                botState = BotState.fixdialog;
                             }
                             break;
 
-                        case breedbotstates.exitdialog:
+                        case BotState.exitdialog:
                             Report("Bot: Exit dialog");
                             await Task.Delay(1500);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
@@ -350,24 +356,24 @@ namespace pkmn_ntr.Bot
                                 waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
                                 if (await waitTaskbool)
                                 {
-                                    botState = breedbotstates.testdialog2;
+                                    botState = BotState.testdialog2;
                                 }
                                 else
                                 {
                                     attempts++;
                                     botresult = ErrorMessage.ButtonError;
-                                    botState = breedbotstates.exitdialog;
+                                    botState = BotState.exitdialog;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = breedbotstates.exitdialog;
+                                botState = BotState.exitdialog;
                             }
                             break;
 
-                        case breedbotstates.testdialog2:
+                        case BotState.testdialog2:
                             waitTaskbool = Program.helper.memoryinrange(dialogOff, dialogOut, 0x10000000);
                             if (await waitTaskbool)
                             {
@@ -375,7 +381,7 @@ namespace pkmn_ntr.Bot
                                 Report("Bot: Dialog finished");
                                 if (Mode.SelectedIndex != 3)
                                 {
-                                    botState = breedbotstates.filter;
+                                    botState = BotState.filter;
                                 }
                                 else
                                 {
@@ -387,18 +393,18 @@ namespace pkmn_ntr.Bot
                                     {
                                         Delg.SetValue(Reject, Reject.Value - 1); ;
                                     }
-                                    botState = breedbotstates.eggseed;
+                                    botState = BotState.eggseed;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.exitdialog;
+                                botState = BotState.exitdialog;
                             }
                             break;
 
-                        case breedbotstates.filter:
+                        case BotState.filter:
                             bool testsok = false;
                             Report("Bot: Read recevied egg");
                             waitTaskPKM = Program.helper.waitPokeRead(Box, Slot);
@@ -407,14 +413,14 @@ namespace pkmn_ntr.Bot
                             { // No data or invalid
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = breedbotstates.filter;
+                                botState = BotState.filter;
                             }
                             else if (breedPoke.Species == 0)
                             { // Empty space
                                 Report("Bot: Error detected - slot is empty");
                                 attempts = 11;
                                 botresult = ErrorMessage.GeneralError;
-                                botState = breedbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             else
                             {
@@ -436,13 +442,13 @@ namespace pkmn_ntr.Bot
                             }
                             if (testsok)
                             {
-                                botState = breedbotstates.testspassed;
+                                botState = BotState.testspassed;
                                 break;
                             }
                             else if (Eggs.Value > 0)
                             {
                                 getNextSlot();
-                                botState = breedbotstates.readslot;
+                                botState = BotState.readslot;
                             }
                             else
                             {
@@ -455,11 +461,11 @@ namespace pkmn_ntr.Bot
                                 {
                                     botresult = ErrorMessage.Finished;
                                 }
-                                botState = breedbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             break;
 
-                        case breedbotstates.testspassed:
+                        case BotState.testspassed:
                             if (Mode.SelectedIndex == 1)
                             {
                                 Report("Bot: All tests passed");
@@ -476,10 +482,10 @@ namespace pkmn_ntr.Bot
                                 finishmessage[1] = (int)Slot.Value;
                                 finishmessage[2] = breedPoke.PSV;
                             }
-                            botState = breedbotstates.botexit;
+                            botState = BotState.botexit;
                             break;
 
-                        case breedbotstates.botexit:
+                        case BotState.botexit:
                             Report("Bot: STOP Gen 7 Breding bot");
                             botworking = false;
                             break;
@@ -594,7 +600,7 @@ namespace pkmn_ntr.Bot
             {
                 if (esvList.Rows.Count > 0)
                 {
-                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + FOLDERBOT + "\\";
+                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + BotFolder + "\\";
                     (new FileInfo(folderPath)).Directory.Create();
                     string fileName = "ESVlist7.csv";
                     var esvlst = new StringBuilder();
@@ -642,7 +648,7 @@ namespace pkmn_ntr.Bot
             {
                 if (TSVlist.Items.Count > 0)
                 {
-                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + FOLDERBOT + "\\";
+                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + BotFolder + "\\";
                     (new FileInfo(folderPath)).Directory.Create();
                     string fileName = "TSVlist7.csv";
                     var tsvlst = new StringBuilder();
@@ -668,7 +674,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + FOLDERBOT + "\\";
+                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
                 (new FileInfo(folderPath)).Directory.Create();
                 string fileName = "TSVlist6.csv";
                 if (File.Exists(folderPath + fileName))
@@ -702,7 +708,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + FOLDERBOT + "\\";
+                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
                 (new FileInfo(folderPath)).Directory.Create();
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.Filter = "PKMN-NTR Filter|*.pftr";
