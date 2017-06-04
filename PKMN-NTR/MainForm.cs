@@ -1,5 +1,4 @@
-﻿
-/// I do not own the code used for pokémon editing in this class. 
+﻿/// I do not own the code used for pokémon editing in this class. 
 /// All rights and credits for that code in this class belong to Kaphotics.
 /// Code was taken from PKHeX https://github.com/kwsch/PKHeX with minor modifications
 /// 
@@ -50,15 +49,13 @@ namespace pkmn_ntr
         {
             get
             {
-                return pkm;
+                return preparePKM();
             }
             set
             {
-                pkm = value.Clone();
-                PKME_Tabs.populateFields(value);
+                PKME_Tabs.populateFields(value.Clone());
             }
         }
-        private PKM pkm;
 
         // Structure for box/slot last position
         struct LastBoxSlot
@@ -147,7 +144,6 @@ namespace pkmn_ntr
 
             // Initialize other components
             PokemonEventHandler.RestoreCommands(this);
-            pkm = SAV.BlankPKM;
             dragout.AllowDrop = true;
             dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
             GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
@@ -174,6 +170,7 @@ namespace pkmn_ntr
             PKME_Tabs.Unicode = true;
             PKME_Tabs.updateUnicode(new string[] { "♂", "♀", "-" });
             PKME_Tabs.fieldsInitialized = true;
+            Pokemon = SAV.BlankPKM;
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(null);
         }
@@ -553,20 +550,19 @@ namespace pkmn_ntr
             // Clear tabs to avoid writting wrong data
             if (!botWorking)
             {
-                pkm = PKME_Tabs.pkm = SAV.BlankPKM;
+                //PKM pk = preparePKM();
+                PKME_Tabs.pkm = SAV.BlankPKM;
                 PKME_Tabs.setPKMFormatMode(SAV.Generation);
                 PKME_Tabs.populateFields(PKME_Tabs.pkm);
                 PKME_Tabs.ToggleInterface();
                 bool init = PKME_Tabs.fieldsInitialized;
                 PKME_Tabs.fieldsInitialized = false;
                 PKME_Tabs.fieldsLoaded = false;
-                PKME_Tabs.FinalizeInterface(init, SAV, pkm);
-                PKME_Tabs.FlickerInterface();
+                PKME_Tabs.FinalizeInterface(init, SAV, SAV.BlankPKM);
                 PKME_Tabs.TemplateFields(null);
                 MAXSPECIES = SAV.MaxSpeciesID;
                 if (SAV.Generation == 7)
                 {
-
                     PKXEXT = ".pk7";
                     BOXEXT = ".ek7";
                     BOXES = 32;
@@ -827,14 +823,12 @@ namespace pkmn_ntr
             {
                 DataReadyWaiting args = (DataReadyWaiting)args_obj;
                 PKM validator = SAV.BlankPKM;
-
                 validator.Data = PKX.decryptArray(args.data);
                 bool dataCorrect = validator.ChecksumValid && validator.Species > 0 && validator.Species < SAV.MaxSpeciesID;
 
                 if (dataCorrect)
                 { // Valid pkx file
-                    pkm = validator.Clone();
-                    PKME_Tabs.populateFields(pkm);
+                    Pokemon = validator.Clone();
                     if (backupPKM.Checked)
                     {
                         savePKMtoFile();
@@ -1006,87 +1000,106 @@ namespace pkmn_ntr
         // Write single pokémon from tabs
         private void Write_PKM_Click(object sender, EventArgs e)
         {
-            //if (!verifiedPKM())
-            //    return;
+            Pokemon = preparePKM();
+            bool isLegal = PKME_Tabs.IsLegal ?? true;
 
-            //pkm = preparePKM();
-            //updateLegality();
+            if (!isLegal)
+            {
+                if (HaX)
+                {
+                    DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                        "you still want to inject it to the game?", "Illegal pokémon",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dr == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("This pokémon is illegal, it won't be writted to " +
+                        "the file", "Illegal pokémon", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
 
-            //if (Legality.Valid || PB_Legal.Visible == false || enableillegal)
-            //{ // Write only legal and Gen 5 or eariler pokemon
-            //    if (enableillegal)
-            //    {
-            //        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do you still want to inject it to the game?", "Illegal pokémon", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            //        if (dr == DialogResult.No)
-            //        {
-            //            return;
-            //        }
-            //    }
-            //    byte[] pkmEdited = PKX.encryptArray(pkm.DecryptedBoxData);
-            //    if (radioBoxes.Checked)
-            //    {
-            //        uint index = ((uint)boxDump.Value - 1) * BOXSIZE + (uint)slotDump.Value - 1;
-            //        uint offset = boxOff + (index * POKEBYTES);
-            //        Program.scriptHelper.write(offset, pkmEdited, pid);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("No support for this source, if you want to edit this pokémon, deposit it in the PC.", "No editing support", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("This pokémon is illegal, it won't be written to the file.", "Illegal pokémon", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            if (radioBoxes.Checked)
+            {
+                uint index = ((uint)boxDump.Value - 1) * BOXSIZE + (uint)slotDump.Value - 1;
+                uint offset = boxOff + (index * POKEBYTES);
+                Program.scriptHelper.write(offset, Pokemon.EncryptedBoxData, pid);
+            }
+            else if (radioParty.Checked && EnablePartyWrite)
+            {
+                uint offset = partyOff + ((uint)slotDump.Value - 1) * 484;
+                Program.scriptHelper.write(offset, Pokemon.EncryptedPartyData, pid);
+            }
+            else
+            {
+                MessageBox.Show("No support for this source, if you want to edit this pokémon, deposit it in the PC.", "No editing support", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         // Clone and delete
         private void Btn_CDstart_Click(object sender, EventArgs e)
         {
-            //if (!verifiedPKM())
-            //    return;
+            Pokemon = preparePKM();
+            bool isLegal = PKME_Tabs.IsLegal ?? true;
+            byte[] pkmsource = null;
 
-            //pkm = preparePKM();
-            //updateLegality();
-            //byte[] pkmsource;
+            if (CloneMode.Checked)
+            {
+                if (!isLegal)
+                {
+                    if (HaX)
+                    {
+                        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                            "you still want to inject it to the game?", "Illegal pokémon",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dr == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("This pokémon is illegal, it won't be writted " +
+                            "to the file", "Illegal pokémon", MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+                    pkmsource = Pokemon.EncryptedBoxData;
+                }
+            }
+            else if (DeleteMode.Checked)
+            {
+                pkmsource = SAV.BlankPKM.EncryptedBoxData;
+            }
+            else
+            {
+                return;
+            }
 
-            //if (CloneMode.Checked)
-            //{
-            //    if (Legality.Valid || PB_Legal.Visible == false)
-            //    { // Write only legal and Gen 5 or eariler pokemon
-            //        pkmsource = PKX.encryptArray(pkm.DecryptedBoxData);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("This pokémon is illegal, it won't be written to the file.", "Illegal pokémon", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //        return;
-            //    }
-            //}
-            //else if (DeleteMode.Checked)
-            //{
-            //    pkmsource = PKX.encryptArray(SAV.BlankPKM.DecryptedBoxData);
-            //}
-            //else
-            //{
-            //    return;
-            //}
+            uint index = ((uint)Num_CDBox.Value - 1) * BOXSIZE + (uint)Num_CDSlot.Value - 1;
+            uint offset = boxOff + (index * POKEBYTES);
+            uint size = (uint)Num_CDAmount.Value * POKEBYTES;
 
-            //uint index = ((uint)Num_CDBox.Value - 1) * BOXSIZE + (uint)Num_CDSlot.Value - 1;
-            //uint offset = boxOff + (index * POKEBYTES);
-            //uint size = (uint)Num_CDAmount.Value * POKEBYTES;
+            if (CB_CDBackup.Checked)
+            {
+                DataReadyWaiting myArgs = new DataReadyWaiting(new byte[size], handleAllBoxesData, null);
+                waitingForData.Add(Program.scriptHelper.data(offset, size, pid), myArgs);
+            }
 
-            //if (CB_CDBackup.Checked)
-            //{
-            //    DataReadyWaiting myArgs = new DataReadyWaiting(new byte[size], handleAllBoxesData, null);
-            //    waitingForData.Add(Program.scriptHelper.data(offset, size, pid), myArgs);
-            //}
-
-            //byte[] data = new byte[size];
-            //for (int i = 0; i < Num_CDAmount.Value; i++)
-            //{
-            //    Array.Copy(pkmsource, 0, data, i * POKEBYTES, POKEBYTES);
-            //}
-            //Program.scriptHelper.write(offset, data, pid);
+            byte[] data = new byte[size];
+            for (int i = 0; i < Num_CDAmount.Value; i++)
+            {
+                Array.Copy(pkmsource, 0, data, i * POKEBYTES, POKEBYTES);
+            }
+            Program.scriptHelper.write(offset, data, pid);
         }
 
         #endregion R/W pokémon data
@@ -1282,7 +1295,6 @@ namespace pkmn_ntr
                 boxDump.Enabled = true;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
-                Write_PKM.Enabled = true;
                 boxDump.Value = ((LastBoxSlot)radioBoxes.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioBoxes.Tag).Slot;
             }
@@ -1315,7 +1327,6 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
-                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioDaycare.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioDaycare.Tag).Slot;
             }
@@ -1340,7 +1351,6 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
-                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioBattleBox.Tag).Slot;
             }
@@ -1366,7 +1376,6 @@ namespace pkmn_ntr
                 slotDump.Enabled = false;
                 backupPKM.Checked = true;
                 backupPKM.Enabled = false;
-                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioTrade.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioTrade.Tag).Slot;
             }
@@ -1407,7 +1416,6 @@ namespace pkmn_ntr
                 }
                 backupPKM.Enabled = false;
                 BoxLabel.Text = "Opp.:";
-                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioOpponent.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioOpponent.Tag).Slot;
             }
@@ -1430,10 +1438,6 @@ namespace pkmn_ntr
             }
             if (radioParty.Checked)
             {
-                if (!EnablePartyWrite && Tabs_General.TabPages[0].Enabled)
-                {
-                    MessageBox.Show("Important:\r\n\r\nThis feature is experimental, the slots that is selected in this application might not be the same slots that are shown in your party. Due the unkonown mechanics of this, the write feature has been disabled.\r\n\r\nIf you wish to edit a pokémon in your party, deposit it the PC.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
                 boxDump.Minimum = 1;
                 boxDump.Maximum = 1;
                 slotDump.Minimum = 1;
@@ -1441,7 +1445,6 @@ namespace pkmn_ntr
                 boxDump.Enabled = false;
                 slotDump.Enabled = true;
                 backupPKM.Enabled = true;
-                Write_PKM.Enabled = false;
                 boxDump.Value = ((LastBoxSlot)radioParty.Tag).Box;
                 slotDump.Value = ((LastBoxSlot)radioParty.Tag).Slot;
             }
