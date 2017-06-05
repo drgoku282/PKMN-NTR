@@ -112,6 +112,7 @@ namespace pkmn_ntr
 
         // Event handler variables
         private AutoResetEvent pollingCancelledEvent = new AutoResetEvent(false);
+        private bool polling = false;
         public string slotChangeCommand = "";
         public string hpZeroCommand = "";
 
@@ -1664,21 +1665,29 @@ namespace pkmn_ntr
             }
         }
 
-        private void StartPollingButton_Click(object sender, EventArgs e)
+        private void PollingButton_Click(object sender, EventArgs e)
         {
-            EventPollingWorker.RunWorkerAsync();
+            if (!polling)
+            {
+                PollingButton.Enabled = false;
 
-            StartPollingButton.Enabled = false;
-            StopPollingButton.Enabled = true;
-        }
+                EventPollingWorker.RunWorkerAsync();
+                PollingButton.Text = "Stop Polling";
+                polling = true;
 
-        private void StopPollingButton_Click(object sender, EventArgs e)
-        {
-            EventPollingWorker.CancelAsync();
-            pollingCancelledEvent.WaitOne();
+                PollingButton.Enabled = true;
+            }
+            else
+            {
+                PollingButton.Enabled = false;
 
-            StartPollingButton.Enabled = true;
-            StopPollingButton.Enabled = false;
+                EventPollingWorker.CancelAsync();
+                pollingCancelledEvent.WaitOne();
+                PollingButton.Text = "Start Polling";
+                polling = false;
+
+                PollingButton.Enabled = true;
+            }
         }
 
         delegate void handlePollingPkmDataDelegate(object args_obj);
@@ -1709,7 +1718,7 @@ namespace pkmn_ntr
                     // Ignore invalid/empty data
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
