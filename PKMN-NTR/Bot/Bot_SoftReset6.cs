@@ -10,14 +10,20 @@ using static pkmn_ntr.Bot.Bot;
 
 namespace pkmn_ntr.Bot
 {
+    /// <summary>
+    /// Generation 6 Soft-reset bot.
+    /// </summary>
     public partial class Bot_SoftReset6 : Form
     {
-        public enum srbotstates { botstart, pssmenush, fixwifi, touchpssset, testpssset, touchpssdis, testpssdis, touchpssconf, testpssout, returncontrol, touchsave, testsave, saveconf, saveout, typesr, trigger, miragespot, readopp, filter, testspassed, testshiny, testnature, testhp, testatk, testdef, testspa, testspd, testspe, testhdnpwr, testability, testgender, alltestsok, softreset, skipintro, skiptitle, startgame, reconnect, tev_start, tev_dialog, tev_cont1, tev_check, twk_start, soaring_start, soaring_cont, soaring_check, soaring_move, soaring_dialog, random_enc_check, flee1, flee2, flee3, botexit };
+        /// <summary>
+        /// Secuency of steps done by the bot.
+        /// </summary>
+        public enum BotState { botstart, pssmenush, fixwifi, touchpssset, testpssset, touchpssdis, testpssdis, touchpssconf, testpssout, returncontrol, touchsave, testsave, saveconf, saveout, typesr, trigger, miragespot, readopp, filter, testspassed, testshiny, testnature, testhp, testatk, testdef, testspa, testspd, testspe, testhdnpwr, testability, testgender, alltestsok, softreset, skipintro, skiptitle, startgame, reconnect, tev_start, tev_dialog, tev_cont1, tev_check, twk_start, soaring_start, soaring_cont, soaring_check, soaring_move, soaring_dialog, random_enc_check, flee1, flee2, flee3, botexit };
 
         // General bot variables
         private bool botworking;
         private bool userstop;
-        private srbotstates botState;
+        private BotState botState;
         private ErrorMessage botresult;
         private int attempts;
         private int maxreconnect;
@@ -184,7 +190,7 @@ namespace pkmn_ntr.Bot
                     // Initialize variables
                     botworking = true;
                     userstop = false;
-                    botState = srbotstates.botstart;
+                    botState = BotState.botstart;
                     attempts = 0;
                     maxreconnect = 10;
                     resetNo = resetNo = Program.gCmdWindow.GetResetNumber();
@@ -223,39 +229,39 @@ namespace pkmn_ntr.Bot
             try
             {
                 Program.gCmdWindow.botMode(true);
-                while (botworking && Program.gCmdWindow.isConnected)
+                while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
                     {
-                        case srbotstates.botstart:
+                        case BotState.botstart:
                             Report("Bot: START Gen 6 Soft-reset bot");
                             switch (Mode.SelectedIndex)
                             {
                                 case 0:
-                                    botState = Resume.Checked ? srbotstates.trigger : srbotstates.pssmenush;
+                                    botState = Resume.Checked ? BotState.trigger : BotState.pssmenush;
                                     break;
                                 case 1:
-                                    botState = Resume.Checked ? srbotstates.miragespot : srbotstates.pssmenush;
+                                    botState = Resume.Checked ? BotState.miragespot : BotState.pssmenush;
                                     break;
                                 case 2:
-                                    botState = Resume.Checked ? srbotstates.tev_start : srbotstates.pssmenush;
+                                    botState = Resume.Checked ? BotState.tev_start : BotState.pssmenush;
                                     break;
                                 case 3:
-                                    botState = Resume.Checked ? srbotstates.trigger : srbotstates.fixwifi;
+                                    botState = Resume.Checked ? BotState.trigger : BotState.fixwifi;
                                     break;
                                 case 4:
                                     if (Resume.Checked)
                                     {
                                         steps = 0;
                                         walk = true;
-                                        botState = srbotstates.twk_start;
+                                        botState = BotState.twk_start;
 
                                     }
                                     else
                                     {
                                         steps = 0;
                                         walk = true;
-                                        botState = srbotstates.pssmenush;
+                                        botState = BotState.pssmenush;
                                     }
                                     break;
                                 case 5:
@@ -264,11 +270,11 @@ namespace pkmn_ntr.Bot
                                     soaringTime = 4000;
                                     if (Resume.Checked)
                                     {
-                                        botState = srbotstates.soaring_start;
+                                        botState = BotState.soaring_start;
                                     }
                                     else
                                     {
-                                        botState = srbotstates.pssmenush;
+                                        botState = BotState.pssmenush;
                                     }
                                     break;
                                 case 6:
@@ -277,38 +283,38 @@ namespace pkmn_ntr.Bot
                                     soaringTime = 5000;
                                     if (Resume.Checked)
                                     {
-                                        botState = srbotstates.soaring_start;
+                                        botState = BotState.soaring_start;
                                     }
                                     else
                                     {
-                                        botState = srbotstates.pssmenush;
+                                        botState = BotState.pssmenush;
                                     }
                                     break;
                                 default:
-                                    botState = srbotstates.botexit;
+                                    botState = BotState.botexit;
                                     break;
                             }
                             break;
 
-                        case srbotstates.pssmenush:
+                        case BotState.pssmenush:
                             Report("Bot: Test if the PSS menu is shown");
                             waitTaskbool = Program.helper.memoryinrange(psssmenu1Off, psssmenu1IN, 0x10000);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.fixwifi;
+                                botState = BotState.fixwifi;
                             }
                             else
                             {
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             break;
 
-                        case srbotstates.fixwifi:
+                        case BotState.fixwifi:
                             waitTaskbool = Program.helper.waitNTRwrite(0x0105AE4, 0x4770, 0x1A);
                             if (await waitTaskbool)
                             {
-                                botState = Mode.SelectedIndex == 3 ? srbotstates.trigger : srbotstates.touchpssset;
+                                botState = Mode.SelectedIndex == 3 ? BotState.trigger : BotState.touchpssset;
                             }
                             else
                             {
@@ -318,167 +324,167 @@ namespace pkmn_ntr.Bot
                             }
                             break;
 
-                        case srbotstates.touchpssset:
+                        case BotState.touchpssset:
                             Report("Bot: Touch Box View");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waittouch(240, 180);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.testpssset;
+                                botState = BotState.testpssset;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botState = srbotstates.touchpssset;
+                                botState = BotState.touchpssset;
                             }
                             break;
 
-                        case srbotstates.testpssset:
+                        case BotState.testpssset:
                             Report("Bot: Test if the PSS setings are shown");
                             waitTaskbool = Program.helper.timememoryinrange(pssettingsOff, pssettingsIN, 0x10000, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.touchpssdis;
+                                botState = BotState.touchpssdis;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.touchpssset;
+                                botState = BotState.touchpssset;
                             }
                             break;
 
-                        case srbotstates.touchpssdis:
+                        case BotState.touchpssdis:
                             Report("Bot: Touch Disable PSS communication");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waittouch(160, pssdisableY);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.testpssdis;
+                                botState = BotState.testpssdis;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botState = srbotstates.touchpssdis;
+                                botState = BotState.touchpssdis;
                             }
                             break;
 
-                        case srbotstates.testpssdis:
+                        case BotState.testpssdis:
                             Report("Bot: Test if PSS disable confirmation appears");
                             waitTaskbool = Program.helper.timememoryinrange(pssdisableOff, pssdisableIN, 0x10000, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.touchpssconf;
+                                botState = BotState.touchpssconf;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.touchpssdis;
+                                botState = BotState.touchpssdis;
                             }
                             break;
 
-                        case srbotstates.touchpssconf:
+                        case BotState.touchpssconf:
                             Report("Bot: Touch Yes");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waittouch(160, 120);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.testpssout;
+                                botState = BotState.testpssout;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botState = srbotstates.touchpssconf;
+                                botState = BotState.touchpssconf;
                             }
                             break;
 
-                        case srbotstates.testpssout:
+                        case BotState.testpssout:
                             Report("Bot: Test if back to PSS screen");
                             waitTaskbool = Program.helper.timememoryinrange(pssettingsOff, pssettingsOUT, 0x10000, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.returncontrol;
+                                botState = BotState.returncontrol;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.touchpssconf;
+                                botState = BotState.touchpssconf;
                             }
                             break;
 
-                        case srbotstates.returncontrol:
+                        case BotState.returncontrol:
                             Report("Bot: Return contol to character");
                             await Task.Delay(6 * commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.touchsave;
+                                botState = BotState.touchsave;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.returncontrol;
+                                botState = BotState.returncontrol;
                             }
                             break;
 
-                        case srbotstates.touchsave:
+                        case BotState.touchsave:
                             Report("Bot: Touch Save button");
                             await Task.Delay(4 * commanddelay);
                             waitTaskbool = Program.helper.waittouch(220, 220);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.testsave;
+                                botState = BotState.testsave;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botState = srbotstates.touchsave;
+                                botState = BotState.touchsave;
                             }
                             break;
 
-                        case srbotstates.testsave:
+                        case BotState.testsave:
                             Report("Bot: Test if the save screen is shown");
                             waitTaskbool = Program.helper.timememoryinrange(savescrnOff, savescrnIN, 0x10000, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.saveconf;
+                                botState = BotState.saveconf;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.touchsave;
+                                botState = BotState.touchsave;
                             }
                             break;
 
-                        case srbotstates.saveconf:
+                        case BotState.saveconf:
                             Report("Bot: Press Yes");
                             await Task.Delay(8 * commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.saveout;
+                                botState = BotState.saveout;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.saveconf;
+                                botState = BotState.saveconf;
                             }
                             break;
 
-                        case srbotstates.saveout:
+                        case BotState.saveout:
                             Report("Bot: Test if the save screen is not shown");
                             waitTaskbool = Program.helper.timememoryinrange(savescrnOff, savescrnOUT, 0x10000, 100, 5000);
                             if (await waitTaskbool)
@@ -487,67 +493,67 @@ namespace pkmn_ntr.Bot
                                 if (Mode.SelectedIndex == 2)
                                 {
                                     Report("Bot: Soft-reset for party data intialize");
-                                    botState = srbotstates.softreset;
+                                    botState = BotState.softreset;
                                 }
                                 else
                                 {
-                                    botState = srbotstates.typesr;
+                                    botState = BotState.typesr;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.saveconf;
+                                botState = BotState.saveconf;
                             }
                             break;
 
-                        case srbotstates.typesr:
+                        case BotState.typesr:
                             switch (Mode.SelectedIndex)
                             {
                                 case 0:
-                                    botState = srbotstates.trigger;
+                                    botState = BotState.trigger;
                                     break;
                                 case 1:
-                                    botState = srbotstates.miragespot;
+                                    botState = BotState.miragespot;
                                     break;
                                 case 2:
-                                    botState = srbotstates.tev_start;
+                                    botState = BotState.tev_start;
                                     break;
                                 case 3:
-                                    botState = srbotstates.trigger;
+                                    botState = BotState.trigger;
                                     break;
                                 case 4:
-                                    botState = srbotstates.twk_start;
+                                    botState = BotState.twk_start;
                                     break;
                                 case 5:
                                 case 6:
-                                    botState = srbotstates.soaring_start;
+                                    botState = BotState.soaring_start;
                                     break;
                                 default:
-                                    botState = srbotstates.trigger;
+                                    botState = BotState.trigger;
                                     break;
                             }
                             break;
 
-                        case srbotstates.trigger:
+                        case BotState.trigger:
                             Report("Bot: Try to trigger encounter");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.readopp;
+                                botState = BotState.readopp;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.trigger;
+                                botState = BotState.trigger;
 
                             }
                             break;
 
-                        case srbotstates.miragespot:
+                        case BotState.miragespot:
                             Report("Bot: Try to trigger encounter in mirage spot");
                             int i;
                             for (i = 0; i < 4; i++)
@@ -561,15 +567,15 @@ namespace pkmn_ntr.Bot
                             }
                             if (i == 4)
                             {
-                                botState = srbotstates.readopp;
+                                botState = BotState.readopp;
                             }
                             else
                             {
-                                botState = srbotstates.trigger;
+                                botState = BotState.trigger;
                             }
                             break;
 
-                        case srbotstates.readopp:
+                        case BotState.readopp:
                             Report("Bot: Try to read opponent");
                             srpoke = null;
                             await Task.Delay(2 * commanddelay); // Wait for pokémon data
@@ -586,13 +592,13 @@ namespace pkmn_ntr.Bot
                                         steps = 0;
                                         attempts++;
                                         botresult = ErrorMessage.ButtonError;
-                                        botState = srbotstates.twk_start;
+                                        botState = BotState.twk_start;
                                     }
                                     else
                                     {
                                         attempts++;
                                         botresult = ErrorMessage.ReadError;
-                                        botState = srbotstates.trigger;
+                                        botState = BotState.trigger;
                                     }
 
                                 }
@@ -600,17 +606,17 @@ namespace pkmn_ntr.Bot
                                 {
                                     attempts++;
                                     botresult = ErrorMessage.ReadError;
-                                    botState = srbotstates.trigger;
+                                    botState = BotState.trigger;
                                 }
                             }
                             else if (srpoke.Species > 0)
                             {
                                 attempts = 0;
-                                botState = srbotstates.filter;
+                                botState = BotState.filter;
                             }
                             break;
 
-                        case srbotstates.filter:
+                        case BotState.filter:
                             if (walk)
                             {
                                 steps = 0;
@@ -619,121 +625,121 @@ namespace pkmn_ntr.Bot
                             bool testsok = filternum > 0;
                             if (testsok)
                             {
-                                botState = srbotstates.testspassed;
+                                botState = BotState.testspassed;
                             }
                             else
                             {
-                                botState = srbotstates.softreset;
+                                botState = BotState.softreset;
                             }
                             break;
 
-                        case srbotstates.testspassed:
+                        case BotState.testspassed:
                             Report("Bot: All tests passed!");
                             finishmessage = new int[] { filternum, resetNo };
                             botresult = ErrorMessage.SRMatch;
-                            botState = srbotstates.botexit;
+                            botState = BotState.botexit;
                             break;
 
-                        case srbotstates.softreset:
+                        case BotState.softreset:
                             resetNo++;
                             Report("Bot: Soft-reset #" + resetNo.ToString());
                             Program.gCmdWindow.UpdateResetCounter(resetNo);
                             waitTaskbool = Program.helper.waitSoftReset();
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.skipintro;
+                                botState = BotState.skipintro;
                             }
                             else
                             {
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             break;
 
-                        case srbotstates.skipintro:
+                        case BotState.skipintro:
                             await Task.Delay(44 * commanddelay);
                             Report("Bot: Skip intro cutscene");
                             Program.helper.quickbuton(LookupTable.keyA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
-                            botState = ORAS ? srbotstates.skiptitle : srbotstates.startgame;
+                            botState = ORAS ? BotState.skiptitle : BotState.startgame;
                             break;
 
-                        case srbotstates.skiptitle:
+                        case BotState.skiptitle:
                             await Task.Delay(20 * commanddelay);
                             Report("Bot: Skip title screen");
                             Program.helper.quickbuton(LookupTable.keyA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
-                            botState = srbotstates.startgame;
+                            botState = BotState.startgame;
                             break;
 
-                        case srbotstates.startgame:
+                        case BotState.startgame:
                             await Task.Delay(24 * commanddelay);
                             Report("Bot: Start game");
                             Program.helper.quickbuton(LookupTable.keyA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
-                            botState = srbotstates.reconnect;
+                            botState = BotState.reconnect;
                             break;
 
-                        case srbotstates.reconnect:
+                        case BotState.reconnect:
                             await Task.Delay(16 * commanddelay);
                             waitTaskbool = Program.gCmdWindow.Reconnect();
                             if (await waitTaskbool)
                             {
                                 await Task.Delay(8 * commanddelay);
-                                botState = srbotstates.typesr;
+                                botState = BotState.typesr;
                             }
                             else
                             {
                                 botresult = ErrorMessage.GeneralError;
-                                botState = srbotstates.botexit;
+                                botState = BotState.botexit;
                             }
                             break;
 
-                        case srbotstates.tev_start:
+                        case BotState.tev_start:
                             Report("Bot: Trigger Dialog");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
-                                botState = srbotstates.tev_dialog;
+                                botState = BotState.tev_dialog;
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.tev_start;
+                                botState = BotState.tev_start;
                             }
                             break;
 
-                        case srbotstates.tev_dialog:
+                        case BotState.tev_dialog:
                             Report("Bot: Test if dialog has started");
                             waitTaskbool = Program.helper.timememoryinrange(dialogOff, dialogIN, 0x01, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.tev_cont1;
+                                botState = BotState.tev_cont1;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.tev_start;
+                                botState = BotState.tev_start;
                             }
                             break;
 
-                        case srbotstates.tev_cont1:
+                        case BotState.tev_cont1:
                             Report("Bot: Talk to lady");
                             await Task.Delay(2 * commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
                             if (await waitTaskbool)
-                                botState = srbotstates.tev_check;
+                                botState = BotState.tev_check;
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.tev_cont1;
+                                botState = BotState.tev_cont1;
                             }
                             break;
 
-                        case srbotstates.tev_check:
+                        case BotState.tev_check:
                             Report("Bot: Try to read party");
                             waitTaskPKM = Program.helper.waitPartyRead(2);
                             srpoke = await waitTaskPKM;
@@ -741,108 +747,108 @@ namespace pkmn_ntr.Bot
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.tev_check;
+                                botState = BotState.tev_check;
                             }
                             else if (srpoke.Species == 0)
                             {  // No data or invalid
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.tev_cont1;
+                                botState = BotState.tev_cont1;
                             }
                             else
                             {
                                 attempts = 0;
-                                botState = srbotstates.filter;
+                                botState = BotState.filter;
                             }
                             break;
 
-                        case srbotstates.twk_start:
+                        case BotState.twk_start:
                             Report("Bot: Walk one step");
                             await Task.Delay(4 * commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.runUP);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.trigger;
+                                botState = BotState.trigger;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.twk_start;
+                                botState = BotState.twk_start;
                             }
                             break;
 
-                        case srbotstates.soaring_start:
+                        case BotState.soaring_start:
                             Report("Bot: Activate Eon Flute");
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyY);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.soaring_cont;
+                                botState = BotState.soaring_cont;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.soaring_start;
+                                botState = BotState.soaring_start;
                             }
                             break;
 
-                        case srbotstates.soaring_cont:
+                        case BotState.soaring_cont:
                             Report("Bot: Start cutscene");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.soaring_check;
+                                botState = BotState.soaring_check;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.soaring_cont;
+                                botState = BotState.soaring_cont;
                             }
                             break;
 
-                        case srbotstates.soaring_check:
+                        case BotState.soaring_check:
                             await Task.Delay(8000);
                             Report("Bot: Test if ready to move");
                             waitTaskbool = Program.helper.timememoryinrange(soaringOff, soaringIN, 0x10000, 1000, 10000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botState = srbotstates.soaring_move;
+                                botState = BotState.soaring_move;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.soaring_start;
+                                botState = BotState.soaring_start;
                             }
                             break;
 
-                        case srbotstates.soaring_move:
+                        case BotState.soaring_move:
                             Report("Bot: Start movement");
                             Program.helper.quickstick(soaringX, soaringY, soaringTime);
                             await Task.Delay(soaringTime + 2 * commanddelay);
-                            botState = srbotstates.soaring_dialog;
+                            botState = BotState.soaring_dialog;
                             break;
 
-                        case srbotstates.soaring_dialog:
+                        case BotState.soaring_dialog:
                             Report("Bot: Test dialog has started");
                             waitTaskbool = Program.helper.timememoryinrange(soaringdialogOff, soaringdialogIN, 0x10, 500, 5000);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.miragespot;
+                                botState = BotState.miragespot;
                             }
                             else
                             {
                                 Report("Bot: Dialog failed, imposible to check position to continue, will check random encounter");
-                                botState = srbotstates.random_enc_check;
+                                botState = BotState.random_enc_check;
                             }
                             break;
 
-                        case srbotstates.random_enc_check:
+                        case BotState.random_enc_check:
                             Report("Bot: Test if random sky encounter");
                             srpoke = null;
                             await Task.Delay(2 * commanddelay); // Wait for pokémon data
@@ -852,71 +858,71 @@ namespace pkmn_ntr.Bot
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botState = srbotstates.random_enc_check;
+                                botState = BotState.random_enc_check;
                             }
                             if (srpoke.Species > 0)
                             {
-                                botState = srbotstates.flee1;
+                                botState = BotState.flee1;
                             }
                             else
                             {
                                 Report("Bot: No random encounter, bot cannot continue");
                                 botresult = ErrorMessage.GeneralError;
-                                botState = srbotstates.botexit;
+                                botState = BotState.botexit;
                             }
 
                             break;
 
-                        case srbotstates.flee1:
+                        case BotState.flee1:
                             Report("Bot: Fleeing from random encounter, pressing down");
                             await Task.Delay(20 * commanddelay);    //30?
                             waitTaskbool = Program.helper.waitbutton(LookupTable.DpadDOWN);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.flee2;
+                                botState = BotState.flee2;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.flee1;
+                                botState = BotState.flee1;
                             }
                             break;
 
-                        case srbotstates.flee2:
+                        case BotState.flee2:
                             Report("Bot: Fleeing from random encounter, pressing right");
                             await Task.Delay(10 * commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.DpadRIGHT);
                             if (await waitTaskbool)
                             {
-                                botState = srbotstates.flee3;
+                                botState = BotState.flee3;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.flee2;
+                                botState = BotState.flee2;
                             }
                             break;
 
-                        case srbotstates.flee3:
+                        case BotState.flee3:
                             Report("Bot: Fleeing from random encounter, pressing A");
                             await Task.Delay(commanddelay);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
                                 await Task.Delay(8 * commanddelay);
-                                botState = srbotstates.soaring_move;
+                                botState = BotState.soaring_move;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botState = srbotstates.flee3;
+                                botState = BotState.flee3;
                             }
                             break;
 
-                        case srbotstates.botexit:
+                        case BotState.botexit:
                             Report("Bot: STOP Gen 6 Soft-reset bot");
                             botworking = false;
                             break;
@@ -969,7 +975,7 @@ namespace pkmn_ntr.Bot
             {
                 botresult = ErrorMessage.UserStop;
             }
-            else if (!Program.gCmdWindow.isConnected)
+            else if (!Program.gCmdWindow.IsConnected)
             {
                 botresult = ErrorMessage.Disconnect;
             }
@@ -990,7 +996,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + FOLDERBOT + "\\";
+                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
                 (new FileInfo(folderPath)).Directory.Create();
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.Filter = "PKMN-NTR Filter|*.pftr";

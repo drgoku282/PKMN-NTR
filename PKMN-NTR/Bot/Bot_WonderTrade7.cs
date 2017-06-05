@@ -9,14 +9,20 @@ using static pkmn_ntr.Bot.Bot;
 
 namespace pkmn_ntr.Bot
 {
+    /// <summary>
+    /// Generation 7 Wonder Trade bot.
+    /// </summary>
     public partial class Bot_WonderTrade7 : Form
     {
-        private enum botstates { startbot, backup, checkmode, initializeFC1, initializeFC2, readpoke, readfolder, writefromfolder, writelastbox, presstradebutton, testtrademenu, pressWTbutton, testWTscreen, pressWTstart, testboxes, touchpoke, canceltouch, testpoke, starttrade, confirmtrade, testboxesout, waitfortrade, testtradefinish, tryfinish, finishtrade, collectFC1, collectFC2, collectFC3, collectFC4, collectFC5, dumpafter, actionafter, restorebackup, delete, exitbot };
+        /// <summary>
+        /// Secuency of steps done by the bot.
+        /// </summary>
+        private enum BotState { startbot, backup, checkmode, initializeFC1, initializeFC2, readpoke, readfolder, writefromfolder, writelastbox, presstradebutton, testtrademenu, pressWTbutton, testWTscreen, pressWTstart, testboxes, touchpoke, canceltouch, testpoke, starttrade, confirmtrade, testboxesout, waitfortrade, testtradefinish, tryfinish, finishtrade, collectFC1, collectFC2, collectFC3, collectFC4, collectFC5, dumpafter, actionafter, restorebackup, delete, exitbot };
 
         // General bot variables
         private bool botworking;
         private bool userstop;
-        private botstates botstate;
+        private BotState botstate;
         private ErrorMessage botresult;
         private int attempts;
         private int maxreconnect;
@@ -96,7 +102,7 @@ namespace pkmn_ntr.Bot
                 DialogResult dialogResult = MessageBox.Show("This scirpt will try to Wonder Trade " + Trades.Value + " pokémon, starting from the slot " + Slot.Value + " of box " + Box.Value + ". Remember to read the wiki for this bot in GitHub before starting.\r\n\r\nDo you want to continue?", "Wonder Trade Bot", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes && Trades.Value > 0)
                 {
-                    if (Program.gCmdWindow.enableillegal)
+                    if (Program.gCmdWindow.HaX)
                     {
                         MessageBox.Show("Illegal mode enabled. If using a WT folder mode, it will write any pokémon to the game, regardless of legality. It will also attempt to Wonder Trade illegal pokémon it finds.", "Illegal mode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -105,7 +111,7 @@ namespace pkmn_ntr.Bot
                     // Initialize variables
                     botworking = true;
                     userstop = false;
-                    botstate = botstates.startbot;
+                    botstate = BotState.startbot;
                     attempts = 0;
                     maxreconnect = 10;
                     boxchange = true;
@@ -156,16 +162,16 @@ namespace pkmn_ntr.Bot
             try
             {
                 Program.gCmdWindow.botMode(true);
-                while (botworking && Program.gCmdWindow.isConnected)
+                while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botstate)
                     {
-                        case botstates.startbot:
+                        case BotState.startbot:
                             Report("Bot: START Gen 7 Wonder Trade bot");
-                            botstate = botstates.backup;
+                            botstate = BotState.backup;
                             break;
 
-                        case botstates.backup:
+                        case BotState.backup:
                             Report("Bot: Backup boxes");
                             waitTaskbool = Program.helper.waitNTRmultiread(pcpkmOff, 232 * 30 * 32);
                             if (await waitTaskbool)
@@ -174,49 +180,49 @@ namespace pkmn_ntr.Bot
                                 string fileName = "WTBefore-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".ek7";
                                 backuppath = wtfolderpath + fileName;
                                 Program.gCmdWindow.WriteDataToFile(Program.helper.lastmultiread, backuppath);
-                                botstate = botstates.checkmode;
+                                botstate = BotState.checkmode;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.backup;
+                                botstate = BotState.backup;
                             }
                             break;
 
-                        case botstates.checkmode:
+                        case BotState.checkmode:
                             if (collectFC.Checked)
                             {
-                                botstate = botstates.initializeFC1;
+                                botstate = BotState.initializeFC1;
                             }
                             else if (sourceBox.Checked)
                             {
-                                botstate = botstates.readpoke;
+                                botstate = BotState.readpoke;
                             }
                             else
                             {
-                                botstate = botstates.readfolder;
+                                botstate = BotState.readfolder;
                             }
                             break;
 
-                        case botstates.initializeFC1:
+                        case BotState.initializeFC1:
                             waitTaskbool = Program.helper.waitNTRread(totalFCoff);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
                                 currentTotalFC = Program.helper.lastRead;
                                 Report("Bot: Current Total FC: " + currentTotalFC);
-                                botstate = botstates.initializeFC2;
+                                botstate = BotState.initializeFC2;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.initializeFC1;
+                                botstate = BotState.initializeFC1;
                             }
                             break;
 
-                        case botstates.initializeFC2:
+                        case BotState.initializeFC2:
                             waitTaskbool = Program.helper.waitNTRread(currentFCoff);
                             if (await waitTaskbool)
                             {
@@ -232,22 +238,22 @@ namespace pkmn_ntr.Bot
                                 Report("Bot: Points for next level: " + (nextFC - currentTotalFC));
                                 if (sourceBox.Checked)
                                 {
-                                    botstate = botstates.readpoke;
+                                    botstate = BotState.readpoke;
                                 }
                                 else
                                 {
-                                    botstate = botstates.readfolder;
+                                    botstate = BotState.readfolder;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.initializeFC2;
+                                botstate = BotState.initializeFC2;
                             }
                             break;
 
-                        case botstates.readpoke:
+                        case BotState.readpoke:
                             Report("Bot: Look for pokemon to trade");
                             waitTaskPKM = Program.helper.waitPokeRead(Box, Slot);
                             WTpoke = await waitTaskPKM;
@@ -255,7 +261,7 @@ namespace pkmn_ntr.Bot
                             { // No data or invalid
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.readpoke;
+                                botstate = BotState.readpoke;
                             }
                             else if (WTpoke.Species == 0)
                             { // Empty space
@@ -270,11 +276,11 @@ namespace pkmn_ntr.Bot
                                 {
                                     currentCHK = WTpoke.Checksum;
                                     Report("Bot: Pokémon found - 0x" + currentCHK.ToString("X4"));
-                                    botstate = botstates.writelastbox;
+                                    botstate = BotState.writelastbox;
                                 }
                                 else
                                 {
-                                    if (Program.gCmdWindow.enableillegal)
+                                    if (Program.gCmdWindow.HaX)
                                     {
                                         Report("Bot: Pokémon cannot be traded, is an egg or have special ribbons.");
                                     }
@@ -287,7 +293,7 @@ namespace pkmn_ntr.Bot
                             }
                             break;
 
-                        case botstates.readfolder:
+                        case BotState.readfolder:
                             Report("Bot: Reading Wonder Trade folder");
                             pkfiles = Directory.GetFiles(wtfolderpath, "*.pk7");
                             if (pkfiles.Length > 0)
@@ -316,27 +322,27 @@ namespace pkmn_ntr.Bot
                             }
                             if (pklist.Count > 0)
                             {
-                                botstate = botstates.writefromfolder;
+                                botstate = BotState.writefromfolder;
                             }
                             else
                             {
                                 Report("Bot: No files detected");
                                 botresult = ErrorMessage.Finished;
-                                botstate = botstates.exitbot;
+                                botstate = BotState.exitbot;
                             }
                             break;
 
-                        case botstates.writefromfolder:
+                        case BotState.writefromfolder:
                             Report("Bot: Write pkm file from list");
                             if (sourceRandom.Checked)
                             { // Select a random file
                                 currentfile = RNG.Next() % pklist.Count;
                             }
-                            waitTaskbool = Program.helper.waitNTRwrite(GetBoxOff(pcpkmOff, Box, Slot), pklist[currentfile].EncryptedBoxData, Program.gCmdWindow.pid);
+                            waitTaskbool = Program.helper.waitNTRwrite(GetBoxOffset(pcpkmOff, Box, Slot), pklist[currentfile].EncryptedBoxData, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 Program.gCmdWindow.updateDumpBoxes(Box, Slot);
-                                Program.gCmdWindow.populateFields(pklist[currentfile]);
+                                Program.gCmdWindow.Pokemon = pklist[currentfile];
                                 currentCHK = pklist[currentfile].Checksum;
                                 if (sourceFolder.Checked)
                                 {
@@ -347,17 +353,17 @@ namespace pkmn_ntr.Bot
                                     }
                                 }
                                 attempts = 0;
-                                botstate = botstates.writelastbox;
+                                botstate = BotState.writelastbox;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.WriteError;
-                                botstate = botstates.writefromfolder;
+                                botstate = BotState.writefromfolder;
                             }
                             break;
 
-                        case botstates.writelastbox:
+                        case BotState.writelastbox:
                             if (boxchange)
                             {
                                 Report("Bot: Set current box");
@@ -366,122 +372,122 @@ namespace pkmn_ntr.Bot
                                 {
                                     attempts = 0;
                                     boxchange = false;
-                                    botstate = botstates.presstradebutton;
+                                    botstate = BotState.presstradebutton;
                                 }
                                 else
                                 {
                                     attempts++;
                                     botresult = ErrorMessage.WriteError;
-                                    botstate = botstates.writelastbox;
+                                    botstate = BotState.writelastbox;
                                 }
                             }
                             else
                             {
-                                botstate = botstates.presstradebutton;
+                                botstate = BotState.presstradebutton;
                             }
                             break;
 
-                        case botstates.presstradebutton:
+                        case BotState.presstradebutton:
                             Report("Bot: Press Trade Button");
                             waitTaskbool = Program.helper.waittouch(200, 120);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.testtrademenu;
+                                botstate = BotState.testtrademenu;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botstate = botstates.presstradebutton;
+                                botstate = BotState.presstradebutton;
                             }
                             break;
 
-                        case botstates.testtrademenu:
+                        case BotState.testtrademenu:
                             Report("Bot: Test if the trademenu is shown");
                             waitTaskbool = Program.helper.timememoryinrange(trademenuOff, trademenuIN, 0x100000, 100, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botstate = botstates.pressWTbutton;
+                                botstate = BotState.pressWTbutton;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.presstradebutton;
+                                botstate = BotState.presstradebutton;
                             }
                             break;
 
-                        case botstates.pressWTbutton:
+                        case BotState.pressWTbutton:
                             Report("Bot: Press Wonder Trade");
                             waitTaskbool = Program.helper.waittouch(160, 160);
                             if (await waitTaskbool)
-                                botstate = botstates.testWTscreen;
+                                botstate = BotState.testWTscreen;
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botstate = botstates.pressWTbutton;
+                                botstate = BotState.pressWTbutton;
                             }
                             break;
 
-                        case botstates.testWTscreen:
+                        case BotState.testWTscreen:
                             Report("Bot: Test if the Wonder Trade screen is shown");
                             waitTaskbool = Program.helper.timememoryinrange(wtscreenOff, wtscreenIN, 0x01, 250, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botstate = botstates.pressWTstart;
+                                botstate = BotState.pressWTstart;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.pressWTbutton;
+                                botstate = BotState.pressWTbutton;
                             }
                             break;
 
-                        case botstates.pressWTstart:
+                        case BotState.pressWTstart:
                             Report("Bot: Press Start");
                             await Task.Delay(4 * delaytime);
                             Program.helper.quickbuton(LookupTable.keyA, commandtime);
                             await Task.Delay(commandtime + delaytime);
-                            botstate = botstates.testboxes;
+                            botstate = BotState.testboxes;
                             break;
 
-                        case botstates.testboxes:
+                        case BotState.testboxes:
                             Report("Bot: Test if the boxes are shown");
                             waitTaskbool = Program.helper.timememoryinrange(boxesOff, boxesIN, 0x10000, 250, 5000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botstate = botstates.touchpoke;
+                                botstate = BotState.touchpoke;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.pressWTstart;
+                                botstate = BotState.pressWTstart;
                             }
                             break;
 
-                        case botstates.touchpoke:
+                        case BotState.touchpoke:
                             Report("Bot: Touch pokémon");
                             await Task.Delay(4 * delaytime);
                             waitTaskbool = Program.helper.waittouch(LookupTable.pokeposX7[GetIndex(Slot)], LookupTable.pokeposY7[GetIndex(Slot)]);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.testpoke;
+                                botstate = BotState.testpoke;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.TouchError;
-                                botstate = botstates.touchpoke;
+                                botstate = BotState.touchpoke;
                             }
                             break;
 
-                        case botstates.testpoke:
+                        case BotState.testpoke:
                             Report("Bot: Test if pokemon is selected");
                             waitTaskPKM = Program.helper.waitPokeRead(toppkmOff);
                             validator = await waitTaskPKM;
@@ -490,23 +496,23 @@ namespace pkmn_ntr.Bot
                                 Report("Bot: Error detected or slot is empty");
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.canceltouch;
+                                botstate = BotState.canceltouch;
                             }
                             else if (validator.Checksum != currentCHK)
                             { // Different poke
                                 Report("Bot: Picked incorrect pokemon");
                                 attempts++;
                                 botresult = ErrorMessage.GeneralError;
-                                botstate = botstates.canceltouch;
+                                botstate = BotState.canceltouch;
                             }
                             else
                             { // Correct pokemon
                                 attempts = 0;
-                                botstate = botstates.starttrade;
+                                botstate = BotState.starttrade;
                             }
                             break;
 
-                        case botstates.canceltouch:
+                        case BotState.canceltouch:
                             Report("Bot: Cancel selection and check again");
                             waitTaskPKM = Program.helper.waitPokeRead(Box, Slot);
                             WTpoke = await waitTaskPKM;
@@ -517,64 +523,64 @@ namespace pkmn_ntr.Bot
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.touchpoke;
+                                botstate = BotState.touchpoke;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.touchpoke;
+                                botstate = BotState.touchpoke;
                             }
                             break;
 
-                        case botstates.starttrade:
+                        case BotState.starttrade:
                             Report("Bot: Press Start");
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.confirmtrade;
+                                botstate = BotState.confirmtrade;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.starttrade;
+                                botstate = BotState.starttrade;
                             }
                             break;
 
-                        case botstates.confirmtrade:
+                        case BotState.confirmtrade:
                             Report("Bot: Press Yes");
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.testboxesout;
+                                botstate = BotState.testboxesout;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.confirmtrade;
+                                botstate = BotState.confirmtrade;
                             }
                             break;
 
-                        case botstates.testboxesout:
+                        case BotState.testboxesout:
                             Report("Bot: Test if the boxes are not shown");
                             waitTaskbool = Program.helper.timememoryinrange(boxesOff, boxesOUT, 0x10000, 500, 10000);
                             if (await waitTaskbool)
                             {
                                 attempts = -40; // Try 50 button presses
-                                botstate = botstates.waitfortrade;
+                                botstate = BotState.waitfortrade;
                                 tradeTimer.Start();
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.touchpoke;
+                                botstate = BotState.touchpoke;
                             }
                             break;
 
-                        case botstates.waitfortrade:
+                        case BotState.waitfortrade:
                             Report("Bot: Wait for trade");
                             waitTaskbool = Program.helper.memoryinrange(trademenuOff, tradeready, 0x10000);
                             if (await waitTaskbool)
@@ -584,12 +590,12 @@ namespace pkmn_ntr.Bot
                                 await Program.helper.waitPokeRead(Box, Slot);
                                 Report("Bot: Wait 30 seconds");
                                 await Task.Delay(30000);
-                                botstate = botstates.testtradefinish;
+                                botstate = BotState.testtradefinish;
                             }
                             else if (notradepartner)
                             { // Timeout
                                 boxchange = true; // Might fix a couple of errors
-                                botstate = botstates.testtradefinish;
+                                botstate = BotState.testtradefinish;
                             }
                             else
                             {
@@ -597,7 +603,7 @@ namespace pkmn_ntr.Bot
                             }
                             break;
 
-                        case botstates.testtradefinish:
+                        case BotState.testtradefinish:
                             Report("Bot: Test if the trade is finished");
                             waitTaskbool = Program.helper.memoryinrange(trademenuOff, trademenuOUT, 0x1000000);
                             if (await waitTaskbool)
@@ -605,18 +611,18 @@ namespace pkmn_ntr.Bot
                                 attempts = 0;
                                 if (collectFC.Checked && !notradepartner)
                                 {
-                                    botstate = botstates.collectFC1;
+                                    botstate = BotState.collectFC1;
                                 }
                                 else
                                 {
-                                    botstate = botstates.finishtrade;
+                                    botstate = BotState.finishtrade;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.GeneralError;
-                                botstate = botstates.tryfinish;
+                                botstate = BotState.tryfinish;
                                 if (Program.helper.lastRead == 0xBF800000 && !tradeevo)
                                 {
                                     Report("Bot: Trade evolution detected, wait 20 seconds");
@@ -627,7 +633,7 @@ namespace pkmn_ntr.Bot
                             }
                             break;
 
-                        case botstates.tryfinish:
+                        case BotState.tryfinish:
                             if (!tradeevo)
                             {
                                 Report("Bot: Press B button");
@@ -640,17 +646,17 @@ namespace pkmn_ntr.Bot
                             }
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.testtradefinish;
+                                botstate = BotState.testtradefinish;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.testtradefinish;
+                                botstate = BotState.testtradefinish;
                             }
                             break;
 
-                        case botstates.finishtrade:
+                        case BotState.finishtrade:
                             if (notradepartner)
                             {
                                 restartSlot();
@@ -663,70 +669,70 @@ namespace pkmn_ntr.Bot
                             tradeevo = false;
                             break;
 
-                        case botstates.collectFC1:
+                        case BotState.collectFC1:
                             Report("Bot: Trigger Dialog");
                             await Task.Delay(4 * delaytime);
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.collectFC2;
+                                botstate = BotState.collectFC2;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.testtradefinish;
+                                botstate = BotState.testtradefinish;
                             }
                             break;
 
-                        case botstates.collectFC2:
+                        case BotState.collectFC2:
                             Report("Bot: Test if dialog has started");
                             waitTaskbool = Program.helper.memoryinrange(dialogOff, dialogIn, 0x010000);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botstate = botstates.collectFC3;
+                                botstate = BotState.collectFC3;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.collectFC1;
+                                botstate = BotState.collectFC1;
                             }
                             break;
 
-                        case botstates.collectFC3:
+                        case BotState.collectFC3:
                             Report("Bot: Continue dialog");
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
                             if (await waitTaskbool)
                             {
-                                botstate = botstates.collectFC4;
+                                botstate = BotState.collectFC4;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ButtonError;
-                                botstate = botstates.collectFC3;
+                                botstate = BotState.collectFC3;
                             }
                             break;
 
-                        case botstates.collectFC4:
+                        case BotState.collectFC4:
                             Report("Bot: Test if dialog has finished");
                             waitTaskbool = Program.helper.memoryinrange(dialogOff, dialogOut, 0x010000);
                             if (await waitTaskbool || Program.helper.lastRead == 0x0D)
                             {
                                 attempts = 0;
-                                botstate = botstates.collectFC5;
+                                botstate = BotState.collectFC5;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.collectFC3;
+                                botstate = BotState.collectFC3;
                             }
                             break;
 
-                        case botstates.collectFC5:
+                        case BotState.collectFC5:
                             Report("Bot: Test FC");
                             waitTaskbool = Program.helper.waitNTRread(totalFCoff);
                             if (await waitTaskbool)
@@ -739,22 +745,22 @@ namespace pkmn_ntr.Bot
                                     Report("Bot: Festival Plaza level up");
                                     getNextSlot();
                                     botresult = ErrorMessage.FestivalPlaza;
-                                    botstate = botstates.exitbot;
+                                    botstate = BotState.exitbot;
                                 }
                                 else
                                 {
-                                    botstate = botstates.finishtrade;
+                                    botstate = BotState.finishtrade;
                                 }
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.ReadError;
-                                botstate = botstates.collectFC5;
+                                botstate = BotState.collectFC5;
                             }
                             break;
 
-                        case botstates.dumpafter:
+                        case BotState.dumpafter:
                             if (afterDump.Checked)
                             {
                                 Report("Bot: Dump boxes");
@@ -764,38 +770,38 @@ namespace pkmn_ntr.Bot
                                     attempts = 0;
                                     string fileName = "WTAfter-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".ek7";
                                     Program.gCmdWindow.WriteDataToFile(Program.helper.lastmultiread, wtfolderpath + fileName);
-                                    botstate = botstates.actionafter;
+                                    botstate = BotState.actionafter;
                                 }
                                 else
                                 {
                                     attempts++;
                                     botresult = ErrorMessage.ReadError;
-                                    botstate = botstates.dumpafter;
+                                    botstate = BotState.dumpafter;
                                 }
                             }
                             else
                             {
-                                botstate = botstates.actionafter;
+                                botstate = BotState.actionafter;
                             }
                             break;
 
-                        case botstates.actionafter:
+                        case BotState.actionafter:
                             if (afterRestore.Checked)
                             {
-                                botstate = botstates.restorebackup;
+                                botstate = BotState.restorebackup;
                             }
                             else if (afterDelete.Checked)
                             {
-                                botstate = botstates.delete;
+                                botstate = BotState.delete;
                             }
                             else
                             {
                                 botresult = ErrorMessage.Finished;
-                                botstate = botstates.exitbot;
+                                botstate = BotState.exitbot;
                             }
                             break;
 
-                        case botstates.restorebackup:
+                        case BotState.restorebackup:
                             Report("Bot: Restore boxes backup");
                             byte[] restore = File.ReadAllBytes(backuppath);
                             if (restore.Length == 232 * 30 * 32)
@@ -805,45 +811,45 @@ namespace pkmn_ntr.Bot
                                 {
                                     attempts = 0;
                                     botresult = ErrorMessage.Finished;
-                                    botstate = botstates.exitbot;
+                                    botstate = BotState.exitbot;
                                 }
                                 else
                                 {
                                     attempts++;
                                     botresult = ErrorMessage.WriteError;
-                                    botstate = botstates.restorebackup;
+                                    botstate = BotState.restorebackup;
                                 }
                             }
                             else
                             {
                                 Report("Bot: Invalid boxes file");
                                 botresult = ErrorMessage.GeneralError;
-                                botstate = botstates.exitbot;
+                                botstate = BotState.exitbot;
                             }
                             break;
 
-                        case botstates.delete:
+                        case BotState.delete:
                             Report("Bot: Delete traded pokémon");
                             byte[] deletearray = new byte[232 * (int)starttrades];
                             for (int i = 0; i < starttrades; i++)
                             {
                                 Program.gCmdWindow.SAV.BlankPKM.EncryptedBoxData.CopyTo(deletearray, i * 232);
                             }
-                            waitTaskbool = Program.helper.waitNTRwrite(GetBoxOff(pcpkmOff, Box, Slot), deletearray, Program.gCmdWindow.pid);
+                            waitTaskbool = Program.helper.waitNTRwrite(GetBoxOffset(pcpkmOff, Box, Slot), deletearray, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
-                                botstate = botstates.exitbot;
+                                botstate = BotState.exitbot;
                             }
                             else
                             {
                                 attempts++;
                                 botresult = ErrorMessage.WriteError;
-                                botstate = botstates.delete;
+                                botstate = BotState.delete;
                             }
                             break;
 
-                        case botstates.exitbot:
+                        case BotState.exitbot:
                             Report("Bot: Stop Gen 7 Wonder Trade bot");
                             botworking = false;
                             break;
@@ -898,7 +904,7 @@ namespace pkmn_ntr.Bot
             {
                 botresult = ErrorMessage.UserStop;
             }
-            else if (!Program.gCmdWindow.isConnected)
+            else if (!Program.gCmdWindow.IsConnected)
             {
                 botresult = ErrorMessage.Disconnect;
             }
@@ -931,11 +937,11 @@ namespace pkmn_ntr.Bot
             {
                 if (sourceBox.Checked)
                 {
-                    botstate = botstates.readpoke;
+                    botstate = BotState.readpoke;
                 }
                 else
                 {
-                    botstate = botstates.writefromfolder;
+                    botstate = BotState.writefromfolder;
                 }
                 attempts = 0;
             }
@@ -946,17 +952,17 @@ namespace pkmn_ntr.Bot
                 Delg.SetValue(Trades, starttrades);
                 if (sourceBox.Checked)
                 {
-                    botstate = botstates.readpoke;
+                    botstate = BotState.readpoke;
                 }
                 else
                 {
-                    botstate = botstates.writefromfolder;
+                    botstate = BotState.writefromfolder;
                 }
                 attempts = 0;
             }
             else
             {
-                botstate = botstates.dumpafter;
+                botstate = BotState.dumpafter;
             }
         }
 
@@ -966,11 +972,11 @@ namespace pkmn_ntr.Bot
             {
                 if (sourceBox.Checked)
                 {
-                    botstate = botstates.readpoke;
+                    botstate = BotState.readpoke;
                 }
                 else
                 {
-                    botstate = botstates.writefromfolder;
+                    botstate = BotState.writefromfolder;
                 }
                 attempts = 0;
             }
@@ -981,17 +987,17 @@ namespace pkmn_ntr.Bot
                 Delg.SetValue(Trades, starttrades);
                 if (sourceBox.Checked)
                 {
-                    botstate = botstates.readpoke;
+                    botstate = BotState.readpoke;
                 }
                 else
                 {
-                    botstate = botstates.writefromfolder;
+                    botstate = BotState.writefromfolder;
                 }
                 attempts = 0;
             }
             else
             {
-                botstate = botstates.dumpafter;
+                botstate = BotState.dumpafter;
             }
         }
 

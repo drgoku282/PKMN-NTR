@@ -25,10 +25,11 @@ namespace pkmn_ntr.Helpers
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                object txt = PKHeX.Core.Properties.Resources.ResourceManager.GetObject("lang_" + lang);
-                if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
-                rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
+                return;
+                //object txt = PKHeX.Core.Properties.Resources.ResourceManager.GetObject("lang_" + lang);
+                //if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
+                //rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
+                //rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
             List<string> stringdata = new List<string>();
