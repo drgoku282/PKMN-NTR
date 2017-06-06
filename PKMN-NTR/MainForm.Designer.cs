@@ -47,8 +47,6 @@
             this.Tool_Trainer = new System.Windows.Forms.Button();
             this.Tabs_General = new System.Windows.Forms.TabControl();
             this.Tab_Dump = new System.Windows.Forms.TabPage();
-            this.StopPollingButton = new System.Windows.Forms.Button();
-            this.StartPollingButton = new System.Windows.Forms.Button();
             this.Write_PKM = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tab_Clone = new System.Windows.Forms.TabPage();
@@ -108,6 +106,7 @@
             this.dragout = new System.Windows.Forms.PictureBox();
             this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
+            this.PollingButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -473,8 +472,6 @@
             // Tab_Dump
             // 
             this.Tab_Dump.BackColor = System.Drawing.SystemColors.Control;
-            this.Tab_Dump.Controls.Add(this.StopPollingButton);
-            this.Tab_Dump.Controls.Add(this.StartPollingButton);
             this.Tab_Dump.Controls.Add(this.Write_PKM);
             this.Tab_Dump.Controls.Add(this.dumpBoxes);
             this.Tab_Dump.Controls.Add(this.dumpPokemon);
@@ -491,31 +488,6 @@
             this.Tab_Dump.Size = new System.Drawing.Size(292, 264);
             this.Tab_Dump.TabIndex = 4;
             this.Tab_Dump.Text = "Read/Write";
-            // 
-            // StopPollingButton
-            // 
-            this.StopPollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.StopPollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.StopPollingButton.Enabled = false;
-            this.StopPollingButton.Location = new System.Drawing.Point(9, 235);
-            this.StopPollingButton.Name = "StopPollingButton";
-            this.StopPollingButton.Size = new System.Drawing.Size(91, 23);
-            this.StopPollingButton.TabIndex = 15;
-            this.StopPollingButton.Text = "Stop Polling";
-            this.StopPollingButton.UseVisualStyleBackColor = true;
-            this.StopPollingButton.Click += new System.EventHandler(this.StopPollingButton_Click);
-            // 
-            // StartPollingButton
-            // 
-            this.StartPollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.StartPollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.StartPollingButton.Location = new System.Drawing.Point(9, 210);
-            this.StartPollingButton.Name = "StartPollingButton";
-            this.StartPollingButton.Size = new System.Drawing.Size(91, 23);
-            this.StartPollingButton.TabIndex = 14;
-            this.StartPollingButton.Text = "Start Polling";
-            this.StartPollingButton.UseVisualStyleBackColor = true;
-            this.StartPollingButton.Click += new System.EventHandler(this.StartPollingButton_Click);
             // 
             // Write_PKM
             // 
@@ -817,6 +789,7 @@
             this.flowLayoutPanel2.Controls.Add(this.Tools_PokeDigger);
             this.flowLayoutPanel2.Controls.Add(this.Tools_Filter);
             this.flowLayoutPanel2.Controls.Add(this.EventHandlerButton);
+            this.flowLayoutPanel2.Controls.Add(this.PollingButton);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -1226,6 +1199,18 @@
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
             // 
+            // StartPollingButton
+            // 
+            this.PollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PollingButton.Location = new System.Drawing.Point(98, 90);
+            this.PollingButton.Name = "PollingButton";
+            this.PollingButton.Size = new System.Drawing.Size(89, 23);
+            this.PollingButton.TabIndex = 15;
+            this.PollingButton.Text = "Start Polling";
+            this.PollingButton.UseVisualStyleBackColor = true;
+            this.PollingButton.Click += new System.EventHandler(this.PollingButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1368,10 +1353,9 @@
         private System.Windows.Forms.Label labelreset;
         private System.Windows.Forms.Button EventHandlerButton;
         private System.ComponentModel.BackgroundWorker EventPollingWorker;
-        private System.Windows.Forms.Button StartPollingButton;
-        private System.Windows.Forms.Button StopPollingButton;
         private System.Windows.Forms.PictureBox dragout;
         private System.Windows.Forms.PictureBox PB_Legal;
+        private System.Windows.Forms.Button PollingButton;
     }
 }
 
