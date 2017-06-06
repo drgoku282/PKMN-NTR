@@ -1723,6 +1723,17 @@ namespace pkmn_ntr
             }
         }
 
+        private void pollingLog(String msg)
+        {
+            try
+            {
+                Program.gCmdWindow.BeginInvoke(Program.gCmdWindow.delAddLog, msg);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         private void RunCommand(string cmd, string pokemonName, int slotNum)
         {
             if (cmd.Length > 0)
@@ -1730,7 +1741,7 @@ namespace pkmn_ntr
                 cmd = cmd.Replace("###SLOT###", slotNum.ToString());
                 cmd = cmd.Replace("###NAME###", pokemonName.ToLower());
 
-                Console.Out.WriteLine("Running command: " + cmd);
+                pollingLog("Running command: " + cmd);
 
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -1750,7 +1761,7 @@ namespace pkmn_ntr
             List<PKM> last_party = new List<PKM>();
             DataReadyWaiting args;
 
-            Console.Out.WriteLine("Started polling loop");
+            pollingLog("Started polling loop");
 
             while (true)
             {
@@ -1791,7 +1802,7 @@ namespace pkmn_ntr
                     string newPKM_Name = PKX.getSpeciesName(newPKM.Species, 2).ToLower();
 
                     // TODO: Stat_HPCurrent values don't seem to be correct (at least on Omega Ruby)
-                    //Console.Out.WriteLine(newPKM.Stat_HPCurrent + " HP in slot " + (j + 1) + " -> " + newPKM_Name);
+                    //pollingLog(newPKM.Stat_HPCurrent + " HP in slot " + (j + 1) + " -> " + newPKM_Name);
 
                     if (last_party.Count > j)
                     {
@@ -1802,12 +1813,12 @@ namespace pkmn_ntr
                     {
                         if (oldPKM.Checksum != newPKM.Checksum)
                         {
-                            Console.Out.WriteLine("Slot " + (j + 1) + " -> " + newPKM_Name);
+                            pollingLog("Slot " + (j + 1) + " -> " + newPKM_Name);
 
                             // New Pokemon, do we put Pokemon event or HP zero event?
                             if (newPKM.Stat_HPCurrent == 0)
                             {
-                                Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                                pollingLog("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
                                 RunCommand(hpZeroCommand, newPKM_Name, j + 1);
                             }
                             else
@@ -1818,17 +1829,17 @@ namespace pkmn_ntr
                         else if (oldPKM.Stat_HPCurrent != 0 && newPKM.Stat_HPCurrent == 0)
                         {
                             // Pokemon didn't change, but check for HP zero
-                            Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                            pollingLog("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
                             RunCommand(hpZeroCommand, newPKM_Name, j + 1);
                         }
                     }
                     else
                     {
-                        Console.Out.WriteLine("Slot " + (j + 1) + " -> " + newPKM_Name);
+                        pollingLog("Slot " + (j + 1) + " -> " + newPKM_Name);
 
                         if (newPKM.Stat_HPCurrent == 0)
                         {
-                            Console.Out.WriteLine("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
+                            pollingLog("HP Zero in slot " + (j + 1) + " -> " + newPKM_Name);
                             RunCommand(hpZeroCommand, newPKM_Name, j + 1);
                         }
                         else
@@ -1849,7 +1860,7 @@ namespace pkmn_ntr
                 {
                     for (int j = current_party.Count(); j < last_party.Count(); j++)
                     {
-                        Console.Out.WriteLine("Slot " + (j + 1) + " -> (empty)");
+                        pollingLog("Slot " + (j + 1) + " -> (empty)");
 
                         if (slotChangeCommand.Length > 0)
                         {
@@ -1875,7 +1886,7 @@ namespace pkmn_ntr
             }
 
             pollingCancelledEvent.Set();
-            Console.Out.WriteLine("Exited polling loop");
+            pollingLog("Exited polling loop");
         }
 
         #endregion Sub-forms
