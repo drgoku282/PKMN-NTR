@@ -47,6 +47,13 @@
             this.Trades = new System.Windows.Forms.NumericUpDown();
             this.Slot = new System.Windows.Forms.NumericUpDown();
             this.collectFC = new System.Windows.Forms.CheckBox();
+            this.Botname = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.authToken = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.channelName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.useTwitchBot = new System.Windows.Forms.CheckBox();
             this.WTAfter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Box)).BeginInit();
             this.WTSource.SuspendLayout();
@@ -276,13 +283,80 @@
             this.collectFC.Text = "Collect FC after a trade";
             this.collectFC.UseVisualStyleBackColor = true;
             // 
+            // Botname
+            // 
+            this.Botname.Location = new System.Drawing.Point(317, 25);
+            this.Botname.Name = "Botname";
+            this.Botname.Size = new System.Drawing.Size(117, 20);
+            this.Botname.TabIndex = 20;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(440, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Botname";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // authToken
+            // 
+            this.authToken.Location = new System.Drawing.Point(317, 51);
+            this.authToken.Name = "authToken";
+            this.authToken.Size = new System.Drawing.Size(117, 20);
+            this.authToken.TabIndex = 22;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(439, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "Auth token";
+            // 
+            // channelName
+            // 
+            this.channelName.Location = new System.Drawing.Point(317, 77);
+            this.channelName.Name = "channelName";
+            this.channelName.Size = new System.Drawing.Size(117, 20);
+            this.channelName.TabIndex = 24;
+            this.channelName.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(439, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Channel";
+            // 
+            // useTwitchBot
+            // 
+            this.useTwitchBot.AutoSize = true;
+            this.useTwitchBot.Location = new System.Drawing.Point(321, 119);
+            this.useTwitchBot.Name = "useTwitchBot";
+            this.useTwitchBot.Size = new System.Drawing.Size(95, 17);
+            this.useTwitchBot.TabIndex = 26;
+            this.useTwitchBot.Text = "Use Twitchbot";
+            this.useTwitchBot.UseVisualStyleBackColor = true;
+            // 
             // Bot_WonderTrade7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(319, 197);
+            this.ClientSize = new System.Drawing.Size(582, 197);
+            this.Controls.Add(this.useTwitchBot);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.channelName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.authToken);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Botname);
             this.Controls.Add(this.collectFC);
             this.Controls.Add(this.WTAfter);
             this.Controls.Add(this.label58);
@@ -333,5 +407,12 @@
         private System.Windows.Forms.NumericUpDown Trades;
         private System.Windows.Forms.NumericUpDown Slot;
         private System.Windows.Forms.CheckBox collectFC;
+        private System.Windows.Forms.TextBox Botname;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox authToken;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox channelName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox useTwitchBot;
     }
 }

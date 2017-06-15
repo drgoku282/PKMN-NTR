@@ -42,6 +42,7 @@ namespace pkmn_ntr.Bot
         private uint currentFC;
         private uint nextFC;
         private ushort currentCHK;
+        private Twitch chatBot;
 
         // Class constants
         private readonly int commandtime = 250;
@@ -153,6 +154,12 @@ namespace pkmn_ntr.Bot
 
         public async void RunBot()
         {
+            if(useTwitchBot.Checked)
+            {
+                chatBot = new Twitch();
+                chatBot.Connect(Botname.Text, authToken.Text, channelName.Text);
+            }
+
             try
             {
                 Program.gCmdWindow.botMode(true);
@@ -544,6 +551,17 @@ namespace pkmn_ntr.Bot
 
                         case botstates.confirmtrade:
                             Report("Bot: Press Yes");
+                            if(useTwitchBot.Checked)
+                            {
+                                System.Threading.Thread.Sleep(15000);
+                                chatBot.sendMessage("3");
+                                System.Threading.Thread.Sleep(1000);
+                                chatBot.sendMessage("2");
+                                System.Threading.Thread.Sleep(1000);
+                                chatBot.sendMessage("1");
+                                System.Threading.Thread.Sleep(500);
+                                chatBot.sendMessage("GO!!!");
+                            }
                             waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
                             if (await waitTaskbool)
                             {
@@ -1015,6 +1033,21 @@ namespace pkmn_ntr.Bot
         private void Bot_WonderTrade7_FormClosed(object sender, FormClosedEventArgs e)
         {
             Program.gCmdWindow.Tool_Finish();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
