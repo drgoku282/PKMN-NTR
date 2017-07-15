@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("PKMN-NTR")]
-[assembly: AssemblyDescription("A on-the air Pokémon memory editing/reading program with bots for Nintendo 3DS.")]
+[assembly: AssemblyDescription("A on-the-air Pokémon memory editing/reading program with bots for Nintendo 3DS.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PKMN-NTR")]
@@ -16,5 +16,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("cd7cfe42-3900-4148-aa42-6a04af45b783")]
 
-[assembly: AssemblyVersion("3.4.*")]
-[assembly: AssemblyInformationalVersion("3.4")]
+[assembly: AssemblyVersion("3.5.*")]
+[assembly: AssemblyInformationalVersion("3.5-beta1")]
