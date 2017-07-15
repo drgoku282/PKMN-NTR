@@ -503,7 +503,7 @@ namespace pkmn_ntr.Helpers
             Report("NTR: Read data at address 0x" + address.ToString("X8"));
             lastRead = 0;
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], handleMemoryRead, null);
-            Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
+            Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
             setTimer(maxtimeout);
             while (!timeout)
             {
@@ -529,7 +529,7 @@ namespace pkmn_ntr.Helpers
             Report("NTR: Read " + size + " bytes of data starting at address 0x" + address.ToString("X8"));
             lastmultiread = new byte[] { };
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[size], handlemulitMemoryRead, null);
-            Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(address, size, pid), myArgs);
+            Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(address, size, pid), myArgs);
             setTimer(maxtimeout);
             while (!timeout)
             {
@@ -556,11 +556,11 @@ namespace pkmn_ntr.Helpers
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
             if (Program.gCmdWindow.SAV.Generation == 6)
             {
-                validator = new PK6(PKX.decryptArray(args.data));
+                validator = new PK6(PKX.DecryptArray(args.data));
             }
             else
             {
-                validator = new PK7(PKX.decryptArray(args.data));
+                validator = new PK7(PKX.DecryptArray(args.data));
             }
         }
 
@@ -574,8 +574,8 @@ namespace pkmn_ntr.Helpers
                 // Get offset
                 uint dumpOff = Program.gCmdWindow.boxOff + (Convert.ToUInt32(box * BOXSIZE + slot) * POKEBYTES);
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], handlePokeRead, null);
-                Program.gCmdWindow.updateDumpBoxes(box, slot);
-                Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(dumpOff, POKEBYTES, pid), myArgs);
+                Program.gCmdWindow.UpdateDumpBoxes(box, slot);
+                Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(dumpOff, POKEBYTES, pid), myArgs);
                 setTimer(maxtimeout);
                 while (!timeout)
                 {
@@ -626,7 +626,7 @@ namespace pkmn_ntr.Helpers
             {
                 Report("NTR: Read pokémon data at offset 0x" + offset.ToString("X8"));
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], handlePokeRead, null);
-                Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(offset, POKEBYTES, pid), myArgs);
+                Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(offset, POKEBYTES, pid), myArgs);
                 setTimer(maxtimeout);
                 while (!timeout)
                 {
@@ -678,7 +678,7 @@ namespace pkmn_ntr.Helpers
                 Report("NTR: Read pokémon data at party slot " + slot);
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[PARTYBYTES], handlePokeRead, null);
                 uint offset = Program.gCmdWindow.partyOff + 484 * (slot - 1);
-                Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(offset, PARTYBYTES, pid), myArgs);
+                Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(offset, PARTYBYTES, pid), myArgs);
                 setTimer(maxtimeout);
                 while (!timeout)
                 {
@@ -729,7 +729,7 @@ namespace pkmn_ntr.Helpers
             Report("NTR: Expected value 0x" + value.ToString("X8") + " to 0x" + (value + range - 1).ToString("X8"));
             lastRead = value + range;
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], handleMemoryRead, null);
-            Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
+            Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
             setTimer(maxtimeout);
             while (!timeout)
             {
@@ -770,7 +770,7 @@ namespace pkmn_ntr.Helpers
             { // Ask for data
                 lastRead = value + range;
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], handleMemoryRead, null);
-                Program.gCmdWindow.addwaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
+                Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(address, 0x04, pid), myArgs);
                 // Wait for data
                 while (!timeout)
                 {

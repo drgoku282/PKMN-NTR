@@ -14,7 +14,7 @@ namespace pkmn_ntr.Sub_forms
         public Edit_Items()
         {
             InitializeComponent();
-            itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
+            itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)
                 if (itemlist[i] == "")
@@ -167,7 +167,7 @@ namespace pkmn_ntr.Sub_forms
                         string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])) +
                         "\r\nIf you save changes, the item(s) will no longer be in the pouch.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                pouch.sanitizePouch(false, itemlist.Length - 1);
+                pouch.Sanitize(false, itemlist.Length - 1);
                 getBag(dgv, pouch);
             }
         }
@@ -337,9 +337,9 @@ namespace pkmn_ntr.Sub_forms
             var p = Pouches[pouch];
             setBag(dgv, p);
             if (sender == mnuSortName)
-                p.sortName(itemlist, reverse: false);
+                p.SortByName(itemlist, reverse: false);
             if (sender == mnuSortNameReverse)
-                p.sortName(itemlist, reverse: true);
+                p.SortByName(itemlist, reverse: true);
             getBag(dgv, p);
         }
         private void sortByCount(object sender, EventArgs e)
@@ -349,9 +349,9 @@ namespace pkmn_ntr.Sub_forms
             var p = Pouches[pouch];
             setBag(dgv, p);
             if (sender == mnuSortCount)
-                p.sortCount(reverse: false);
+                p.SortByCount(reverse: false);
             if (sender == mnuSortCountReverse)
-                p.sortCount(reverse: true);
+                p.SortByCount(reverse: true);
             getBag(dgv, p);
         }
 

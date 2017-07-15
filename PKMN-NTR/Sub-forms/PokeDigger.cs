@@ -145,7 +145,7 @@ namespace pkmn_ntr.Sub_forms
                         PKM pkFound = Program.gCmdWindow.SAV.BlankPKM;
                         byte[] dataFound = new byte[POKEBYTES];
                         Array.Copy(source, i, dataFound, 0, POKEBYTES);
-                        dataFound = PKX.decryptArray(dataFound);
+                        dataFound = PKX.DecryptArray(dataFound);
                         pkFound.Data = dataFound;
                         if (pkFound.ChecksumValid && pkFound.Species >= 1 && pkFound.Species <= maxspecies)
                         {

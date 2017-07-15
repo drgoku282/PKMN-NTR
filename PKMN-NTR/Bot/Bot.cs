@@ -53,7 +53,7 @@ namespace pkmn_ntr.Bot
         /// <param name="message">String which will be added to the log</param>
         public static void Report(string message)
         {
-            Program.gCmdWindow.addtoLog(message);
+            Program.gCmdWindow.AddToLog(message);
         }
 
         /// <summary>

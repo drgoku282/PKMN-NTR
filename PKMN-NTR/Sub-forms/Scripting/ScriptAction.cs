@@ -19,7 +19,7 @@ namespace pkmn_ntr.Sub_forms.Scripting
 
         public static void Report(string msg)
         {
-            Program.gCmdWindow.addtoLog(msg);
+            Program.gCmdWindow.AddToLog(msg);
         }
     }
 }
