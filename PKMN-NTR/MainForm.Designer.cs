@@ -147,12 +147,12 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.SendHeartbeat);
             // 
             // disconnectTimer
             // 
             this.disconnectTimer.Interval = 10000;
-            this.disconnectTimer.Tick += new System.EventHandler(this.disconnectTimer_Tick);
+            this.disconnectTimer.Tick += new System.EventHandler(this.AutoDisconnect);
             // 
             // buttonConnect
             // 
@@ -163,7 +163,7 @@
             this.buttonConnect.TabIndex = 1;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
-            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            this.buttonConnect.Click += new System.EventHandler(this.StartConnecting);
             // 
             // buttonDisconnect
             // 
@@ -175,7 +175,7 @@
             this.buttonDisconnect.TabIndex = 2;
             this.buttonDisconnect.Text = "Disconnect";
             this.buttonDisconnect.UseVisualStyleBackColor = true;
-            this.buttonDisconnect.Click += new System.EventHandler(this.buttonDisconnect_Click);
+            this.buttonDisconnect.Click += new System.EventHandler(this.StartDisconnecting);
             // 
             // host
             // 
@@ -248,7 +248,7 @@
             this.lb_update.TabIndex = 4;
             this.lb_update.Text = "Looking for updates...";
             this.lb_update.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lb_update.Click += new System.EventHandler(this.updateLabel_Click);
+            this.lb_update.Click += new System.EventHandler(this.ClickUpdateLabel);
             // 
             // backupPKM
             // 
@@ -291,7 +291,7 @@
             this.radioBoxes.TabStop = true;
             this.radioBoxes.Text = "Boxes";
             this.radioBoxes.UseVisualStyleBackColor = true;
-            this.radioBoxes.CheckedChanged += new System.EventHandler(this.radioBoxes_CheckedChanged);
+            this.radioBoxes.CheckedChanged += new System.EventHandler(this.ActiveBoxes);
             // 
             // radioDaycare
             // 
@@ -303,7 +303,7 @@
             this.radioDaycare.TabIndex = 1;
             this.radioDaycare.Text = "Daycare";
             this.radioDaycare.UseVisualStyleBackColor = true;
-            this.radioDaycare.CheckedChanged += new System.EventHandler(this.radioDaycare_CheckedChanged);
+            this.radioDaycare.CheckedChanged += new System.EventHandler(this.ActiveDaycare);
             // 
             // dumpBoxes
             // 
@@ -315,7 +315,7 @@
             this.dumpBoxes.TabIndex = 6;
             this.dumpBoxes.Text = "Dump All Boxes";
             this.dumpBoxes.UseVisualStyleBackColor = true;
-            this.dumpBoxes.Click += new System.EventHandler(this.dumpBoxes_Click);
+            this.dumpBoxes.Click += new System.EventHandler(this.DumpBoxes);
             // 
             // slotDump
             // 
@@ -375,7 +375,7 @@
             this.radioOpponent.TabStop = true;
             this.radioOpponent.Text = "Opponent";
             this.radioOpponent.UseVisualStyleBackColor = true;
-            this.radioOpponent.CheckedChanged += new System.EventHandler(this.radioOpponent_CheckedChanged);
+            this.radioOpponent.CheckedChanged += new System.EventHandler(this.ActiveOpponent);
             // 
             // radioTrade
             // 
@@ -388,7 +388,7 @@
             this.radioTrade.TabStop = true;
             this.radioTrade.Text = "Trade";
             this.radioTrade.UseVisualStyleBackColor = true;
-            this.radioTrade.CheckedChanged += new System.EventHandler(this.radioTrade_CheckedChanged);
+            this.radioTrade.CheckedChanged += new System.EventHandler(this.ActiveTrade);
             // 
             // SlotLabel
             // 
@@ -410,7 +410,7 @@
             this.radioParty.TabIndex = 5;
             this.radioParty.Text = "Party";
             this.radioParty.UseVisualStyleBackColor = true;
-            this.radioParty.CheckedChanged += new System.EventHandler(this.radioParty_CheckedChanged_1);
+            this.radioParty.CheckedChanged += new System.EventHandler(this.ActiveParty);
             // 
             // dumpPokemon
             // 
@@ -422,7 +422,7 @@
             this.dumpPokemon.TabIndex = 2;
             this.dumpPokemon.Text = "Read Pokémon";
             this.dumpPokemon.UseVisualStyleBackColor = true;
-            this.dumpPokemon.Click += new System.EventHandler(this.dumpPokemon_Click);
+            this.dumpPokemon.Click += new System.EventHandler(this.DumpPokemon);
             // 
             // radioBattleBox
             // 
@@ -434,7 +434,7 @@
             this.radioBattleBox.TabIndex = 2;
             this.radioBattleBox.Text = "Battle Box";
             this.radioBattleBox.UseVisualStyleBackColor = true;
-            this.radioBattleBox.CheckedChanged += new System.EventHandler(this.radioBattleBox_CheckedChanged);
+            this.radioBattleBox.CheckedChanged += new System.EventHandler(this.ActiveBattleBox);
             // 
             // BoxLabel
             // 
@@ -498,7 +498,7 @@
             this.Write_PKM.TabIndex = 5;
             this.Write_PKM.Text = "Write Pokémon";
             this.Write_PKM.UseVisualStyleBackColor = true;
-            this.Write_PKM.Click += new System.EventHandler(this.Write_PKM_Click);
+            this.Write_PKM.Click += new System.EventHandler(this.InjectPokemon);
             // 
             // tableLayoutPanel1
             // 
@@ -548,7 +548,7 @@
             this.Btn_CDstart.Text = "Go!";
             this.toolTip1.SetToolTip(this.Btn_CDstart, "Pokémon will be cloned or deleted starting at the specified position.");
             this.Btn_CDstart.UseVisualStyleBackColor = true;
-            this.Btn_CDstart.Click += new System.EventHandler(this.Btn_CDstart_Click);
+            this.Btn_CDstart.Click += new System.EventHandler(this.StartCloneDelete);
             // 
             // CB_CDBackup
             // 
@@ -616,7 +616,7 @@
             0,
             0,
             0});
-            this.Num_CDBox.ValueChanged += new System.EventHandler(this.clonedelete_Changed);
+            this.Num_CDBox.ValueChanged += new System.EventHandler(this.UpdateMaxCloneDelete);
             // 
             // label16
             // 
@@ -695,7 +695,7 @@
             0,
             0,
             0});
-            this.Num_CDSlot.ValueChanged += new System.EventHandler(this.clonedelete_Changed);
+            this.Num_CDSlot.ValueChanged += new System.EventHandler(this.UpdateMaxCloneDelete);
             // 
             // Tab_Tools
             // 
@@ -1132,7 +1132,7 @@
             this.lb_pkmnntrver.Size = new System.Drawing.Size(204, 13);
             this.lb_pkmnntrver.TabIndex = 4;
             this.lb_pkmnntrver.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lb_pkmnntrver.Click += new System.EventHandler(this.updateLabel_Click);
+            this.lb_pkmnntrver.Click += new System.EventHandler(this.ClickUpdateLabel);
             // 
             // label8
             // 
@@ -1165,7 +1165,7 @@
             this.lb_pkhexcorever.Size = new System.Drawing.Size(204, 13);
             this.lb_pkhexcorever.TabIndex = 4;
             this.lb_pkhexcorever.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lb_pkhexcorever.Click += new System.EventHandler(this.updateLabel_Click);
+            this.lb_pkhexcorever.Click += new System.EventHandler(this.ClickUpdateLabel);
             // 
             // dragout
             // 
@@ -1177,11 +1177,11 @@
             this.dragout.TabIndex = 61;
             this.dragout.TabStop = false;
             this.toolTip1.SetToolTip(this.dragout, "PKM QuickSave");
-            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragoutDrop);
-            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
-            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
-            this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
-            this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
+            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
+            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.Dragout_DragOver);
+            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dragout_MouseDown);
+            this.dragout.MouseEnter += new System.EventHandler(this.DragoutEnter);
+            this.dragout.MouseLeave += new System.EventHandler(this.DragoutLeave);
             // 
             // EventPollingWorker
             // 
@@ -1197,7 +1197,7 @@
             this.PB_Legal.Size = new System.Drawing.Size(16, 16);
             this.PB_Legal.TabIndex = 102;
             this.PB_Legal.TabStop = false;
-            this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
+            this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
             // StartPollingButton
             // 

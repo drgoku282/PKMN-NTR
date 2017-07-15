@@ -104,7 +104,7 @@ namespace pkmn_ntr.Bot
                     attempts = 0;
                     maxreconnect = 10;
                     // Run the bot
-                    Program.gCmdWindow.botMode(true);
+                    Program.gCmdWindow.SetBotMode(true);
                     RunBot();
                 }
                 else
@@ -140,7 +140,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                Program.gCmdWindow.botMode(true);
+                Program.gCmdWindow.SetBotMode(true);
                 while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
@@ -544,7 +544,7 @@ namespace pkmn_ntr.Bot
             }
             ShowResult("Breeding bot", botresult, finishmessage);
             Delg.SetText(RunStop, "Start Bot");
-            Program.gCmdWindow.botMode(false);
+            Program.gCmdWindow.SetBotMode(false);
             EnableControls();
             Delg.SetEnabled(RunStop, true);
         }
@@ -743,7 +743,7 @@ namespace pkmn_ntr.Bot
 
         private void Bot_Breeding7_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Program.gCmdWindow.dumpEggSeed();
+            Program.gCmdWindow.DumpEggSeed();
             Program.gCmdWindow.Tool_Finish();
         }
     }

@@ -20,7 +20,7 @@ namespace pkmn_ntr.Sub_forms
             Ctrls = new Control[] { TB_Name, Write_Name, Num_TID, Write_TID, Num_SID, Write_SID, Num_Money, Write_Money, Num_Miles, Write_Miles, Num_FestivalCoins, Num_FestivalCoins, Num_TotalFC, Write_TotalFC, Num_Miles, Write_Miles, Num_BP, Write_BP, CB_Language, Write_Lang, Num_Hour, Num_Min, Num_Sec, Write_Time, ReloadFields };
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
-            var languages = Util.getUnsortedCBList("languages");
+            var languages = Util.GetUnsortedCBList("languages");
             if (Program.gCmdWindow.SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
             CB_Language.DataSource = languages;

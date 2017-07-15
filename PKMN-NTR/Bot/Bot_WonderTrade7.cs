@@ -161,7 +161,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                Program.gCmdWindow.botMode(true);
+                Program.gCmdWindow.SetBotMode(true);
                 while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botstate)
@@ -341,7 +341,7 @@ namespace pkmn_ntr.Bot
                             waitTaskbool = Program.helper.waitNTRwrite(GetBoxOffset(pcpkmOff, Box, Slot), pklist[currentfile].EncryptedBoxData, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
-                                Program.gCmdWindow.updateDumpBoxes(Box, Slot);
+                                Program.gCmdWindow.UpdateDumpBoxes(Box, Slot);
                                 Program.gCmdWindow.Pokemon = pklist[currentfile];
                                 currentCHK = pklist[currentfile].Checksum;
                                 if (sourceFolder.Checked)
@@ -910,7 +910,7 @@ namespace pkmn_ntr.Bot
             }
             ShowResult("Wonder Trade bot", botresult);
             Delg.SetText(RunStop, "Start Bot");
-            Program.gCmdWindow.botMode(false);
+            Program.gCmdWindow.SetBotMode(false);
             EnableControls();
             Delg.SetEnabled(RunStop, true);
         }

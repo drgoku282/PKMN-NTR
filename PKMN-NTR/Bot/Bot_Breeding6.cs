@@ -289,7 +289,7 @@ namespace pkmn_ntr.Bot
                     eggsInBatch = 0;
                     matchingFilter = -1;
                     // Run the bot
-                    Program.gCmdWindow.botMode(true);
+                    Program.gCmdWindow.SetBotMode(true);
                     RunBot();
                 }
                 else
@@ -321,7 +321,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                Program.gCmdWindow.botMode(true);
+                Program.gCmdWindow.SetBotMode(true);
                 while (botWorking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
@@ -1362,7 +1362,7 @@ namespace pkmn_ntr.Bot
             }
             ShowResult("Breeding bot", botResult, finishInformation);
             Delg.SetText(btnRunStop, "Start Bot");
-            Program.gCmdWindow.botMode(false);
+            Program.gCmdWindow.SetBotMode(false);
             SetControls(true);
             Delg.SetEnabled(btnRunStop, true);
         }

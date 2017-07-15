@@ -198,7 +198,7 @@ namespace pkmn_ntr.Bot
                     steps = 0;
                     finishmessage = null;
                     // Run the bot
-                    Program.gCmdWindow.botMode(true);
+                    Program.gCmdWindow.SetBotMode(true);
                     RunBot();
                 }
                 else
@@ -228,7 +228,7 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                Program.gCmdWindow.botMode(true);
+                Program.gCmdWindow.SetBotMode(true);
                 while (botworking && Program.gCmdWindow.IsConnected)
                 {
                     switch (botState)
@@ -981,7 +981,7 @@ namespace pkmn_ntr.Bot
             }
             ShowResult("Soft-reset bot", botresult, finishmessage);
             Delg.SetText(RunStop, "Start Bot");
-            Program.gCmdWindow.botMode(false);
+            Program.gCmdWindow.SetBotMode(false);
             EnableControls();
             Delg.SetEnabled(RunStop, true);
         }
