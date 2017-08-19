@@ -306,10 +306,6 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
             Delg.SetEnabled(Btn_ReloadFields, true);
-            foreach (TabPage tab in PKME_Tabs.Controls.OfType<TabControl>().FirstOrDefault().TabPages)
-            {
-                Delg.SetEnabled(tab, true);
-            }
         }
 
         private void DisableControls()
@@ -325,10 +321,6 @@ namespace pkmn_ntr
             Delg.SetEnabled(Tools_PokeDigger, false);
             Delg.SetEnabled(resetNoBox, false);
             Delg.SetEnabled(Btn_ReloadFields, false);
-            foreach (TabPage tab in PKME_Tabs.Controls.OfType<TabControl>().FirstOrDefault().TabPages)
-            {
-                Delg.SetEnabled(tab, false);
-            }
         }
 
         public void Addlog(string l)
