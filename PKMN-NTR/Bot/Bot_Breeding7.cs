@@ -562,7 +562,7 @@ namespace pkmn_ntr.Bot
             }
         }
 
-        private string UpdateSeed (byte[] data)
+        private string UpdateSeed(byte[] data)
         {
             string seed = BitConverter.ToString(data.Reverse().ToArray()).Replace("-", "");
             Delg.SetText(EggSeed, seed);
@@ -600,8 +600,7 @@ namespace pkmn_ntr.Bot
             {
                 if (esvList.Rows.Count > 0)
                 {
-                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + BotFolder + "\\";
-                    (new FileInfo(folderPath)).Directory.Create();
+                    (new FileInfo(BotFolder)).Directory.Create();
                     string fileName = "ESVlist7.csv";
                     var esvlst = new StringBuilder();
                     var headers = esvList.Columns.Cast<DataGridViewColumn>();
@@ -611,7 +610,7 @@ namespace pkmn_ntr.Bot
                         var cells = row.Cells.Cast<DataGridViewCell>();
                         esvlst.AppendLine(string.Join(",", cells.Select(cell => cell.Value).ToArray()));
                     }
-                    File.WriteAllText(folderPath + fileName, esvlst.ToString());
+                    File.WriteAllText(BotFolder + fileName, esvlst.ToString());
                     MessageBox.Show("ESV list saved");
                 }
                 else
@@ -648,15 +647,14 @@ namespace pkmn_ntr.Bot
             {
                 if (TSVlist.Items.Count > 0)
                 {
-                    string folderPath = System.Windows.Forms.@Application.StartupPath + "\\" + BotFolder + "\\";
-                    (new FileInfo(folderPath)).Directory.Create();
+                    (new FileInfo(BotFolder)).Directory.Create();
                     string fileName = "TSVlist7.csv";
                     var tsvlst = new StringBuilder();
                     foreach (var value in TSVlist.Items)
                     {
                         tsvlst.AppendLine(value.ToString());
                     }
-                    File.WriteAllText(folderPath + fileName, tsvlst.ToString());
+                    File.WriteAllText(BotFolder + fileName, tsvlst.ToString());
                     MessageBox.Show("TSV list saved");
                 }
                 else
@@ -674,12 +672,11 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
-                (new FileInfo(folderPath)).Directory.Create();
+                (new FileInfo(BotFolder)).Directory.Create();
                 string fileName = "TSVlist6.csv";
-                if (File.Exists(folderPath + fileName))
+                if (File.Exists(BotFolder + fileName))
                 {
-                    string[] values = File.ReadAllLines(folderPath + fileName);
+                    string[] values = File.ReadAllLines(BotFolder + fileName);
                     TSVlist.Items.Clear();
                     TSVlist.Items.AddRange(values);
                 }
@@ -708,12 +705,13 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
-                (new FileInfo(folderPath)).Directory.Create();
-                OpenFileDialog openFileDialog1 = new OpenFileDialog();
-                openFileDialog1.Filter = "PKMN-NTR Filter|*.pftr";
-                openFileDialog1.Title = "Select a filter set";
-                openFileDialog1.InitialDirectory = folderPath;
+                (new FileInfo(BotFolder)).Directory.Create();
+                OpenFileDialog openFileDialog1 = new OpenFileDialog()
+                {
+                    Filter = "PKMN-NTR Filter|*.pftr",
+                    Title = "Select a filter set",
+                    InitialDirectory = BotFolder
+                };
                 openFileDialog1.ShowDialog();
                 if (openFileDialog1.FileName != "")
                 {

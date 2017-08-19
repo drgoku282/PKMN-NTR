@@ -996,12 +996,13 @@ namespace pkmn_ntr.Bot
         {
             try
             {
-                string folderPath = @Application.StartupPath + "\\" + BotFolder + "\\";
-                (new FileInfo(folderPath)).Directory.Create();
-                OpenFileDialog openFileDialog1 = new OpenFileDialog();
-                openFileDialog1.Filter = "PKMN-NTR Filter|*.pftr";
-                openFileDialog1.Title = "Select a filter set";
-                openFileDialog1.InitialDirectory = folderPath;
+                (new FileInfo(BotFolder)).Directory.Create();
+                OpenFileDialog openFileDialog1 = new OpenFileDialog()
+                {
+                    Filter = "PKMN-NTR Filter|*.pftr",
+                    Title = "Select a filter set",
+                    InitialDirectory = BotFolder
+                };
                 openFileDialog1.ShowDialog();
                 if (openFileDialog1.FileName != "")
                 {
