@@ -400,6 +400,10 @@ namespace pkmn_ntr
 
         public void AddWaitingForData(uint newkey, DataReadyWaiting newvalue)
         {
+            if (waitingForData.ContainsKey(newkey))
+            {
+                return;
+            }
             waitingForData.Add(newkey, newvalue);
         }
 
@@ -637,7 +641,7 @@ namespace pkmn_ntr
         public void DumpTrainerCard()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[LookupTable.trainercardSize], HandleTrainerCard, null);
-            waitingForData.Add(Program.scriptHelper.data(LookupTable.trainercardOff, LookupTable.trainercardSize, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.trainercardOff, LookupTable.trainercardSize, pid), myArgs);
         }
 
         public void HandleTrainerCard(object args_obj)
@@ -681,7 +685,7 @@ namespace pkmn_ntr
         public void DumpEggSeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x10], HandleEggSeed, null);
-            waitingForData.Add(Program.scriptHelper.data(LookupTable.eggseedOff, 0x10, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.eggseedOff, 0x10, pid), myArgs);
         }
 
         public void HandleEggSeed(object args_obj)
@@ -694,7 +698,7 @@ namespace pkmn_ntr
         public void DumpLegendarySeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], HandleLegendarySeed, null);
-            waitingForData.Add(Program.scriptHelper.data(LookupTable.legseedOff, 0x04, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.legseedOff, 0x04, pid), myArgs);
         }
 
         public void HandleLegendarySeed(object args_obj)
@@ -737,13 +741,13 @@ namespace pkmn_ntr
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleTradeData, null);
-                    waitingForData.Add(Program.scriptHelper.data(tradeOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(tradeOff, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], HandlePokemon, null);
                     uint mySeq = Program.scriptHelper.data(tradeOff, POKEBYTES, pid);
-                    waitingForData.Add(mySeq, myArgs);
+                    AddWaitingForData(mySeq, myArgs);
                 }
             }
             else if (radioOpponent.Checked)
@@ -751,7 +755,7 @@ namespace pkmn_ntr
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleOpponentData, null);
-                    waitingForData.Add(Program.scriptHelper.data(opponentOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(opponentOff, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
@@ -777,7 +781,7 @@ namespace pkmn_ntr
                             break;
                     }
                     uint mySeq = Program.scriptHelper.data(offset, POKEBYTES, pid);
-                    waitingForData.Add(mySeq, myArgs);
+                    AddWaitingForData(mySeq, myArgs);
                 }
             }
             else if (radioParty.Checked)
@@ -790,13 +794,13 @@ namespace pkmn_ntr
             {
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[2602], HandlePokemon, null);
                 uint mySeq = Program.scriptHelper.data(dumpOff, 260, pid);
-                waitingForData.Add(mySeq, myArgs);
+                AddWaitingForData(mySeq, myArgs);
             }
             else if (radioBoxes.Checked || radioDaycare.Checked || radioBattleBox.Checked)
             {
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], HandlePokemon, null);
                 uint mySeq = Program.scriptHelper.data(dumpOff, POKEBYTES, pid);
-                waitingForData.Add(mySeq, myArgs);
+                AddWaitingForData(mySeq, myArgs);
             }
         }
 
@@ -954,7 +958,7 @@ namespace pkmn_ntr
         private void DumpBoxes(object sender, EventArgs e)
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[BOXES * BOXSIZE * POKEBYTES], HandleBoxesData, null);
-            waitingForData.Add(Program.scriptHelper.data(boxOff, BOXES * BOXSIZE * POKEBYTES, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(boxOff, BOXES * BOXSIZE * POKEBYTES, pid), myArgs);
         }
 
         public void HandleBoxesData(object args_obj)
@@ -1079,7 +1083,7 @@ namespace pkmn_ntr
             if (CB_CDBackup.Checked)
             {
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[size], HandleBoxesData, null);
-                waitingForData.Add(Program.scriptHelper.data(offset, size, pid), myArgs);
+                AddWaitingForData(Program.scriptHelper.data(offset, size, pid), myArgs);
             }
 
             byte[] data = new byte[size];
@@ -1765,7 +1769,7 @@ namespace pkmn_ntr
                     // Read at offset
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[2602], HandlePollingPkmData, current_party);
                     sequenceNumbers[i] = Program.scriptHelper.data(dumpOff, 260, pid);
-                    waitingForData.Add(sequenceNumbers[i], myArgs);
+                    AddWaitingForData(sequenceNumbers[i], myArgs);
 
                     // Don't query too frequently in quick succession
                     Thread.Sleep(100);
@@ -1918,7 +1922,7 @@ namespace pkmn_ntr
                 AddToLog("NTR: Read opponent pokémon data");
                 oppdata = null;
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], WaitForOpponentData, null);
-                waitingForData.Add(Program.scriptHelper.data(0x8800000, 0x1FFFF, pid), myArgs);
+                AddWaitingForData(Program.scriptHelper.data(0x8800000, 0x1FFFF, pid), myArgs);
                 int readcount = 0;
                 for (readcount = 0; readcount < 100; readcount++)
                 {
