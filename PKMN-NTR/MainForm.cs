@@ -205,7 +205,7 @@ namespace pkmn_ntr
 
                 // Get latest stable
                 Github = new GitHubClient(new ProductHeaderValue("PKMN-NTR-UpdateCheck"));
-                Release lateststable = await Github.Repository.Release.GetLatest("drgoku282", "PKMN-NTR");
+                Release lateststable = await Github.Repository.Release.GetLatest("Retrosol", "PKMN-NTR");
                 int[] verlatest = Array.ConvertAll(lateststable.TagName.Split('.'), int.Parse);
                 AddToLog("GUI: Last stable: " + lateststable.TagName);
 
