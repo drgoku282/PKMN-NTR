@@ -173,7 +173,7 @@ namespace pkmn_ntr
         private void MainForm_Load(object sender, EventArgs e)
         {
             lb_pkmnntrver.Text = System.Windows.Forms.Application.ProductVersion;
-            lb_pkhexcorever.Text = "20170807";
+            lb_pkhexcorever.Text = "20170922";
 
             CheckForUpdate();
             host.Text = Settings.Default.IP;
