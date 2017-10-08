@@ -1265,8 +1265,9 @@
 
         }
 
-        public System.Windows.Forms.TextBox txtLog;
-		private System.Windows.Forms.Timer timer1;
+        private Controls.SAVEditor C_SAV;
+	public System.Windows.Forms.TextBox txtLog;	    
+	private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer disconnectTimer;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Button buttonDisconnect;
