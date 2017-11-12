@@ -1,7 +1,6 @@
 # PKMN-NTR
 
-This is a Fork of the  on-the-air memory editing tool for Generation VI and VII pokémon games using with NTR-CFW on Nintendo 3DS. 
-All Credit goes to the original creators and founders. I simply made a fork and modified the PKHex Core, So That this Wonderful Program could be updated, and continue to be updated with every new PkHex Release from @Kaphotics.
+This program is a on-the-air memory editing tool for Generation VI and VII pokémon games using with NTR-CFW on Nintendo 3DS. Discuss this tool on [GBATemp](http://gbatemp.net/threads/pkmn-ntr-real-time-memory-editing-program-for-pok%C3%A9mon-games-wip.448588/) or [Project Pokémon](https://projectpokemon.org/forums/forums/topic/40194-pkmn-ntr-on-the-air-memory-editing-program-for-pok%C3%A9mon-games/).
 
 Be sure to read the [wiki](https://github.com/drgoku282/PKMN-NTR/wiki) to learn about the program and the usage of the bots.
 
@@ -39,7 +38,7 @@ This the list of people who have contributed to this application.
 - **[jackmax](https://github.com/jackmax/PKMN-NTR)**: Large-scale rewrite of the code to make it more robust, readable and maintainable.
 - **[drgoku282](https://github.com/drgoku282/PKMN-NTR)**: Current developer.
 - **[MichiS97](https://github.com/MichiS97/PKMN-NTR)**: Support for 1.2 update of Pokémon Sun and Moon, improvements to many bots.
-- **[Retrosol](https://github.com/Retrosol/PKMN-NTR-RetroVS)**: Continued Updates to PKHex Core, and To the Display of The Program, For Notifications on New Updates, and also the proper build number.
+- **[Retrosol](https://github.com/Retrosol/PKMN-NTR-RetroVS)**: Updates for PKHeX Core and GUI.
 
 ### Other Contributions
 - **[Davi Andrade](http://daviandrade.com/)**: Author of the application's icon, used with authorization. 
