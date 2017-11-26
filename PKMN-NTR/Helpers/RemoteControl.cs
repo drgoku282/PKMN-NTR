@@ -70,12 +70,12 @@ namespace pkmn_ntr.Helpers
             if (timeout) // If not response, return timeout
             {
                 Report("NTR: Button press failed, try to free buttons");
-                quickbuton(LookupTable.nokey, 250);
+                quickbuton(LookupTable.NoButtons, 250);
                 return false;
             }
             else
             { // Free the buttons
-                buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+                buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
                 Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
                 setTimer(maxtimeout);
                 while (!timeout)
@@ -106,7 +106,7 @@ namespace pkmn_ntr.Helpers
             byte[] buttonByte = BitConverter.GetBytes(key);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(time);
-            buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+            buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             Report("NTR: Button command sent, no feedback provided");
         }
@@ -129,12 +129,12 @@ namespace pkmn_ntr.Helpers
             if (timeout) // If not response, return timeout
             {
                 Report("NTR: Button press failed, try to free buttons");
-                quickbuton(LookupTable.nokey, 250);
+                quickbuton(LookupTable.NoButtons, 250);
                 return false;
             }
             else
             { // Free the buttons
-                buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+                buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
                 Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
                 setTimer(maxtimeout);
                 while (!timeout)
@@ -165,7 +165,7 @@ namespace pkmn_ntr.Helpers
             byte[] buttonByte = BitConverter.GetBytes(key);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(200);
-            buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+            buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(500);
         }
@@ -176,7 +176,7 @@ namespace pkmn_ntr.Helpers
             byte[] buttonByte = BitConverter.GetBytes(key);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(time);
-            buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+            buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(500);
         }
@@ -192,7 +192,7 @@ namespace pkmn_ntr.Helpers
         public async Task ScriptButtonRelease()
         {
             Report($"Script: Release all buttons");
-            byte[] buttonByte = BitConverter.GetBytes(LookupTable.nokey);
+            byte[] buttonByte = BitConverter.GetBytes(LookupTable.NoButtons);
             Program.scriptHelper.write(buttonsOff, buttonByte, hid_pid);
             await Task.Delay(500);
         }
@@ -221,7 +221,7 @@ namespace pkmn_ntr.Helpers
             }
             else
             {  // Free the touch screen
-                buttonByte = BitConverter.GetBytes(LookupTable.notouch);
+                buttonByte = BitConverter.GetBytes(LookupTable.NoTouch);
                 Program.scriptHelper.write(touchscrOff, buttonByte, hid_pid);
                 setTimer(maxtimeout);
                 while (!timeout)
@@ -278,7 +278,7 @@ namespace pkmn_ntr.Helpers
         {
             Report("NTR: Free the touch screen");
             // Get and send hex coordinates
-            byte[] buttonByte = BitConverter.GetBytes(LookupTable.notouch);
+            byte[] buttonByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, buttonByte, hid_pid);
             setTimer(maxtimeout);
             while (!timeout)
@@ -308,7 +308,7 @@ namespace pkmn_ntr.Helpers
             byte[] buttonByte = BitConverter.GetBytes(gethexcoord(Xcoord, Ycoord));
             Program.scriptHelper.write(touchscrOff, buttonByte, hid_pid);
             await Task.Delay(time);
-            buttonByte = BitConverter.GetBytes(LookupTable.notouch);
+            buttonByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, buttonByte, hid_pid);
             Report("NTR: Touch screen command sent, no feedback provided");
         }
@@ -325,7 +325,7 @@ namespace pkmn_ntr.Helpers
         public async void freetouch()
         {
             Report("NTR: Free the touch screen");
-            byte[] buttonByte = BitConverter.GetBytes(LookupTable.notouch);
+            byte[] buttonByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, buttonByte, hid_pid);
             await Task.Delay(100);
             Report("NTR: Touch screen command sent, no feedback provided");
@@ -344,7 +344,7 @@ namespace pkmn_ntr.Helpers
             byte[] touchByte = BitConverter.GetBytes(gethexcoord(Xvalue, Yvalue));
             Program.scriptHelper.write(touchscrOff, touchByte, hid_pid);
             await Task.Delay(200);
-            touchByte = BitConverter.GetBytes(LookupTable.notouch);
+            touchByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, touchByte, hid_pid);
             await Task.Delay(500);
         }
@@ -355,7 +355,7 @@ namespace pkmn_ntr.Helpers
             byte[] touchByte = BitConverter.GetBytes(gethexcoord(Xvalue, Yvalue));
             Program.scriptHelper.write(touchscrOff, touchByte, hid_pid);
             await Task.Delay(time);
-            touchByte = BitConverter.GetBytes(LookupTable.notouch);
+            touchByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, touchByte, hid_pid);
             await Task.Delay(500);
         }
@@ -371,7 +371,7 @@ namespace pkmn_ntr.Helpers
         public async Task ScriptTouchRelease()
         {
             Report($"Script: Release touch screen");
-            byte[] touchByte = BitConverter.GetBytes(LookupTable.notouch);
+            byte[] touchByte = BitConverter.GetBytes(LookupTable.NoTouch);
             Program.scriptHelper.write(touchscrOff, touchByte, hid_pid);
             await Task.Delay(500);
         }
@@ -401,7 +401,7 @@ namespace pkmn_ntr.Helpers
             }
             else
             { // Free the control stick
-                buttonByte = BitConverter.GetBytes(LookupTable.nostick);
+                buttonByte = BitConverter.GetBytes(LookupTable.NoStick);
                 Program.scriptHelper.write(stickOff, buttonByte, hid_pid);
                 setTimer(maxtimeout);
                 while (!timeout)
@@ -432,7 +432,7 @@ namespace pkmn_ntr.Helpers
             byte[] buttonByte = BitConverter.GetBytes(getstickhex(Xvalue, Yvalue));
             Program.scriptHelper.write(stickOff, buttonByte, hid_pid);
             await Task.Delay(time);
-            buttonByte = BitConverter.GetBytes(LookupTable.nostick);
+            buttonByte = BitConverter.GetBytes(LookupTable.NoStick);
             Program.scriptHelper.write(stickOff, buttonByte, hid_pid);
             Report("NTR: Control Stick command sent, no feedback provided");
         }
@@ -452,7 +452,7 @@ namespace pkmn_ntr.Helpers
             byte[] stickByte = BitConverter.GetBytes(getstickhex(Xvalue, Yvalue));
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(200);
-            stickByte = BitConverter.GetBytes(LookupTable.nostick);
+            stickByte = BitConverter.GetBytes(LookupTable.NoStick);
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(500);
         }
@@ -463,7 +463,7 @@ namespace pkmn_ntr.Helpers
             byte[] stickByte = BitConverter.GetBytes(getstickhex(Xvalue, Yvalue));
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(time);
-            stickByte = BitConverter.GetBytes(LookupTable.nostick);
+            stickByte = BitConverter.GetBytes(LookupTable.NoStick);
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(500);
         }
@@ -479,7 +479,7 @@ namespace pkmn_ntr.Helpers
         public async Task ScriptStickRelease()
         {
             Report($"Script: Release the control stick");
-            byte[] stickByte = BitConverter.GetBytes(LookupTable.nostick);
+            byte[] stickByte = BitConverter.GetBytes(LookupTable.NoStick);
             Program.scriptHelper.write(stickOff, stickByte, hid_pid);
             await Task.Delay(500);
         }

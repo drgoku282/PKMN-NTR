@@ -450,7 +450,7 @@ namespace pkmn_ntr.Bot
                         case BotState.pressWTstart:
                             Report("Bot: Press Start");
                             await Task.Delay(4 * delaytime);
-                            Program.helper.quickbuton(LookupTable.keyA, commandtime);
+                            Program.helper.quickbuton(LookupTable.ButtonA, commandtime);
                             await Task.Delay(commandtime + delaytime);
                             botstate = BotState.testboxes;
                             break;
@@ -520,7 +520,7 @@ namespace pkmn_ntr.Bot
                             {
                                 currentCHK = WTpoke.Checksum;
                             }
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.touchpoke;
@@ -535,7 +535,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.starttrade:
                             Report("Bot: Press Start");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.confirmtrade;
@@ -550,7 +550,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.confirmtrade:
                             Report("Bot: Press Yes");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.testboxesout;
@@ -637,12 +637,12 @@ namespace pkmn_ntr.Bot
                             if (!tradeevo)
                             {
                                 Report("Bot: Press B button");
-                                waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                                waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             }
                             else
                             {
                                 Report("Bot: Trade evolution detected, press A button");
-                                waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                                waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             }
                             if (await waitTaskbool)
                             {
@@ -672,7 +672,7 @@ namespace pkmn_ntr.Bot
                         case BotState.collectFC1:
                             Report("Bot: Trigger Dialog");
                             await Task.Delay(4 * delaytime);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.collectFC2;
@@ -703,7 +703,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.collectFC3:
                             Report("Bot: Continue dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.collectFC4;
@@ -917,7 +917,7 @@ namespace pkmn_ntr.Bot
 
         private void Box_ValueChanged(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Trades, LookupTable.getMaxSpace((int)Box.Value, (int)Slot.Value));
+            Delg.SetMaximum(Trades, LookupTable.GetRemainingSpaces((int)Box.Value, (int)Slot.Value));
         }
 
         private void getNextSlot()

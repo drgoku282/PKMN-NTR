@@ -381,7 +381,7 @@ namespace pkmn_ntr.Bot
                         case BotState.confirmsave:
                             Report("Bot: Press Yes");
                             await Task.Delay(delaytime);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.testwtscrn;
@@ -504,7 +504,7 @@ namespace pkmn_ntr.Bot
                         case BotState.selectnewbox:
                             Report("Bot: Select New Box");
                             await Task.Delay(delaytime);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botstate = BotState.testboxviewout;
@@ -553,7 +553,7 @@ namespace pkmn_ntr.Bot
                         case BotState.selectrade:
                             Report("Bot: Select Trade");
                             await Task.Delay(2 * delaytime);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -570,7 +570,7 @@ namespace pkmn_ntr.Bot
                         case BotState.confirmsend:
                             Report("Bot: Select Yes");
                             await Task.Delay(2 * delaytime);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -665,7 +665,7 @@ namespace pkmn_ntr.Bot
                                 attempts++;
                                 botresult = ErrorMessage.GeneralError;
                                 Report("Bot: Select Yes");
-                                Program.helper.quickbuton(LookupTable.keyA, commandtime);
+                                Program.helper.quickbuton(LookupTable.ButtonA, commandtime);
                                 await Task.Delay(commandtime + delaytime);
                                 botstate = BotState.notradepartner;
                             }
@@ -826,7 +826,7 @@ namespace pkmn_ntr.Bot
 
         private void Box_ValueChanged(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Trades, LookupTable.getMaxSpace((int)Box.Value, (int)Slot.Value));
+            Delg.SetMaximum(Trades, LookupTable.GetRemainingSpaces((int)Box.Value, (int)Slot.Value));
         }
 
         private void getNextSlot()

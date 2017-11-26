@@ -536,14 +536,14 @@ namespace pkmn_ntr
                 opponentOff = 0x3254F4AC;
                 partyOff = 0x34195E10;
             }
-            else if (args.info.Contains("momiji")) // Ultra Sun / Ultra Moon
+            else if (args.info.Contains("momiji")) // Ultra Moon
             {
                 string log = args.info;
                 pname = ", pname:   momiji";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.US, "PKMN-NTR");
-                boxOff = 0x0;
+                SAV = SaveUtil.GetBlankSAV(GameVersion.UM, "PKMN-NTR");
+                boxOff = 0x33015AB0;
                 daycare1Off = 0x0;
                 daycare2Off = 0x0;
                 tradeOff = 0x0;
@@ -595,25 +595,21 @@ namespace pkmn_ntr
             Delg.SetText(radioDaycare, "Daycare");
             Delg.SetMaximum(boxDump, BOXES);
             Delg.SetMaximum(Num_CDBox, BOXES);
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
         }
 
         private async void LoadGen7GameData()
         {
-            if (SAV.Version == GameVersion.US)
-            {
-                return;
-            }
             Delg.SetEnabled(radioBattleBox, false);
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
             Delg.SetText(radioDaycare, "Nursery");
             Delg.SetMaximum(boxDump, BOXES);
             Delg.SetMaximum(Num_CDBox, BOXES);
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
 
             //Apply connection patch
-            Task<bool> Patch = Program.helper.waitNTRwrite(LookupTable.nfcOff, LookupTable.nfcVal, pid);
+            Task<bool> Patch = Program.helper.waitNTRwrite(LookupTable.NFCOffset, LookupTable.NFCValue, pid);
             if (!(await Patch))
             {
                 MessageBox.Show("An error has ocurred while applying the connection patch.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -632,6 +628,10 @@ namespace pkmn_ntr
 
         public void DumpGen7Data()
         {
+            if (SAV.Version == GameVersion.US || SAV.Version == GameVersion.US)
+            {
+                return;
+            }
             DumpTrainerCard();
             DumpEggSeed();
             DumpLegendarySeed();
@@ -653,18 +653,18 @@ namespace pkmn_ntr
         // Game save data handling
         public void DumpTrainerCard()
         {
-            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[LookupTable.trainercardSize], HandleTrainerCard, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.trainercardOff, LookupTable.trainercardSize, pid), myArgs);
+            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[LookupTable.TrainerCardSize], HandleTrainerCard, null);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.TrainerCardOffset, LookupTable.TrainerCardSize, pid), myArgs);
         }
 
         public void HandleTrainerCard(object args_obj)
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
-            Array.Copy(args.data, 0, SAV.Data, LookupTable.trainercardLocation, LookupTable.trainercardSize);
+            Array.Copy(args.data, 0, SAV.Data, LookupTable.TrainerCardLocation, LookupTable.TrainerCardSize);
             Delg.SetText(lb_name, SAV.OT);
             Delg.SetText(lb_tid, SAV.TID.ToString("D5"));
             Delg.SetText(lb_sid, SAV.SID.ToString("D5"));
-            Delg.SetText(lb_tsv, LookupTable.getTSV(SAV.TID, SAV.SID).ToString("D4"));
+            Delg.SetText(lb_tsv, LookupTable.GetTSV(SAV.TID, SAV.SID).ToString("D4"));
             switch (SAV.Version)
             {
                 case GameVersion.X:
@@ -685,11 +685,11 @@ namespace pkmn_ntr
                     break;
                 case GameVersion.SN:
                     Delg.SetText(lb_version, "Sun");
-                    Delg.SetText(lb_g7id, LookupTable.getG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, LookupTable.GetG7ID(SAV.TID, SAV.SID).ToString("D6"));
                     break;
                 case GameVersion.MN:
                     Delg.SetText(lb_version, "Moon");
-                    Delg.SetText(lb_g7id, LookupTable.getG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, LookupTable.GetG7ID(SAV.TID, SAV.SID).ToString("D6"));
                     break;
             }
         }
@@ -698,7 +698,7 @@ namespace pkmn_ntr
         public void DumpEggSeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x10], HandleEggSeed, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.eggseedOff, 0x10, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.SeedEggOffset, 0x10, pid), myArgs);
         }
 
         public void HandleEggSeed(object args_obj)
@@ -711,7 +711,7 @@ namespace pkmn_ntr
         public void DumpLegendarySeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], HandleLegendarySeed, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.legseedOff, 0x04, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.SeedLegendaryOffset, 0x04, pid), myArgs);
         }
 
         public void HandleLegendarySeed(object args_obj)
@@ -916,12 +916,12 @@ namespace pkmn_ntr
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
 
-            List<uint> occurences = FindInRAMDump(args.data, LookupTable.oppPattern);
+            List<uint> occurences = FindInRAMDump(args.data, LookupTable.OpponentPatern);
             int count = 0;
             foreach (uint occurence in occurences)
             {
                 count++;
-                int dataOffset = (int)(occurence + LookupTable.offsetOpp);
+                int dataOffset = (int)(occurence + LookupTable.OpponentOffset);
                 DataReadyWaiting args_pkm = new DataReadyWaiting(args.data.Skip(dataOffset).Take(POKEBYTES).ToArray(), HandlePokemon, null);
                 HandlePokemon(args_pkm);
             }
@@ -931,10 +931,10 @@ namespace pkmn_ntr
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
 
-            List<uint> occurences = FindInRAMDump(args.data, LookupTable.oppPattern);
+            List<uint> occurences = FindInRAMDump(args.data, LookupTable.OpponentPatern);
             foreach (uint occurence in occurences)
             {
-                int dataOffset = (int)(occurence + LookupTable.offsetOpp);
+                int dataOffset = (int)(occurence + LookupTable.OpponentOffset);
                 oppdata = args.data.Skip(dataOffset).Take(POKEBYTES).ToArray();
             }
         }
@@ -1472,7 +1472,7 @@ namespace pkmn_ntr
         // Clone/Delete tab
         private void UpdateMaxCloneDelete(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
         }
 
         // Bot functions
@@ -1555,14 +1555,14 @@ namespace pkmn_ntr
             }
             else
             {
-                Array.Copy(iteminfo, 0, SAV.Data, LookupTable.itemsLocation, LookupTable.itemsSize);
+                Array.Copy(iteminfo, 0, SAV.Data, LookupTable.ItemsLocation, LookupTable.ItemsSize);
                 new Edit_Items().ShowDialog();
             }
         }
 
         public async Task<byte[]> DumpItems()
         {
-            Task<bool> worker = Program.helper.waitNTRmultiread(LookupTable.itemsOff, LookupTable.itemsSize);
+            Task<bool> worker = Program.helper.waitNTRmultiread(LookupTable.ItemsOffset, LookupTable.ItemsSize);
             if (await worker)
             {
                 return Program.helper.lastmultiread;

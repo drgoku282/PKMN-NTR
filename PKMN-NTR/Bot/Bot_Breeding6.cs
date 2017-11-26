@@ -344,7 +344,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.TurnToDayCareMan:
                             Report("Bot: Turn towards Day Care Man");
-                            waitForBool = Program.helper.waitbutton(LookupTable.DpadUP);
+                            waitForBool = Program.helper.waitbutton(LookupTable.DPadUp);
                             if (await waitForBool)
                             {
                                 attempts = 0;
@@ -377,14 +377,14 @@ namespace pkmn_ntr.Bot
 
                         case BotState.Walk1:
                             Report("Bot: Run south");
-                            Program.helper.quickbuton(LookupTable.runDOWN, runningTime);
+                            Program.helper.quickbuton(LookupTable.RunDown, runningTime);
                             await Task.Delay(runningTime + 250);
                             botState = BotState.Walk2;
                             break;
 
                         case BotState.Walk2:
                             Report("Bot: Run north");
-                            Program.helper.quickbuton(LookupTable.runUP, runningTime);
+                            Program.helper.quickbuton(LookupTable.RunUp, runningTime);
                             await Task.Delay(runningTime + 250);
                             botState = BotState.CheckEggFlagSet;
                             break;
@@ -423,7 +423,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.Walk3:
                             Report("Bot: Return to Day Care Man");
-                            Program.helper.quickbuton(LookupTable.runUP, longDelay);
+                            Program.helper.quickbuton(LookupTable.RunUp, longDelay);
                             await Task.Delay(longDelay + shortDelay);
                             botState = BotState.CheckMap1;
                             break;
@@ -434,7 +434,7 @@ namespace pkmn_ntr.Bot
                             for (i = 0; i < 7; i++)
                             {
                                 await Task.Delay(shortDelay);
-                                waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                                waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                                 if (!(await waitForBool))
                                     break;
                             }
@@ -451,7 +451,7 @@ namespace pkmn_ntr.Bot
                         case BotState.ContinueDialog:
                             Report("Bot: Continue dialog");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitForBool)
                             {
                                 botState = BotState.CheckEggFlagClear;
@@ -484,10 +484,10 @@ namespace pkmn_ntr.Bot
                         case BotState.ExitDialog:
                             Report("Bot: Exit dialog");
                             await Task.Delay(5 * shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitForBool)
                             {
-                                waitForBool = Program.helper.waitbutton(LookupTable.keyB);
+                                waitForBool = Program.helper.waitbutton(LookupTable.ButtonB);
                                 if (await waitForBool)
                                 {
                                     AddEggtoParty();
@@ -525,12 +525,12 @@ namespace pkmn_ntr.Bot
                             await Task.Delay(shortDelay);
                             if (ORAS && radBattleResort.Checked)
                             {
-                                Program.helper.quickbuton(LookupTable.DpadLEFT,
+                                Program.helper.quickbuton(LookupTable.DPadLeft,
                                     walkingTime);
                             }
                             else
                             {
-                                Program.helper.quickbuton(LookupTable.DpadRIGHT,
+                                Program.helper.quickbuton(LookupTable.DPadRight,
                                     walkingTime);
                             }
                             await Task.Delay(walkingTime + shortDelay);
@@ -549,7 +549,7 @@ namespace pkmn_ntr.Bot
                             else if (lastPosition == Program.helper.lastRead)
                             {
                                 Report("Bot: No movement detected, still on dialog?");
-                                Program.helper.quickbuton(LookupTable.keyB, 250);
+                                Program.helper.quickbuton(LookupTable.ButtonB, 250);
                                 await Task.Delay(shortDelay);
                                 attempts++;
                                 botResult = ErrorMessage.ButtonError;
@@ -582,12 +582,12 @@ namespace pkmn_ntr.Bot
                             await Task.Delay(shortDelay);
                             if (ORAS && radBattleResort.Checked)
                             {
-                                Program.helper.quickbuton(LookupTable.DpadRIGHT,
+                                Program.helper.quickbuton(LookupTable.DPadRight,
                                     walkingTime);
                             }
                             else
                             {
-                                Program.helper.quickbuton(LookupTable.DpadLEFT,
+                                Program.helper.quickbuton(LookupTable.DPadLeft,
                                     walkingTime);
                             }
                             await Task.Delay(walkingTime + shortDelay);
@@ -597,7 +597,7 @@ namespace pkmn_ntr.Bot
                         case BotState.EnterDayCare:
                             Report("Bot: Enter to Day Care");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.runUP, longDelay);
+                            Program.helper.quickbuton(LookupTable.RunUp, longDelay);
                             await Task.Delay(longDelay + shortDelay);
                             botState = BotState.CheckMap3;
                             break;
@@ -621,7 +621,7 @@ namespace pkmn_ntr.Bot
                         case BotState.WalkToDesk:
                             Report("Bot: Run to desk");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.runUP, longDelay);
+                            Program.helper.quickbuton(LookupTable.RunUp, longDelay);
                             await Task.Delay(longDelay + shortDelay);
                             botState = BotState.CheckMap4;
                             break;
@@ -645,7 +645,7 @@ namespace pkmn_ntr.Bot
                         case BotState.WalkToPC:
                             Report("Bot: Walk to the PC");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.DpadRIGHT, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadRight, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap5;
                             break;
@@ -675,7 +675,7 @@ namespace pkmn_ntr.Bot
                         case BotState.FixPosition2:
                             Report("Bot: Missed PC, return");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.DpadLEFT, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadLeft, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap5;
                             break;
@@ -683,7 +683,7 @@ namespace pkmn_ntr.Bot
                         case BotState.TurnToPC:
                             Report("Bot: Turn towards the PC");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.DpadUP);
+                            waitForBool = Program.helper.waitbutton(LookupTable.DPadUp);
                             if (await waitForBool)
                             {
                                 attempts = 0;
@@ -699,7 +699,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.StartPC:
                             Report("Bot: Turn on the PC");
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitForBool)
                             {
                                 botState = BotState.TestPC;
@@ -733,7 +733,7 @@ namespace pkmn_ntr.Bot
                         case BotState.PCDialog:
                             Report("Bot: Skip PC dialog");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitForBool)
                             {
                                 attempts = 0;
@@ -750,7 +750,7 @@ namespace pkmn_ntr.Bot
                         case BotState.SelectStorage:
                             Report("Bot: Press Access PC storage");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitForBool)
                             {
                                 attempts = 0;
@@ -896,7 +896,7 @@ namespace pkmn_ntr.Bot
                         case BotState.SelectNewBox:
                             Report("Bot: Select new box");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitForBool)
                             {
                                 botState = BotState.TestReturnStorage;
@@ -992,7 +992,7 @@ namespace pkmn_ntr.Bot
                         case BotState.ExitPC:
                             Report("Bot: Exit from PC");
                             await Task.Delay(shortDelay);
-                            waitForBool = Program.helper.waitbutton(LookupTable.keyX);
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonX);
                             if (await waitForBool)
                             {
                                 attempts = 0;
@@ -1040,7 +1040,7 @@ namespace pkmn_ntr.Bot
                             Report("Bot: Retire from PC");
                             await Task.Delay(shortDelay);
                             eggsInBatch = 0;
-                            Program.helper.quickbuton(LookupTable.DpadLEFT, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadLeft, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap6;
                             break;
@@ -1070,7 +1070,7 @@ namespace pkmn_ntr.Bot
                         case BotState.FixPosition3:
                             Report("Bot: Missed exit, return");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.DpadRIGHT, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadRight, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap6;
                             break;
@@ -1078,7 +1078,7 @@ namespace pkmn_ntr.Bot
                         case BotState.RetireFromDesk:
                             Report("Bot: Run to exit");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.runDOWN, longDelay);
+                            Program.helper.quickbuton(LookupTable.RunDown, longDelay);
                             await Task.Delay(longDelay + shortDelay);
                             botState = BotState.CheckMap7;
                             break;
@@ -1102,7 +1102,7 @@ namespace pkmn_ntr.Bot
                         case BotState.RetireFromDoor:
                             Report("Bot: Retire from door");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.DpadDOWN, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadDown, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap8;
                             break;
@@ -1132,7 +1132,7 @@ namespace pkmn_ntr.Bot
                         case BotState.FixPosition5:
                             Report("Bot: Missed Day Care Man, return");
                             await Task.Delay(shortDelay);
-                            Program.helper.quickbuton(LookupTable.DpadUP, walkingTime);
+                            Program.helper.quickbuton(LookupTable.DPadUp, walkingTime);
                             await Task.Delay(walkingTime + shortDelay);
                             botState = BotState.CheckMap8;
                             break;
@@ -1142,12 +1142,12 @@ namespace pkmn_ntr.Bot
                             await Task.Delay(shortDelay);
                             if (ORAS && radBattleResort.Checked)
                             {
-                                Program.helper.quickbuton(LookupTable.DpadRIGHT,
+                                Program.helper.quickbuton(LookupTable.DPadRight,
                                     walkingTime);
                             }
                             else
                             {
-                                Program.helper.quickbuton(LookupTable.DpadLEFT,
+                                Program.helper.quickbuton(LookupTable.DPadLeft,
                                     walkingTime);
                             }
                             await Task.Delay(walkingTime + shortDelay);
@@ -1196,12 +1196,12 @@ namespace pkmn_ntr.Bot
                             await Task.Delay(shortDelay);
                             if (ORAS && radBattleResort.Checked)
                             {
-                                Program.helper.quickbuton(LookupTable.DpadRIGHT,
+                                Program.helper.quickbuton(LookupTable.DPadRight,
                                     walkingTime);
                             }
                             else
                             {
-                                Program.helper.quickbuton(LookupTable.DpadLEFT,
+                                Program.helper.quickbuton(LookupTable.DPadLeft,
                                     walkingTime);
                             }
                             await Task.Delay(walkingTime + shortDelay);
@@ -1427,7 +1427,7 @@ namespace pkmn_ntr.Bot
         private void SetMaximumEggs(object sender, EventArgs e)
         {
             Delg.SetMaximum(numEggs,
-                LookupTable.getMaxSpace((int)numBox.Value, (int)numSlot.Value));
+                LookupTable.GetRemainingSpaces((int)numBox.Value, (int)numSlot.Value));
         }
 
         /// <summary>

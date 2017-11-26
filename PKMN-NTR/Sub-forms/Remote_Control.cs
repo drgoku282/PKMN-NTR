@@ -20,62 +20,62 @@ namespace pkmn_ntr.Sub_forms
 
         private void manualA_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyA);
+            sendButton(LookupTable.ButtonA);
         }
 
         private void manualB_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyB);
+            sendButton(LookupTable.ButtonB);
         }
 
         private void manualX_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyX);
+            sendButton(LookupTable.ButtonX);
         }
 
         private void manualY_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyY);
+            sendButton(LookupTable.ButtonY);
         }
 
         private void manualDUp_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.DpadUP);
+            sendButton(LookupTable.DPadUp);
         }
 
         private void ManualDDown_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.DpadDOWN);
+            sendButton(LookupTable.DPadDown);
         }
 
         private void manualDLeft_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.DpadLEFT);
+            sendButton(LookupTable.DPadLeft);
         }
 
         private void manualDRight_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.DpadRIGHT);
+            sendButton(LookupTable.DPadRight);
         }
 
         private void manualStart_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keySTART);
+            sendButton(LookupTable.ButtonStart);
         }
 
         private void manualSelect_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keySELECT);
+            sendButton(LookupTable.ButtonSelect);
         }
 
         private void manualL_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyL);
+            sendButton(LookupTable.ButtonL);
         }
 
         private void manualR_Click(object sender, EventArgs e)
         {
-            sendButton(LookupTable.keyR);
+            sendButton(LookupTable.ButtonR);
         }
 
         private async void manualSR_Click(object sender, EventArgs e)

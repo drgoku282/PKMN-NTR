@@ -423,7 +423,7 @@ namespace pkmn_ntr.Bot
                         case BotState.returncontrol:
                             Report("Bot: Return contol to character");
                             await Task.Delay(6 * commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.touchsave;
@@ -471,7 +471,7 @@ namespace pkmn_ntr.Bot
                         case BotState.saveconf:
                             Report("Bot: Press Yes");
                             await Task.Delay(8 * commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.saveout;
@@ -539,7 +539,7 @@ namespace pkmn_ntr.Bot
                         case BotState.trigger:
                             Report("Bot: Try to trigger encounter");
                             await Task.Delay(commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.readopp;
@@ -559,7 +559,7 @@ namespace pkmn_ntr.Bot
                             for (i = 0; i < 4; i++)
                             {
                                 await Task.Delay(2 * commanddelay);
-                                waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                                waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                                 if (!(await waitTaskbool))
                                 {
                                     break;
@@ -659,7 +659,7 @@ namespace pkmn_ntr.Bot
                         case BotState.skipintro:
                             await Task.Delay(44 * commanddelay);
                             Report("Bot: Skip intro cutscene");
-                            Program.helper.quickbuton(LookupTable.keyA, commandtime);
+                            Program.helper.quickbuton(LookupTable.ButtonA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
                             botState = ORAS ? BotState.skiptitle : BotState.startgame;
                             break;
@@ -667,7 +667,7 @@ namespace pkmn_ntr.Bot
                         case BotState.skiptitle:
                             await Task.Delay(20 * commanddelay);
                             Report("Bot: Skip title screen");
-                            Program.helper.quickbuton(LookupTable.keyA, commandtime);
+                            Program.helper.quickbuton(LookupTable.ButtonA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
                             botState = BotState.startgame;
                             break;
@@ -675,7 +675,7 @@ namespace pkmn_ntr.Bot
                         case BotState.startgame:
                             await Task.Delay(24 * commanddelay);
                             Report("Bot: Start game");
-                            Program.helper.quickbuton(LookupTable.keyA, commandtime);
+                            Program.helper.quickbuton(LookupTable.ButtonA, commandtime);
                             await Task.Delay(commandtime + commanddelay);
                             botState = BotState.reconnect;
                             break;
@@ -698,7 +698,7 @@ namespace pkmn_ntr.Bot
                         case BotState.tev_start:
                             Report("Bot: Trigger Dialog");
                             await Task.Delay(commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                                 botState = BotState.tev_dialog;
                             else
@@ -728,7 +728,7 @@ namespace pkmn_ntr.Bot
                         case BotState.tev_cont1:
                             Report("Bot: Talk to lady");
                             await Task.Delay(2 * commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitTaskbool)
                                 botState = BotState.tev_check;
                             else
@@ -765,7 +765,7 @@ namespace pkmn_ntr.Bot
                         case BotState.twk_start:
                             Report("Bot: Walk one step");
                             await Task.Delay(4 * commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.runUP);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.RunUp);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -781,7 +781,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.soaring_start:
                             Report("Bot: Activate Eon Flute");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyY);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonY);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.soaring_cont;
@@ -797,7 +797,7 @@ namespace pkmn_ntr.Bot
                         case BotState.soaring_cont:
                             Report("Bot: Start cutscene");
                             await Task.Delay(commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.soaring_check;
@@ -876,7 +876,7 @@ namespace pkmn_ntr.Bot
                         case BotState.flee1:
                             Report("Bot: Fleeing from random encounter, pressing down");
                             await Task.Delay(20 * commanddelay);    //30?
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.DpadDOWN);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.DPadDown);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.flee2;
@@ -892,7 +892,7 @@ namespace pkmn_ntr.Bot
                         case BotState.flee2:
                             Report("Bot: Fleeing from random encounter, pressing right");
                             await Task.Delay(10 * commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.DpadRIGHT);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.DPadRight);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.flee3;
@@ -908,7 +908,7 @@ namespace pkmn_ntr.Bot
                         case BotState.flee3:
                             Report("Bot: Fleeing from random encounter, pressing A");
                             await Task.Delay(commanddelay);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 await Task.Delay(8 * commanddelay);

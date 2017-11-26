@@ -252,7 +252,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.triggerdialog:
                             Report("Bot: Start dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testdialog1;
@@ -286,12 +286,12 @@ namespace pkmn_ntr.Bot
                             int maxi;
                             if (Mode.SelectedIndex == 3 && Accept.Value == 0)
                             {
-                                key = LookupTable.keyB;
+                                key = LookupTable.ButtonB;
                                 maxi = 9;
                             }
                             else
                             {
-                                key = LookupTable.keyA;
+                                key = LookupTable.ButtonA;
                                 maxi = 6;
                             }
                             int i;
@@ -350,10 +350,10 @@ namespace pkmn_ntr.Bot
                         case BotState.exitdialog:
                             Report("Bot: Exit dialog");
                             await Task.Delay(1500);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitTaskbool)
                             {
-                                waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                                waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                                 if (await waitTaskbool)
                                 {
                                     botState = BotState.testdialog2;
@@ -591,7 +591,7 @@ namespace pkmn_ntr.Bot
 
         private void Box_ValueChanged(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Eggs, LookupTable.getMaxSpace((int)Box.Value, (int)Slot.Value));
+            Delg.SetMaximum(Eggs, LookupTable.GetRemainingSpaces((int)Box.Value, (int)Slot.Value));
         }
 
         private void esvSave_Click(object sender, EventArgs e)

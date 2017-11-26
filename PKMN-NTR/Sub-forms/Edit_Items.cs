@@ -358,9 +358,9 @@ namespace pkmn_ntr.Sub_forms
 
         public async Task<bool> writeItems()
         {
-            byte[] data = new byte[LookupTable.itemsSize];
-            Array.Copy(SAV.Data, LookupTable.itemsLocation, data, 0, LookupTable.itemsSize);
-            Task<bool> worker = Program.helper.waitNTRwrite(LookupTable.itemsOff, data, Program.gCmdWindow.pid);
+            byte[] data = new byte[LookupTable.ItemsSize];
+            Array.Copy(SAV.Data, LookupTable.ItemsLocation, data, 0, LookupTable.ItemsSize);
+            Task<bool> worker = Program.helper.waitNTRwrite(LookupTable.ItemsOffset, data, Program.gCmdWindow.pid);
             return await worker;
         }
 
