@@ -173,6 +173,11 @@
     <Compile Include="Helpers\ImageUtil.cs" />
     <Compile Include="Helpers\PKMUtil.cs" />
     <Compile Include="Helpers\WinFormsUtil.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sub-forms\DumpOpponentHelp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,14 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Sub-forms\Remote_Control.resx">
       <DependentUpon>Remote_Control.cs</DependentUpon>
     </EmbeddedResource>
@@ -338,17 +338,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\25-7c.png" />
-    <None Include="Resources\744-1.png" />
-    <None Include="Resources\745-2.png" />
-    <None Include="Resources\800-1.png" />
-    <None Include="Resources\800-2.png" />
-    <None Include="Resources\800-3.png" />
-    <None Include="Resources\803.png" />
-    <None Include="Resources\804.png" />
-    <None Include="Resources\805.png" />
-    <None Include="Resources\806.png" />
-    <None Include="Resources\807.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-7c.png" />
+    <None Include="Resources\img\Pokemon Sprites\744-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\745-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-3.png" />
+    <None Include="Resources\img\Pokemon Sprites\803.png" />
+    <None Include="Resources\img\Pokemon Sprites\804.png" />
+    <None Include="Resources\img\Pokemon Sprites\805.png" />
+    <None Include="Resources\img\Pokemon Sprites\806.png" />
+    <None Include="Resources\img\Pokemon Sprites\807.png" />
     <Content Include="Resources\img\ball\_ball1.png" />
     <Content Include="Resources\img\ball\_ball10.png" />
     <Content Include="Resources\img\ball\_ball11.png" />
@@ -1907,12 +1907,12 @@
     <Content Include="Resources\img\Pokemon Sprites\egg.png" />
     <Content Include="Resources\img\Pokemon Sprites\unknown.png" />
     <Content Include="Resources\img\Pokemon Sprites\_.png" />
-    <None Include="Resources\item_926.png" />
-    <None Include="Resources\item_925.png" />
-    <None Include="Resources\item_924.png" />
-    <None Include="Resources\item_923.png" />
-    <None Include="Resources\item_922.png" />
-    <None Include="Resources\item_921.png" />
+    <None Include="Resources\img\item\item_926.png" />
+    <None Include="Resources\img\item\item_925.png" />
+    <None Include="Resources\img\item\item_924.png" />
+    <None Include="Resources\img\item\item_923.png" />
+    <None Include="Resources\img\item\item_922.png" />
+    <None Include="Resources\img\item\item_921.png" />
     <None Include="FodyWeavers.xml" />
     <Content Include="Pkmn NTR.ico" />
     <None Include="Resources\valid.png" />

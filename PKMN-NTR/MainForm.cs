@@ -297,18 +297,24 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(tab, true);
             }
-            if (!(SAV.Version == GameVersion.US))
+            if (!(SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM))
             {
                 Delg.SetEnabled(Tool_Trainer, true);
                 Delg.SetEnabled(Tool_Items, true);
                 Delg.SetEnabled(Tools_Breeding, true);
                 Delg.SetEnabled(Tools_SoftReset, true);
                 Delg.SetEnabled(Tools_WonderTrade, true);
-            }          
+                Delg.SetEnabled(Btn_ReloadFields, true);
+            }
+            else
+            {
+                Delg.SetEnabled(radioDaycare, false);
+                Delg.SetEnabled(radioTrade, false);
+                Delg.SetEnabled(radioOpponent, false);
+            }
             Delg.SetEnabled(Tool_Controls, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
-            Delg.SetEnabled(Btn_ReloadFields, true);
         }
 
         private void DisableControls()
@@ -536,7 +542,23 @@ namespace pkmn_ntr
                 opponentOff = 0x3254F4AC;
                 partyOff = 0x34195E10;
             }
-            else if (args.info.Contains("momiji")) // Ultra Moon
+            else if (args.info.Contains("momiji") && 
+                args.info.Contains("00040000001b5000")) // Ultra Sun
+            {
+                string log = args.info;
+                pname = ", pname:   momiji";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = SaveUtil.GetBlankSAV(GameVersion.US, "PKMN-NTR");
+                boxOff = 0x33015AB0;
+                daycare1Off = 0x0;
+                daycare2Off = 0x0;
+                tradeOff = 0x0;
+                opponentOff = 0x0;
+                partyOff = 0x33F7FA44; // Can also be 0x330128E4
+            }
+            else if (args.info.Contains("momiji") && 
+                args.info.Contains("00040000001b5100")) // Ultra Moon
             {
                 string log = args.info;
                 pname = ", pname:   momiji";
@@ -548,7 +570,7 @@ namespace pkmn_ntr
                 daycare2Off = 0x0;
                 tradeOff = 0x0;
                 opponentOff = 0x0;
-                partyOff = 0x0;
+                partyOff = 0x33F7FA44; // Can also be 0x330128E4
             }
             else // not a process list or game not found - ignore packet
             {
@@ -628,7 +650,7 @@ namespace pkmn_ntr
 
         public void DumpGen7Data()
         {
-            if (SAV.Version == GameVersion.US || SAV.Version == GameVersion.US)
+            if (SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM)
             {
                 return;
             }

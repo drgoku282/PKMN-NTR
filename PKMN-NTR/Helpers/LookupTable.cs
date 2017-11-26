@@ -20,7 +20,8 @@ using PKHeX.Core;
 namespace pkmn_ntr.Helpers
 {
     /// <summary>
-    /// This class contains RAM memory address, some formulas, button padding and screen positions, they're used used by the program.
+    /// This class contains RAM memory address, some formulas, button padding and screen
+    /// positions, they're used used by the program.
     /// </summary>
     public static class LookupTable
     {
@@ -465,10 +466,12 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.X:
                     case GameVersion.Y:
-                        return new byte[] { 0x60, 0x75, 0xC6, 0x08, 0xDC, 0xA8, 0xC7, 0x08, 0xD0, 0xB6, 0xC7, 0x08 };
+                        return new byte[] { 0x60, 0x75, 0xC6, 0x08, 0xDC, 0xA8, 0xC7,
+                            0x08, 0xD0, 0xB6, 0xC7, 0x08 };
                     case GameVersion.OR:
                     case GameVersion.AS:
-                        return new byte[] { 0x60, 0xE7, 0xC6, 0x08, 0x6C, 0xEC, 0xC6, 0x08, 0xE0, 0x1F, 0xC8, 0x08, 0x00, 0x39, 0xC8, 0x08 };
+                        return new byte[] { 0x60, 0xE7, 0xC6, 0x08, 0x6C, 0xEC, 0xC6,
+                            0x08, 0xE0, 0x1F, 0xC8, 0x08, 0x00, 0x39, 0xC8, 0x08 };
                     default:
                         return null;
                 }
@@ -512,7 +515,8 @@ namespace pkmn_ntr.Helpers
         }
 
         /// <summary>
-        /// Returns the Trainer ID number used in Generation 7 games based on the player's TID and SID numbers.
+        /// Returns the Trainer ID number used in Generation 7 games based on the 
+        /// player's TID and SID numbers.
         /// </summary>
         /// <param name="TID">Trainer ID number.</param>
         /// <param name="SID">Trainer Secret ID number.</param>
@@ -523,7 +527,8 @@ namespace pkmn_ntr.Helpers
         }
 
         /// <summary>
-        /// Returns the number of box spaces starting on a specific slot until the last box.
+        /// Returns the number of box spaces starting on a specific slot until the 
+        /// last box.
         /// </summary>
         /// <param name="box">Box number.</param>
         /// <param name="slot">Slot number.</param>
@@ -548,7 +553,8 @@ namespace pkmn_ntr.Helpers
 
         #region Buttons
 
-        // Buton Padding values, to press several of them at once, you need to AND the values.
+        // Buton Padding values, to press several of them at once, you need to AND the 
+        // values.
 
         public const uint ButtonA = 0xFFE;
         public const uint ButtonB = 0xFFD;
@@ -608,16 +614,32 @@ namespace pkmn_ntr.Helpers
         #region Box Position
 
         // Gen 6 box and pokémon positions in the PC
-        public static uint[] pokeposX6 = { 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180 };
-        public static uint[] pokeposY6 = { 60, 60, 60, 60, 60, 60, 90, 90, 90, 90, 90, 90, 120, 120, 120, 120, 120, 120, 150, 150, 150, 150, 150, 150, 180, 180, 180, 180, 180, 180 };
-        public static uint[] boxposX6 = { 20, 60, 100, 140, 180, 220, 260, 300, 20, 60, 100, 140, 180, 220, 260, 300, 20, 60, 100, 140, 180, 220, 260, 300, 20, 60, 100, 140, 180, 220, 260 };
-        public static uint[] boxposY6 = { 24, 24, 24, 24, 24, 24, 24, 24, 72, 72, 72, 72, 72, 72, 72, 72, 120, 120, 120, 120, 120, 120, 120, 120, 168, 168, 168, 168, 168, 168, 168 };
+        public static uint[] pokeposX6 = { 30, 60, 90, 120, 150, 180, 30, 60, 90, 120,
+            150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90,
+            120, 150, 180 };
+        public static uint[] pokeposY6 = { 60, 60, 60, 60, 60, 60, 90, 90, 90, 90, 90,
+            90, 120, 120, 120, 120, 120, 120, 150, 150, 150, 150, 150, 150, 180, 180,
+            180, 180, 180, 180 };
+        public static uint[] boxposX6 = { 20, 60, 100, 140, 180, 220, 260, 300, 20, 60,
+            100, 140, 180, 220, 260, 300, 20, 60, 100, 140, 180, 220, 260, 300, 20, 60,
+            100, 140, 180, 220, 260 };
+        public static uint[] boxposY6 = { 24, 24, 24, 24, 24, 24, 24, 24, 72, 72, 72,
+            72, 72, 72, 72, 72, 120, 120, 120, 120, 120, 120, 120, 120, 168, 168, 168,
+            168, 168, 168, 168 };
 
         // Gen 7 box and pokémon positions in the PC
-        public static uint[] pokeposX7 = { 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180 };
-        public static uint[] pokeposY7 = { 70, 70, 70, 70, 70, 70, 100, 100, 100, 100, 100, 100, 130, 130, 130, 130, 130, 130, 160, 160, 160, 160, 160, 160, 190, 190, 190, 190, 190, 190 };
-        public static uint[] boxposX7 = { 33, 69, 105, 141, 177, 213, 249, 285, 33, 69, 105, 141, 177, 213, 249, 285, 33, 69, 105, 141, 177, 213, 249, 285, 33, 69, 105, 141, 177, 213, 249, 285 };
-        public static uint[] boxposY7 = { 36, 36, 36, 36, 36, 36, 36, 36, 84, 84, 84, 84, 84, 84, 84, 84, 132, 132, 132, 132, 132, 132, 132, 132, 180, 180, 180, 180, 180, 180, 180, 180 };
+        public static uint[] pokeposX7 = { 30, 60, 90, 120, 150, 180, 30, 60, 90, 120,
+            150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90, 120, 150, 180, 30, 60, 90,
+            120, 150, 180 };
+        public static uint[] pokeposY7 = { 70, 70, 70, 70, 70, 70, 100, 100, 100, 100,
+            100, 100, 130, 130, 130, 130, 130, 130, 160, 160, 160, 160, 160, 160, 190,
+            190, 190, 190, 190, 190 };
+        public static uint[] boxposX7 = { 33, 69, 105, 141, 177, 213, 249, 285, 33, 69,
+            105, 141, 177, 213, 249, 285, 33, 69, 105, 141, 177, 213, 249, 285, 33, 69,
+            105, 141, 177, 213, 249, 285 };
+        public static uint[] boxposY7 = { 36, 36, 36, 36, 36, 36, 36, 36, 84, 84, 84,
+            84, 84, 84, 84, 84, 132, 132, 132, 132, 132, 132, 132, 132, 180, 180, 180,
+            180, 180, 180, 180, 180 };
 
         #endregion Box Position
     }
