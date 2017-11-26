@@ -297,12 +297,15 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(tab, true);
             }
-            Delg.SetEnabled(Tool_Trainer, true);
-            Delg.SetEnabled(Tool_Items, true);
+            if (!(SAV.Version == GameVersion.US))
+            {
+                Delg.SetEnabled(Tool_Trainer, true);
+                Delg.SetEnabled(Tool_Items, true);
+                Delg.SetEnabled(Tools_Breeding, true);
+                Delg.SetEnabled(Tools_SoftReset, true);
+                Delg.SetEnabled(Tools_WonderTrade, true);
+            }          
             Delg.SetEnabled(Tool_Controls, true);
-            Delg.SetEnabled(Tools_Breeding, true);
-            Delg.SetEnabled(Tools_SoftReset, true);
-            Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
             Delg.SetEnabled(Btn_ReloadFields, true);
@@ -533,6 +536,20 @@ namespace pkmn_ntr
                 opponentOff = 0x3254F4AC;
                 partyOff = 0x34195E10;
             }
+            else if (args.info.Contains("momiji")) // Ultra Sun / Ultra Moon
+            {
+                string log = args.info;
+                pname = ", pname:   momiji";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = SaveUtil.GetBlankSAV(GameVersion.US, "PKMN-NTR");
+                boxOff = 0x0;
+                daycare1Off = 0x0;
+                daycare2Off = 0x0;
+                tradeOff = 0x0;
+                opponentOff = 0x0;
+                partyOff = 0x0;
+            }
             else // not a process list or game not found - ignore packet
             {
                 return;
@@ -583,6 +600,10 @@ namespace pkmn_ntr
 
         private async void LoadGen7GameData()
         {
+            if (SAV.Version == GameVersion.US)
+            {
+                return;
+            }
             Delg.SetEnabled(radioBattleBox, false);
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
