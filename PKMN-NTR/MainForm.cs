@@ -59,7 +59,7 @@ namespace pkmn_ntr
         }
 
         // New program-wide variables for PKHeX.Core
-        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.MN, "PKMN-NTR");
+        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.UM, "PKMN-NTR");
         public PKMEditor PKME_Tabs;
         public byte[] fileinfo;
         public byte[] iteminfo;
@@ -173,7 +173,7 @@ namespace pkmn_ntr
         private void MainForm_Load(object sender, EventArgs e)
         {
             lb_pkmnntrver.Text = System.Windows.Forms.Application.ProductVersion;
-            lb_pkhexcorever.Text = "20171017";
+            lb_pkhexcorever.Text = "17.11.25";
 
             CheckForUpdate();
             host.Text = Settings.Default.IP;
