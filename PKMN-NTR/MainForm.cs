@@ -687,11 +687,11 @@ namespace pkmn_ntr
 
         public void DumpGen7Data()
         {
+            DumpTrainerCard();
             if (IsUSUM) // USUM not implemented yet
             {
                 return;
             }
-            DumpTrainerCard();
             DumpEggSeed();
             DumpLegendarySeed();
         }
@@ -744,11 +744,19 @@ namespace pkmn_ntr
                     break;
                 case GameVersion.SN:
                     Delg.SetText(lb_version, "Sun");
-                    Delg.SetText(lb_g7id, LookupTable.GetG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
                     break;
                 case GameVersion.MN:
                     Delg.SetText(lb_version, "Moon");
-                    Delg.SetText(lb_g7id, LookupTable.GetG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
+                    break;
+                case GameVersion.US:
+                    Delg.SetText(lb_version, "Ultra Sun");
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
+                    break;
+                case GameVersion.UM:
+                    Delg.SetText(lb_version, "Ultra Moon");
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
                     break;
             }
         }

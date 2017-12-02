@@ -72,6 +72,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D67D0;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33012818;
                     default:
                         return 0;
                 }
@@ -94,6 +97,8 @@ namespace pkmn_ntr.Helpers
                         return 0x200;
                     case GameVersion.SN:
                     case GameVersion.MN:
+                    case GameVersion.US:
+                    case GameVersion.UM:
                         return 0xC0;
                     default:
                         return 0;
@@ -117,6 +122,9 @@ namespace pkmn_ntr.Helpers
                         return 0x14000;
                     case GameVersion.SN:
                     case GameVersion.MN:
+                        return 0x01200;
+                    case GameVersion.US:
+                    case GameVersion.UM:
                         return 0x01200;
                     default:
                         return 0;
