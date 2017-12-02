@@ -1915,6 +1915,7 @@
     <None Include="Resources\img\item\item_921.png" />
     <None Include="FodyWeavers.xml" />
     <Content Include="Pkmn NTR.ico" />
+    <None Include="Resources\Saves\UltraMoon.bin" />
     <None Include="Resources\valid.png" />
     <None Include="Resources\warn.png" />
   </ItemGroup>

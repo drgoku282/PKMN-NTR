@@ -38,15 +38,18 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.IL_Pouch = new System.Windows.Forms.ImageList(this.components);
             this.sortMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSortName = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSortNameReverse = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSortCount = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSortCountReverse = new System.Windows.Forms.ToolStripMenuItem();
-            this.IL_Pouch = new System.Windows.Forms.ImageList(this.components);
+            this.mnuSortIndex = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSortIndexReverse = new System.Windows.Forms.ToolStripMenuItem();
             this.giveMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.giveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
@@ -125,7 +128,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(291, 336);
             this.tabControl1.TabIndex = 25;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.switchBag);
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.SwitchBag);
             // 
             // B_Save
             // 
@@ -149,44 +152,6 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // sortMenu
-            // 
-            this.sortMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuSortName,
-            this.mnuSortNameReverse,
-            this.mnuSortCount,
-            this.mnuSortCountReverse});
-            this.sortMenu.Name = "modifyMenu";
-            this.sortMenu.Size = new System.Drawing.Size(159, 92);
-            // 
-            // mnuSortName
-            // 
-            this.mnuSortName.Name = "mnuSortName";
-            this.mnuSortName.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortName.Text = "Name";
-            this.mnuSortName.Click += new System.EventHandler(this.sortByName);
-            // 
-            // mnuSortNameReverse
-            // 
-            this.mnuSortNameReverse.Name = "mnuSortNameReverse";
-            this.mnuSortNameReverse.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortNameReverse.Text = "Name (Reverse)";
-            this.mnuSortNameReverse.Click += new System.EventHandler(this.sortByName);
-            // 
-            // mnuSortCount
-            // 
-            this.mnuSortCount.Name = "mnuSortCount";
-            this.mnuSortCount.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortCount.Text = "Count";
-            this.mnuSortCount.Click += new System.EventHandler(this.sortByCount);
-            // 
-            // mnuSortCountReverse
-            // 
-            this.mnuSortCountReverse.Name = "mnuSortCountReverse";
-            this.mnuSortCountReverse.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortCountReverse.Text = "Count (Reverse)";
-            this.mnuSortCountReverse.Click += new System.EventHandler(this.sortByCount);
-            // 
             // IL_Pouch
             // 
             this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("IL_Pouch.ImageStream")));
@@ -203,27 +168,89 @@
             this.IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
             this.IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
             // 
+            // sortMenu
+            // 
+            this.sortMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSortName,
+            this.mnuSortNameReverse,
+            this.mnuSortCount,
+            this.mnuSortCountReverse,
+            this.mnuSortIndex,
+            this.mnuSortIndexReverse});
+            this.sortMenu.Name = "modifyMenu";
+            this.sortMenu.Size = new System.Drawing.Size(159, 136);
+            // 
+            // mnuSortName
+            // 
+            this.mnuSortName.Name = "mnuSortName";
+            this.mnuSortName.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortName.Text = "Name";
+            this.mnuSortName.Click += new System.EventHandler(this.SortByName);
+            // 
+            // mnuSortNameReverse
+            // 
+            this.mnuSortNameReverse.Name = "mnuSortNameReverse";
+            this.mnuSortNameReverse.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortNameReverse.Text = "Name (Reverse)";
+            this.mnuSortNameReverse.Click += new System.EventHandler(this.SortByName);
+            // 
+            // mnuSortCount
+            // 
+            this.mnuSortCount.Name = "mnuSortCount";
+            this.mnuSortCount.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortCount.Text = "Count";
+            this.mnuSortCount.Click += new System.EventHandler(this.SortByCount);
+            // 
+            // mnuSortCountReverse
+            // 
+            this.mnuSortCountReverse.Name = "mnuSortCountReverse";
+            this.mnuSortCountReverse.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortCountReverse.Text = "Count (Reverse)";
+            this.mnuSortCountReverse.Click += new System.EventHandler(this.SortByCount);
+            // 
+            // mnuSortIndex
+            // 
+            this.mnuSortIndex.Name = "mnuSortIndex";
+            this.mnuSortIndex.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortIndex.Text = "Index";
+            this.mnuSortIndex.Click += new System.EventHandler(this.SortByIndex);
+            // 
+            // mnuSortIndexReverse
+            // 
+            this.mnuSortIndexReverse.Name = "mnuSortIndexReverse";
+            this.mnuSortIndexReverse.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortIndexReverse.Text = "Index (Reverse)";
+            this.mnuSortIndexReverse.Click += new System.EventHandler(this.SortByIndex);
+            // 
             // giveMenu
             // 
             this.giveMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.giveAll,
-            this.giveNone});
+            this.giveNone,
+            this.giveModify});
             this.giveMenu.Name = "modifyMenu";
-            this.giveMenu.Size = new System.Drawing.Size(104, 48);
+            this.giveMenu.Size = new System.Drawing.Size(113, 70);
             // 
             // giveAll
             // 
             this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(103, 22);
+            this.giveAll.Size = new System.Drawing.Size(112, 22);
             this.giveAll.Text = "All";
-            this.giveAll.Click += new System.EventHandler(this.giveAllItems);
+            this.giveAll.Click += new System.EventHandler(this.GiveAllItems);
             // 
             // giveNone
             // 
             this.giveNone.Name = "giveNone";
-            this.giveNone.Size = new System.Drawing.Size(103, 22);
+            this.giveNone.Size = new System.Drawing.Size(112, 22);
             this.giveNone.Text = "None";
-            this.giveNone.Click += new System.EventHandler(this.removeAllItems);
+            this.giveNone.Click += new System.EventHandler(this.RemoveAllItems);
+            // 
+            // giveModify
+            // 
+            this.giveModify.Name = "giveModify";
+            this.giveModify.Size = new System.Drawing.Size(112, 22);
+            this.giveModify.Text = "Modify";
+            this.giveModify.Click += new System.EventHandler(this.ModifyAllItems);
             // 
             // Edit_Items
             // 
@@ -262,14 +289,17 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.ImageList IL_Pouch;
         private System.Windows.Forms.ContextMenuStrip sortMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuSortName;
         private System.Windows.Forms.ToolStripMenuItem mnuSortNameReverse;
         private System.Windows.Forms.ToolStripMenuItem mnuSortCount;
         private System.Windows.Forms.ToolStripMenuItem mnuSortCountReverse;
-        private System.Windows.Forms.ImageList IL_Pouch;
+        private System.Windows.Forms.ToolStripMenuItem mnuSortIndex;
+        private System.Windows.Forms.ToolStripMenuItem mnuSortIndexReverse;
         private System.Windows.Forms.ContextMenuStrip giveMenu;
         private System.Windows.Forms.ToolStripMenuItem giveAll;
         private System.Windows.Forms.ToolStripMenuItem giveNone;
+        private System.Windows.Forms.ToolStripMenuItem giveModify;
     }
 }

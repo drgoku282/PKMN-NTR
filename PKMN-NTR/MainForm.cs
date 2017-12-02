@@ -89,7 +89,7 @@ namespace pkmn_ntr
         }
 
         // New program-wide variables for PKHeX.Core
-        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.UM, "PKMN-NTR");
+        public SaveFile SAV;
         public PKMEditor PKME_Tabs;
         public byte[] fileinfo;
         public byte[] iteminfo;
@@ -177,6 +177,7 @@ namespace pkmn_ntr
 
         private void InitializePKMEditor()
         {
+            SAV = new SAV7(Resources.UltraMoon);
             PKME_Tabs.LegalityChanged += new EventHandler(PKME_Tabs_LegalityChanged);
             PKME_Tabs.UpdatePreviewSprite += new EventHandler(PKME_Tabs_UpdatePreviewSprite);
             PKME_Tabs.SaveFileRequested += new PKMEditor.ReturnSAVEventHandler(PKME_Tabs_SaveFileRequested);
@@ -339,7 +340,6 @@ namespace pkmn_ntr
             if (!(IsUSUM))
             {
                 Delg.SetEnabled(Tool_Trainer, true);
-                Delg.SetEnabled(Tool_Items, true);
                 Delg.SetEnabled(Tools_Breeding, true);
                 Delg.SetEnabled(Tools_SoftReset, true);
                 Delg.SetEnabled(Tools_WonderTrade, true);
@@ -351,6 +351,7 @@ namespace pkmn_ntr
                 Delg.SetEnabled(radioTrade, false);
                 Delg.SetEnabled(radioOpponent, false);
             }
+            Delg.SetEnabled(Tool_Items, true);
             Delg.SetEnabled(Tool_Controls, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
@@ -603,7 +604,7 @@ namespace pkmn_ntr
                 pname = ", pname:   momiji";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.UM, "PKMN-NTR");
+                SAV = new SAV7(Resources.UltraMoon);
                 boxOff = 0x33015AB0;
                 daycare1Off = 0x0;
                 daycare2Off = 0x0;
@@ -1626,7 +1627,7 @@ namespace pkmn_ntr
             }
             else
             {
-                Array.Copy(iteminfo, 0, SAV.Data, LookupTable.ItemsLocation, LookupTable.ItemsSize);
+                SAV.SetData(iteminfo, (int)LookupTable.ItemsLocation);
                 new Edit_Items().ShowDialog();
             }
         }
