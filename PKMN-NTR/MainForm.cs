@@ -178,6 +178,17 @@ namespace pkmn_ntr
             CheckForUpdate();
             host.Text = Settings.Default.IP;
             LoadDebugIP();
+
+            // Prompt warining for command line modes
+            if (HaX)
+            {
+                MessageBox.Show("Illegal mode enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            if (EnablePartyWrite)
+            {
+                MessageBox.Show("Party editing enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             host.Focus();
         }
 
