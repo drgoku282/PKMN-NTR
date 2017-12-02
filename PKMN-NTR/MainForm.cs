@@ -1088,6 +1088,10 @@ namespace pkmn_ntr
                         {
                             return;
                         }
+                        else
+                        {
+                            pkmsource = Pokemon.EncryptedBoxData;
+                        }
                     }
                     else
                     {
@@ -1149,7 +1153,7 @@ namespace pkmn_ntr
         // PKHeX Tabs
         private void PKME_Tabs_LegalityChanged(object sender, EventArgs e)
         {
-            if (sender == null || HaX)
+            if (sender == null)
             {
                 PB_Legal.Visible = false;
                 return;
