@@ -75,7 +75,7 @@ namespace pkmn_ntr.Bot
 
         private void Bot_WonderTrade6_Load(object sender, EventArgs e)
         {
-            if (Program.gCmdWindow.SAV.Version == GameVersion.X || Program.gCmdWindow.SAV.Version == GameVersion.Y)
+            if (Program.gCmdWindow.IsXY)
             { // XY
                 psssmenu1Off = 0x19ABC0;
                 psssmenu1IN = 0x7E0000;
@@ -95,7 +95,7 @@ namespace pkmn_ntr.Bot
                 wtboxviewRange = 0x1000000;
                 pcpkmOff = 0x8C861C8;
             }
-            else if (Program.gCmdWindow.SAV.Version == GameVersion.OR || Program.gCmdWindow.SAV.Version == GameVersion.AS)
+            else if (Program.gCmdWindow.IsORAS)
             { // ORAS
                 psssmenu1Off = 0x19C21C;
                 psssmenu1IN = 0x830000;

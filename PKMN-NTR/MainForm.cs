@@ -51,6 +51,36 @@ namespace pkmn_ntr
             }
         }
 
+        // Game checks
+        public bool IsXY
+        {
+            get
+            {
+                return SAV.Version == GameVersion.X || SAV.Version == GameVersion.Y;
+            }
+        }
+        public bool IsORAS
+        {
+            get
+            {
+                return SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS;
+            }
+        }
+        public bool IsSM
+        {
+            get
+            {
+                return SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN;
+            }
+        }
+        public bool IsUSUM
+        {
+            get
+            {
+                return SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM;
+            }
+        }
+
         // Structure for box/slot last position
         struct LastBoxSlot
         {
@@ -67,8 +97,6 @@ namespace pkmn_ntr
         public static string MGDatabasePath => Path.Combine(System.Windows.Forms.Application.StartupPath, "mgdb");
 
         // Program constants
-        public uint BOXES;
-        public int MAXSPECIES;
         public const int BOXSIZE = 30;
         public const int POKEBYTES = 232;
         public const string FOLDERPOKE = "Pokemon";
@@ -308,7 +336,7 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(tab, true);
             }
-            if (!(SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM))
+            if (!(IsUSUM))
             {
                 Delg.SetEnabled(Tool_Trainer, true);
                 Delg.SetEnabled(Tool_Items, true);
@@ -595,13 +623,12 @@ namespace pkmn_ntr
                 PKME_Tabs.SetPKMFormatMode(SAV.Generation);
                 PKME_Tabs.PopulateFields(PKME_Tabs.CurrentPKM);
                 PKME_Tabs.ToggleInterface(SAV, SAV.BlankPKM);
+                PKME_Tabs.CurrentPKM = SAV.BlankPKM;
                 PKME_Tabs.TemplateFields(null);
-                MAXSPECIES = SAV.MaxSpeciesID;
                 if (SAV.Generation == 7)
                 {
                     PKXEXT = ".pk7";
                     BOXEXT = ".ek7";
-                    BOXES = 32;
                     LoadGen7GameData();
                     DumpGen7Data();
                 }
@@ -609,7 +636,6 @@ namespace pkmn_ntr
                 {
                     PKXEXT = ".pk6";
                     BOXEXT = ".ek6";
-                    BOXES = 31;
                     LoadGen6GameData();
                     DumpGen6Data();
                 }
@@ -626,8 +652,8 @@ namespace pkmn_ntr
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
             Delg.SetText(radioDaycare, "Daycare");
-            Delg.SetMaximum(boxDump, BOXES);
-            Delg.SetMaximum(Num_CDBox, BOXES);
+            Delg.SetMaximum(boxDump, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDBox, SAV.BoxCount);
             Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
         }
 
@@ -637,8 +663,8 @@ namespace pkmn_ntr
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
             Delg.SetText(radioDaycare, "Nursery");
-            Delg.SetMaximum(boxDump, BOXES);
-            Delg.SetMaximum(Num_CDBox, BOXES);
+            Delg.SetMaximum(boxDump, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDBox, SAV.BoxCount);
             Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
 
             //Apply connection patch
@@ -661,7 +687,7 @@ namespace pkmn_ntr
 
         public void DumpGen7Data()
         {
-            if (SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM)
+            if (IsUSUM) // USUM not implemented yet
             {
                 return;
             }
@@ -918,13 +944,13 @@ namespace pkmn_ntr
             byte[] relativePattern = null;
             uint offsetAfter = 0;
 
-            if (SAV.Version == GameVersion.X || SAV.Version == GameVersion.Y)
+            if (IsXY)
             {
                 relativePattern = new byte[] { 0x08, 0x1C, 0x01, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD8, 0xBE, 0x59 };
                 offsetAfter += 98;
             }
 
-            if (SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS)
+            else if (IsORAS)
             {
                 relativePattern = new byte[] { 0x08, 0x1E, 0x01, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9C, 0xE8, 0x5D };
                 offsetAfter += 98;
@@ -1003,8 +1029,8 @@ namespace pkmn_ntr
         // Save all boxes
         private void DumpBoxes(object sender, EventArgs e)
         {
-            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[BOXES * BOXSIZE * POKEBYTES], HandleBoxesData, null);
-            AddWaitingForData(Program.scriptHelper.data(boxOff, BOXES * BOXSIZE * POKEBYTES, pid), myArgs);
+            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[SAV.BoxCount * BOXSIZE * POKEBYTES], HandleBoxesData, null);
+            AddWaitingForData(Program.scriptHelper.data(boxOff, (uint)SAV.BoxCount * BOXSIZE * POKEBYTES, pid), myArgs);
         }
 
         public void HandleBoxesData(object args_obj)
@@ -1336,7 +1362,7 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 boxDump.Minimum = 1;
-                boxDump.Maximum = BOXES;
+                boxDump.Maximum = SAV.BoxCount;
                 slotDump.Minimum = 1;
                 slotDump.Maximum = BOXSIZE;
                 boxDump.Enabled = true;
@@ -1364,7 +1390,7 @@ namespace pkmn_ntr
                 boxDump.Minimum = 1;
                 boxDump.Maximum = 2;
                 slotDump.Minimum = 1;
-                if (SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS) // Handle ORAS Battle Resort Daycare
+                if (IsORAS) // Handle ORAS Battle Resort Daycare
                 {
                     slotDump.Maximum = 4;
                 }
@@ -1989,7 +2015,7 @@ namespace pkmn_ntr
                     return null;
                 }
                 PKM validator = new PK6(PKX.DecryptArray(oppdata));
-                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= MAXSPECIES)
+                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.SAV.MaxSpeciesID)
                 { // Valid pokemon
                     Program.helper.lastRead = validator.Checksum;
                     PKME_Tabs.PopulateFields(validator);

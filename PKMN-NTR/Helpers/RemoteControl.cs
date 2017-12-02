@@ -590,7 +590,7 @@ namespace pkmn_ntr.Helpers
                     Report("NTR: Read failed");
                     return null;
                 }
-                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.MAXSPECIES)
+                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.SAV.MaxSpeciesID)
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;
@@ -641,7 +641,7 @@ namespace pkmn_ntr.Helpers
                     Report("NTR: Read failed");
                     return null;
                 }
-                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.MAXSPECIES)
+                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.SAV.MaxSpeciesID)
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;
@@ -693,7 +693,7 @@ namespace pkmn_ntr.Helpers
                     Report("NTR: Read failed");
                     return null;
                 }
-                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.MAXSPECIES)
+                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.SAV.MaxSpeciesID)
                 { // Valid pokemon
                     NTRtimer.Stop();
                     lastRead = validator.Checksum;

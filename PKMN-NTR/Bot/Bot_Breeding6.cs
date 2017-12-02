@@ -117,8 +117,7 @@ namespace pkmn_ntr.Bot
         /// <param name="e"></param>
         private void LoadForm(object sender, EventArgs e)
         {
-            if (Program.gCmdWindow.SAV.Version == GameVersion.X ||
-                Program.gCmdWindow.SAV.Version == GameVersion.Y)
+            if (Program.gCmdWindow.IsXY)
             { // XY
                 ORAS = false;
                 Delg.SetEnabled(grpOrganizeBoxes, false);
@@ -149,7 +148,7 @@ namespace pkmn_ntr.Bot
                 eggFlagOffset = 0x8C80124;
                 runningTime = 1000;
             }
-            else if (Program.gCmdWindow.SAV.Version == GameVersion.OR || Program.gCmdWindow.SAV.Version == GameVersion.AS)
+            else if (Program.gCmdWindow.IsORAS)
             { // ORAS
                 ORAS = true;
             }

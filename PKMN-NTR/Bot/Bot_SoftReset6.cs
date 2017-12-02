@@ -78,7 +78,7 @@ namespace pkmn_ntr.Bot
         private void Bot_SoftReset6_Load(object sender, System.EventArgs e)
         {
             Program.gCmdWindow.SetResetLabel("Number of resets:");
-            if (Program.gCmdWindow.SAV.Version == GameVersion.X || Program.gCmdWindow.SAV.Version == GameVersion.Y)
+            if (Program.gCmdWindow.IsXY)
             { // XY
                 ORAS = false;
                 psssmenu1Off = 0x19ABC0;
@@ -98,7 +98,7 @@ namespace pkmn_ntr.Bot
                 dialogIN = 0x0D;
                 dialogOUT = 0x00;
             }
-            else if (Program.gCmdWindow.SAV.Version == GameVersion.OR || Program.gCmdWindow.SAV.Version == GameVersion.AS)
+            else if (Program.gCmdWindow.IsORAS)
             { // ORAS
                 ORAS = true;
                 psssmenu1Off = 0x19C21C;
