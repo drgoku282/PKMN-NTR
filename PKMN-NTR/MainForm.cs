@@ -434,6 +434,7 @@ namespace pkmn_ntr
             {
                 return;
             }
+
             waitingForData.Add(newkey, newvalue);
         }
 
