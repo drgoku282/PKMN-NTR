@@ -338,7 +338,6 @@ namespace pkmn_ntr
             else
             {
                 Delg.SetEnabled(radioDaycare, false);
-                Delg.SetEnabled(radioTrade, false);
                 Delg.SetEnabled(radioOpponent, false);
             }
             Delg.SetEnabled(Tool_Items, true);

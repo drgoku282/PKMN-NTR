@@ -672,7 +672,7 @@ namespace pkmn_ntr.Helpers
                         return 0x32A870C8;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x0;
+                        return 0x30000660; // Needs testing
                     default:
                         return 0;
                 }
@@ -716,7 +716,7 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x32550248; // WildOffset1 + 0xC98 + 260
+                        return 0x32550248;
                     case GameVersion.US:
                     case GameVersion.UM:
                         return 0x0;
