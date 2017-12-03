@@ -349,6 +349,17 @@
     <None Include="Resources\img\Pokemon Sprites\805.png" />
     <None Include="Resources\img\Pokemon Sprites\806.png" />
     <None Include="Resources\img\Pokemon Sprites\807.png" />
+    <Content Include="Resources\img\Bag\Bag_Balls.png" />
+    <Content Include="Resources\img\Bag\Bag_Battle.png" />
+    <Content Include="Resources\img\Bag\Bag_Berries.png" />
+    <Content Include="Resources\img\Bag\Bag_Free.png" />
+    <Content Include="Resources\img\Bag\Bag_Items.png" />
+    <Content Include="Resources\img\Bag\Bag_Key.png" />
+    <Content Include="Resources\img\Bag\Bag_Mail.png" />
+    <Content Include="Resources\img\Bag\Bag_Medicine.png" />
+    <Content Include="Resources\img\Bag\Bag_PCItems.png" />
+    <Content Include="Resources\img\Bag\Bag_TMHM.png" />
+    <Content Include="Resources\img\Bag\Bag_Z.png" />
     <Content Include="Resources\img\ball\_ball1.png" />
     <Content Include="Resources\img\ball\_ball10.png" />
     <Content Include="Resources\img\ball\_ball11.png" />

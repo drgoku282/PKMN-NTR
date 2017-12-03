@@ -4849,6 +4849,39 @@
   <data name="_ball9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ball\_ball9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Bag_Balls" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_balls.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Berries" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_berries.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Free" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_free.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Items" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_items.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Mail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_mail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Medicine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_medicine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_PCItems" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_pcitems.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_TMHM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_tmhm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bag_Z" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\img\bag\bag_z.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="UltraMoon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\saves\ultramoon.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
