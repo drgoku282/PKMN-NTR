@@ -122,9 +122,10 @@ namespace pkmn_ntr.Helpers
                         return 0x14000;
                     case GameVersion.SN:
                     case GameVersion.MN:
+                        return 0x01200;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x01200;
+                        return 0x01400;
                     default:
                         return 0;
                 }

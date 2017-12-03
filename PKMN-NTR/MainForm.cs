@@ -638,10 +638,6 @@ namespace pkmn_ntr
         public void DumpGen7Data()
         {
             DumpTrainerCard();
-            if (IsUSUM) // USUM not implemented yet
-            {
-                return;
-            }
             DumpEggSeed();
             DumpLegendarySeed();
         }
