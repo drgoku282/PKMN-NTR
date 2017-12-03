@@ -227,6 +227,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D6808;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33012850;
                     default:
                         return 0;
                 }
@@ -251,6 +254,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D67D0;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33012818;
                     default:
                         return 0;
                 }
@@ -275,6 +281,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D67D2;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x3301281A;
                     default:
                         return 0;
                 }
@@ -299,6 +308,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D8FC0;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33015210;
                     default:
                         return 0;
                 }
@@ -317,6 +329,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x33124D58;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33061168;
                     default:
                         return 0;
                 }
@@ -335,6 +350,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x33124D5C;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x3306116C;
                     default:
                         return 0;
                 }
@@ -380,6 +398,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D90D8;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33015328;
                     default:
                         return 0;
                 }
@@ -404,6 +425,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x330D6805;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x3301284D;
                     default:
                         return 0;
                 }
@@ -428,6 +452,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x34197648;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33F8127C;
                     default:
                         return 0;
                 }
