@@ -473,6 +473,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x3313EDDC;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x3307B1EC;
                     default:
                         return 0;
                 }
@@ -491,6 +494,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.SN:
                     case GameVersion.MN:
                         return 0x325A3878;      //1.1: 0x325A3838;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x326601C4;
                     default:
                         return 0;
                 }
