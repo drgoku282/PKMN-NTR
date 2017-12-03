@@ -113,16 +113,6 @@ namespace pkmn_ntr
         public int pid;
         public byte lang;
         public string pname;
-        //Offsets for Pokemon sources
-        public uint tradeOff;
-        public uint opponentOff;
-        public uint partyOff;
-        public uint boxOff;
-        public uint daycare1Off;
-        public uint daycare2Off;
-        public uint daycare3Off; // Battle Resort Daycare
-        public uint daycare4Off; // Battle Resort Daycare
-        public uint battleBoxOff;
 
         // Log handling
         public delegate void LogDelegate(string l);
@@ -511,13 +501,6 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV6(Resources.SavX);
-                boxOff = 0x8C861C8;
-                daycare1Off = 0x8C7FF4C;
-                daycare2Off = 0x8C8003C;
-                tradeOff = 0x8500000;
-                battleBoxOff = 0x8C6AC2C;
-                partyOff = 0x8CE1CF8;
-                opponentOff = 0x8800000;
             }
             else if (args.info.Contains("kujira-2")) // Y
             {
@@ -526,13 +509,6 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV6(Resources.SavY);
-                boxOff = 0x8C861C8;
-                daycare1Off = 0x8C7FF4C;
-                daycare2Off = 0x8C8003C;
-                tradeOff = 0x8500000;
-                battleBoxOff = 0x8C6AC2C;
-                partyOff = 0x8CE1CF8;
-                opponentOff = 0x8800000;
             }
             else if (args.info.Contains("sango-1")) // Omega Ruby
             {
@@ -541,15 +517,6 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV6(Resources.SavOmegaRuby);
-                boxOff = 0x8C9E134;
-                daycare1Off = 0x8C88180;
-                daycare2Off = 0x8C88270;
-                daycare3Off = 0x8C88370;
-                daycare4Off = 0x8C88460;
-                tradeOff = 0x8520000;
-                battleBoxOff = 0x8C72330;
-                partyOff = 0x8CFB26C;
-                opponentOff = 0x8800000;
             }
             else if (args.info.Contains("sango-2")) // Alpha Sapphire
             {
@@ -558,15 +525,6 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV6(Resources.SavAlphaSapphire);
-                boxOff = 0x8C9E134;
-                daycare1Off = 0x8C88180;
-                daycare2Off = 0x8C88270;
-                daycare3Off = 0x8C88370;
-                daycare4Off = 0x8C88460;
-                tradeOff = 0x8520000;
-                battleBoxOff = 0x8C72330;
-                partyOff = 0x8CFB26C;
-                opponentOff = 0x8800000;
             }
             else if (args.info.Contains("niji_loc") &&
                 args.info.Contains("0004000000164800")) // Sun
@@ -576,14 +534,8 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV7(Resources.SavSun);
-                boxOff = 0x330D9838;
-                daycare1Off = 0x3313EC01;
-                daycare2Off = 0x3313ECEA;
-                tradeOff = 0x32A870C8;
-                opponentOff = 0x3254F4AC;
-                partyOff = 0x34195E10;
             }
-            else if (args.info.Contains("niji_loc") && 
+            else if (args.info.Contains("niji_loc") &&
                 args.info.Contains("0004000000175e00")) // Moon
             {
                 string log = args.info;
@@ -591,14 +543,8 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV7(Resources.SavMoon);
-                boxOff = 0x330D9838;
-                daycare1Off = 0x3313EC01;
-                daycare2Off = 0x3313ECEA;
-                tradeOff = 0x32A870C8;
-                opponentOff = 0x3254F4AC;
-                partyOff = 0x34195E10;
             }
-            else if (args.info.Contains("momiji") && 
+            else if (args.info.Contains("momiji") &&
                 args.info.Contains("00040000001b5000")) // Ultra Sun
             {
                 string log = args.info;
@@ -606,14 +552,8 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV7(Resources.SavUltraSun);
-                boxOff = 0x33015AB0;
-                daycare1Off = 0x0;
-                daycare2Off = 0x0;
-                tradeOff = 0x0;
-                opponentOff = 0x0;
-                partyOff = 0x33F7FA44; // Can also be 0x330128E4
             }
-            else if (args.info.Contains("momiji") && 
+            else if (args.info.Contains("momiji") &&
                 args.info.Contains("00040000001b5100")) // Ultra Moon
             {
                 string log = args.info;
@@ -621,12 +561,6 @@ namespace pkmn_ntr
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
                 SAV = new SAV7(Resources.SavUltraMoon);
-                boxOff = 0x33015AB0;
-                daycare1Off = 0x0;
-                daycare2Off = 0x0;
-                tradeOff = 0x0;
-                opponentOff = 0x0;
-                partyOff = 0x33F7FA44; // Can also be 0x330128E4
             }
             else // not a process list or game not found - ignore packet
             {
@@ -816,34 +750,34 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 uint ssd = ((decimal.ToUInt32(boxDump.Value) - 1) * BOXSIZE) + decimal.ToUInt32(slotDump.Value) - 1;
-                dumpOff = boxOff + (ssd * POKEBYTES);
+                dumpOff = LookupTable.BoxOffset + (ssd * POKEBYTES);
             }
             else if (radioDaycare.Checked)
             {
                 switch ((int)slotDump.Value)
                 {
-                    case 1: dumpOff = daycare1Off; break;
-                    case 2: dumpOff = daycare2Off; break;
-                    case 3: dumpOff = daycare3Off; break;
-                    case 4: dumpOff = daycare4Off; break;
-                    default: dumpOff = daycare1Off; break;
+                    case 1: dumpOff = LookupTable.DayCare1Offset; break;
+                    case 2: dumpOff = LookupTable.DayCare2Offset; break;
+                    case 3: dumpOff = LookupTable.DayCare3Offset; break;
+                    case 4: dumpOff = LookupTable.DayCare4Offset; break;
+                    default: dumpOff = LookupTable.DayCare1Offset; break;
                 }
             }
             else if (radioBattleBox.Checked)
             {
-                dumpOff = battleBoxOff + ((decimal.ToUInt32(slotDump.Value) - 1) * POKEBYTES);
+                dumpOff = LookupTable.BattleBoxOffset + ((decimal.ToUInt32(slotDump.Value) - 1) * POKEBYTES);
             }
             else if (radioTrade.Checked)
             {
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleTradeData, null);
-                    AddWaitingForData(Program.scriptHelper.data(tradeOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(LookupTable.TradeOffset, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], HandlePokemon, null);
-                    uint mySeq = Program.scriptHelper.data(tradeOff, POKEBYTES, pid);
+                    uint mySeq = Program.scriptHelper.data(LookupTable.TradeOffset, POKEBYTES, pid);
                     AddWaitingForData(mySeq, myArgs);
                 }
             }
@@ -852,7 +786,7 @@ namespace pkmn_ntr
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleOpponentData, null);
-                    AddWaitingForData(Program.scriptHelper.data(opponentOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(LookupTable.WildOffset1, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
@@ -860,21 +794,14 @@ namespace pkmn_ntr
                     uint offset = 0;
                     switch ((int)boxDump.Value)
                     {
-                        //Opponent 1 / wild Pokemon
-                        case 1:
-                            offset = opponentOff + (uint)(slotDump.Value - 1) * 260;
-                            break;
+                        case 1: offset = LookupTable.WildOffset1; break;
                         //Opponent 2 (in dual battle)
-                        case 2:
-                            offset = opponentOff + 0xC98 + (uint)(slotDump.Value - 1) * 260;
-                            break;
+                        case 2: offset = LookupTable.WildOffset2; break;
                         //Last called helper in SOS battle.
-                        case 3:
-                            offset = 0x3003969C;
-                            break;
+                        case 3: offset = LookupTable.WildOffset3; break;
                         //Last 4 Pokemon in SOS battle
                         case 4:
-                            offset = 0x3002F7B8 + (uint)(slotDump.Value - 1) * 0x1E4;
+                            offset = LookupTable.WildOffset4 + (uint)(slotDump.Value - 1) * 0x1E4;
                             break;
                     }
                     uint mySeq = Program.scriptHelper.data(offset, POKEBYTES, pid);
@@ -883,7 +810,7 @@ namespace pkmn_ntr
             }
             else if (radioParty.Checked)
             {
-                dumpOff = partyOff + (decimal.ToUInt32(slotDump.Value) - 1) * 484;
+                dumpOff = LookupTable.PartyOffset + (decimal.ToUInt32(slotDump.Value) - 1) * 484;
             }
 
             // Read at offset
@@ -1055,7 +982,7 @@ namespace pkmn_ntr
         private void DumpBoxes(object sender, EventArgs e)
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[SAV.BoxCount * BOXSIZE * POKEBYTES], HandleBoxesData, null);
-            AddWaitingForData(Program.scriptHelper.data(boxOff, (uint)SAV.BoxCount * BOXSIZE * POKEBYTES, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.BoxOffset, (uint)SAV.BoxCount * BOXSIZE * POKEBYTES, pid), myArgs);
         }
 
         public void HandleBoxesData(object args_obj)
@@ -1117,12 +1044,12 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 uint index = ((uint)boxDump.Value - 1) * BOXSIZE + (uint)slotDump.Value - 1;
-                uint offset = boxOff + (index * POKEBYTES);
+                uint offset = LookupTable.BoxOffset + (index * POKEBYTES);
                 Program.scriptHelper.write(offset, Pokemon.EncryptedBoxData, pid);
             }
             else if (radioParty.Checked && EnablePartyWrite)
             {
-                uint offset = partyOff + ((uint)slotDump.Value - 1) * 484;
+                uint offset =LookupTable.PartyOffset + ((uint)slotDump.Value - 1) * 484;
                 Program.scriptHelper.write(offset, Pokemon.EncryptedPartyData, pid);
             }
             else
@@ -1178,7 +1105,7 @@ namespace pkmn_ntr
             }
 
             uint index = ((uint)Num_CDBox.Value - 1) * BOXSIZE + (uint)Num_CDSlot.Value - 1;
-            uint offset = boxOff + (index * POKEBYTES);
+            uint offset = LookupTable.BoxOffset + (index * POKEBYTES);
             uint size = (uint)Num_CDAmount.Value * POKEBYTES;
 
             if (CB_CDBackup.Checked)
@@ -1865,7 +1792,7 @@ namespace pkmn_ntr
                 for (uint i = 0; i < 6; i++)
                 {
                     // Obtain offset
-                    uint dumpOff = partyOff + i * 484;
+                    uint dumpOff = LookupTable.PartyOffset + i * 484;
 
                     // Read at offset
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[2602], HandlePollingPkmData, current_party);

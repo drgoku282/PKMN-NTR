@@ -514,6 +514,287 @@ namespace pkmn_ntr.Helpers
             }
         }
 
+        /// <summary>
+        /// Location of Pokémon Box data in RAM.
+        /// </summary>
+        public static uint BoxOffset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8C861C8;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C9E134;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x330D9838;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33015AB0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Day Care/Nursery Pokémon data in RAM (Slot 1).
+        /// </summary>
+        public static uint DayCare1Offset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8C7FF4C;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C88180;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x3313EC01;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Day Care/Nursery Pokémon data in RAM (Slot 2).
+        /// </summary>
+        public static uint DayCare2Offset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8C8003C;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C88270;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x3313ECEA;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Battle Resort Day Care Pokémon data in RAM (Slot 1).
+        /// </summary>
+        public static uint DayCare3Offset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C88370;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Battle Resort Day Care Pokémon data in RAM (Slot 2).
+        /// </summary>
+        public static uint DayCare4Offset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C88460;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Battle Box Pokémon data in RAM.
+        /// </summary>
+        public static uint BattleBoxOffset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8C6AC2C;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8C72330;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Trade Pokémon data in RAM.
+        /// </summary>
+        public static uint TradeOffset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8500000;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8520000;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x32A870C8;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Wild Pokémon data in RAM.
+        /// </summary>
+        public static uint WildOffset1
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8800000;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x3254F4AC;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Wild Pokémon data in RAM (Slot 2 in Double Battle).
+        /// </summary>
+        public static uint WildOffset2
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x32550248; // WildOffset1 + 0xC98 + 260
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Wild Pokémon data in RAM (Last called helper in SOS battle).
+        /// </summary>
+        public static uint WildOffset3
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x3003969C;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Wild Pokémon data in RAM (Previous helpers in SOS battle).
+        /// </summary>
+        public static uint WildOffset4
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x3002F7B8; // WildOffset1 + 0xC98 + 260
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x0;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Location of Party Trade data in RAM.
+        /// </summary>
+        public static uint PartyOffset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.X:
+                    case GameVersion.Y:
+                        return 0x8CE1CF8;
+                    case GameVersion.OR:
+                    case GameVersion.AS:
+                        return 0x8CFB26C;
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x34195E10;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33F7FA44; // Could also be 0x330128E4
+                    default:
+                        return 0;
+                }
+            }
+        }
+
         #endregion RAM Address
 
         #region Formulas

@@ -572,7 +572,7 @@ namespace pkmn_ntr.Helpers
                 int slot = (int)slotCtrl.Value - 1;
                 Report("NTR: Read pokémon data at box " + (box + 1) + ", slot " + (slot + 1));
                 // Get offset
-                uint dumpOff = Program.gCmdWindow.boxOff + (Convert.ToUInt32(box * BOXSIZE + slot) * POKEBYTES);
+                uint dumpOff = LookupTable.BoxOffset + (Convert.ToUInt32(box * BOXSIZE + slot) * POKEBYTES);
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], handlePokeRead, null);
                 Program.gCmdWindow.UpdateDumpBoxes(box, slot);
                 Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(dumpOff, POKEBYTES, pid), myArgs);
@@ -677,7 +677,7 @@ namespace pkmn_ntr.Helpers
             {
                 Report("NTR: Read pokémon data at party slot " + slot);
                 DataReadyWaiting myArgs = new DataReadyWaiting(new byte[PARTYBYTES], handlePokeRead, null);
-                uint offset = Program.gCmdWindow.partyOff + 484 * (slot - 1);
+                uint offset = LookupTable.PartyOffset + 484 * (slot - 1);
                 Program.gCmdWindow.AddWaitingForData(Program.scriptHelper.data(offset, PARTYBYTES, pid), myArgs);
                 setTimer(maxtimeout);
                 while (!timeout)
