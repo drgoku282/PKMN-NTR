@@ -1926,7 +1926,14 @@
     <None Include="Resources\img\item\item_921.png" />
     <None Include="FodyWeavers.xml" />
     <Content Include="Pkmn NTR.ico" />
-    <None Include="Resources\Saves\UltraMoon.bin" />
+    <None Include="Resources\Saves\SavAlphaSapphire.bin" />
+    <None Include="Resources\Saves\SavMoon.bin" />
+    <None Include="Resources\Saves\SavOmegaRuby.bin" />
+    <None Include="Resources\Saves\SavSun.bin" />
+    <None Include="Resources\Saves\SavUltraMoon.bin" />
+    <None Include="Resources\Saves\SavUltraSun.bin" />
+    <None Include="Resources\Saves\SavX.bin" />
+    <None Include="Resources\Saves\SavY.bin" />
     <None Include="Resources\valid.png" />
     <None Include="Resources\warn.png" />
   </ItemGroup>

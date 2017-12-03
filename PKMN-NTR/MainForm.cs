@@ -177,7 +177,7 @@ namespace pkmn_ntr
 
         private void InitializePKMEditor()
         {
-            SAV = new SAV7(Resources.UltraMoon);
+            SAV = new SAV7(Resources.SavUltraMoon);
             PKME_Tabs.LegalityChanged += new EventHandler(PKME_Tabs_LegalityChanged);
             PKME_Tabs.UpdatePreviewSprite += new EventHandler(PKME_Tabs_UpdatePreviewSprite);
             PKME_Tabs.SaveFileRequested += new PKMEditor.ReturnSAVEventHandler(PKME_Tabs_SaveFileRequested);
@@ -510,7 +510,7 @@ namespace pkmn_ntr
                 pname = ", pname: kujira-1";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.X, "PKMN-NTR");
+                SAV = new SAV6(Resources.SavX);
                 boxOff = 0x8C861C8;
                 daycare1Off = 0x8C7FF4C;
                 daycare2Off = 0x8C8003C;
@@ -525,7 +525,7 @@ namespace pkmn_ntr
                 pname = ", pname: kujira-2";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.Y, "PKMN-NTR");
+                SAV = new SAV6(Resources.SavY);
                 boxOff = 0x8C861C8;
                 daycare1Off = 0x8C7FF4C;
                 daycare2Off = 0x8C8003C;
@@ -540,7 +540,7 @@ namespace pkmn_ntr
                 pname = ", pname:  sango-1";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.OR, "PKMN-NTR");
+                SAV = new SAV6(Resources.SavOmegaRuby);
                 boxOff = 0x8C9E134;
                 daycare1Off = 0x8C88180;
                 daycare2Off = 0x8C88270;
@@ -557,7 +557,7 @@ namespace pkmn_ntr
                 pname = ", pname:  sango-2";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.AS, "PKMN-NTR");
+                SAV = new SAV6(Resources.SavAlphaSapphire);
                 boxOff = 0x8C9E134;
                 daycare1Off = 0x8C88180;
                 daycare2Off = 0x8C88270;
@@ -568,13 +568,29 @@ namespace pkmn_ntr
                 partyOff = 0x8CFB26C;
                 opponentOff = 0x8800000;
             }
-            else if (args.info.Contains("niji_loc")) // Sun/Moon
+            else if (args.info.Contains("niji_loc") &&
+                args.info.Contains("0004000000164800")) // Sun
             {
                 string log = args.info;
                 pname = ", pname: niji_loc";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.SN, "PKMN-NTR");
+                SAV = new SAV7(Resources.SavSun);
+                boxOff = 0x330D9838;
+                daycare1Off = 0x3313EC01;
+                daycare2Off = 0x3313ECEA;
+                tradeOff = 0x32A870C8;
+                opponentOff = 0x3254F4AC;
+                partyOff = 0x34195E10;
+            }
+            else if (args.info.Contains("niji_loc") && 
+                args.info.Contains("0004000000175e00")) // Moon
+            {
+                string log = args.info;
+                pname = ", pname: niji_loc";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = new SAV7(Resources.SavMoon);
                 boxOff = 0x330D9838;
                 daycare1Off = 0x3313EC01;
                 daycare2Off = 0x3313ECEA;
@@ -589,7 +605,7 @@ namespace pkmn_ntr
                 pname = ", pname:   momiji";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.US, "PKMN-NTR");
+                SAV = new SAV7(Resources.SavUltraSun);
                 boxOff = 0x33015AB0;
                 daycare1Off = 0x0;
                 daycare2Off = 0x0;
@@ -604,7 +620,7 @@ namespace pkmn_ntr
                 pname = ", pname:   momiji";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = new SAV7(Resources.UltraMoon);
+                SAV = new SAV7(Resources.SavUltraMoon);
                 boxOff = 0x33015AB0;
                 daycare1Off = 0x0;
                 daycare2Off = 0x0;
@@ -720,7 +736,7 @@ namespace pkmn_ntr
         public void HandleTrainerCard(object args_obj)
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
-            Array.Copy(args.data, 0, SAV.Data, LookupTable.TrainerCardLocation, LookupTable.TrainerCardSize);
+            SAV.SetData(args.data, (int)LookupTable.TrainerCardLocation);
             Delg.SetText(lb_name, SAV.OT);
             Delg.SetText(lb_tid, SAV.TID.ToString("D5"));
             Delg.SetText(lb_sid, SAV.SID.ToString("D5"));

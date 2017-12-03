@@ -15871,6 +15871,86 @@ namespace pkmn_ntr.Properties {
         }
         
         /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavAlphaSapphire {
+            get {
+                object obj = ResourceManager.GetObject("SavAlphaSapphire", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavMoon {
+            get {
+                object obj = ResourceManager.GetObject("SavMoon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavOmegaRuby {
+            get {
+                object obj = ResourceManager.GetObject("SavOmegaRuby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavSun {
+            get {
+                object obj = ResourceManager.GetObject("SavSun", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavUltraMoon {
+            get {
+                object obj = ResourceManager.GetObject("SavUltraMoon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavUltraSun {
+            get {
+                object obj = ResourceManager.GetObject("SavUltraSun", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavX {
+            get {
+                object obj = ResourceManager.GetObject("SavX", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavY {
+            get {
+                object obj = ResourceManager.GetObject("SavY", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap slotDel {
@@ -15897,16 +15977,6 @@ namespace pkmn_ntr.Properties {
             get {
                 object obj = ResourceManager.GetObject("slotTrans", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Byte[].
-        /// </summary>
-        internal static byte[] UltraMoon {
-            get {
-                object obj = ResourceManager.GetObject("UltraMoon", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
