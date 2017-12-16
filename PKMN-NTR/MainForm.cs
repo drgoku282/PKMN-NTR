@@ -192,7 +192,7 @@ namespace pkmn_ntr
         private void MainForm_Load(object sender, EventArgs e)
         {
             lb_pkmnntrver.Text = $"{System.Windows.Forms.Application.ProductVersion} ({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version})";
-            lb_pkhexcorever.Text = "17.11.25";
+            lb_pkhexcorever.Text = "17.12.05";
 
             CheckForUpdate();
             host.Text = Settings.Default.IP;
