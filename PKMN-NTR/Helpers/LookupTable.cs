@@ -729,10 +729,9 @@ namespace pkmn_ntr.Helpers
                         return 0x8800000;
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x3254F4AC;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x0;
+                        return 0x3254F4AC;
                     default:
                         return 0;
                 }
@@ -750,10 +749,9 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x32550248;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x0;
+                        return 0x32550248;
                     default:
                         return 0;
                 }
@@ -771,10 +769,9 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x3003969C;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x0;
+                        return 0x3003969C;
                     default:
                         return 0;
                 }
@@ -792,10 +789,9 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
-                        return 0x3002F7B8; // WildOffset1 + 0xC98 + 260
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x0;
+                        return 0x3002F7B8; // WildOffset1 + 0xC98 + 260
                     default:
                         return 0;
                 }
