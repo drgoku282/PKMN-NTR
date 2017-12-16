@@ -40,9 +40,9 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.MN:
                         return 0x3E14C0; // 1.0 offset was 0x3DFFD0
                     case GameVersion.US:
-                        return 0x3F1F00;
+                        return 0x3F341C; // 1.0 offset was 0x3F1F00
                     case GameVersion.UM:
-                        return 0x3F1F04;
+                        return 0x3F3420; // 1.0 offset was 0x3F1F04
                     default:
                         return 0;
                 }
