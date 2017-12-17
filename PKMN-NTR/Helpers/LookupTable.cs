@@ -751,7 +751,7 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.MN:
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x32550248;
+                        return 0x32550248; // Needs testing for USUM
                     default:
                         return 0;
                 }
@@ -769,9 +769,10 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
+                        return 0x3003969C;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x3003969C;
+                        return 0x30039888;
                     default:
                         return 0;
                 }
@@ -789,9 +790,10 @@ namespace pkmn_ntr.Helpers
                 {
                     case GameVersion.SN:
                     case GameVersion.MN:
+                        return 0x3002F7B8;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x3002F7B8; // WildOffset1 + 0xC98 + 260
+                        return 0x3002F9A0; // Can also be 0x30030544
                     default:
                         return 0;
                 }
