@@ -202,10 +202,13 @@ namespace pkmn_ntr
             if (HaX)
             {
                 MessageBox.Show("Illegal mode enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkHaXMessages.Visible = true;
+                this.Text += " (HaX Mode)";
             }
             if (EnablePartyWrite)
             {
                 MessageBox.Show("Party editing enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Text += " (Party Write Mode)";
             }
 
             host.Focus();
@@ -1013,7 +1016,7 @@ namespace pkmn_ntr
 
             if (!IsLegal)
             {
-                if (HaX)
+                if (HaX && !chkHaXMessages.Checked)
                 {
                     DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
                         "you still want to inject it to the game?", "Illegal pokémon",
@@ -1059,7 +1062,7 @@ namespace pkmn_ntr
             {
                 if (!IsLegal)
                 {
-                    if (HaX)
+                    if (HaX && !chkHaXMessages.Checked)
                     {
                         DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
                             "you still want to inject it to the game?", "Illegal pokémon",

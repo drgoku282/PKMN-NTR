@@ -107,6 +107,7 @@
             this.dragout = new System.Windows.Forms.PictureBox();
             this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
+            this.chkHaXMessages = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -484,7 +485,7 @@
             this.Tab_Dump.Controls.Add(this.tableLayoutPanel1);
             this.Tab_Dump.Location = new System.Drawing.Point(4, 22);
             this.Tab_Dump.Name = "Tab_Dump";
-            this.Tab_Dump.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Tab_Dump.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Dump.Size = new System.Drawing.Size(292, 264);
             this.Tab_Dump.TabIndex = 4;
             this.Tab_Dump.Text = "Read/Write";
@@ -534,7 +535,7 @@
             this.Tab_Clone.Controls.Add(this.Num_CDSlot);
             this.Tab_Clone.Location = new System.Drawing.Point(4, 22);
             this.Tab_Clone.Name = "Tab_Clone";
-            this.Tab_Clone.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Tab_Clone.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Clone.Size = new System.Drawing.Size(292, 264);
             this.Tab_Clone.TabIndex = 1;
             this.Tab_Clone.Text = "Clone/Delete";
@@ -710,7 +711,7 @@
             this.Tab_Tools.Controls.Add(this.flowLayoutPanel2);
             this.Tab_Tools.Location = new System.Drawing.Point(4, 22);
             this.Tab_Tools.Name = "Tab_Tools";
-            this.Tab_Tools.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Tab_Tools.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Tools.Size = new System.Drawing.Size(292, 264);
             this.Tab_Tools.TabIndex = 0;
             this.Tab_Tools.Text = "Tools";
@@ -907,7 +908,7 @@
             this.Tab_Log.Controls.Add(this.label71);
             this.Tab_Log.Location = new System.Drawing.Point(4, 22);
             this.Tab_Log.Name = "Tab_Log";
-            this.Tab_Log.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Tab_Log.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Log.Size = new System.Drawing.Size(292, 264);
             this.Tab_Log.TabIndex = 2;
             this.Tab_Log.Text = "Log";
@@ -925,11 +926,12 @@
             // Tab_About
             // 
             this.Tab_About.BackColor = System.Drawing.SystemColors.Control;
+            this.Tab_About.Controls.Add(this.chkHaXMessages);
             this.Tab_About.Controls.Add(this.tableLayoutPanel2);
             this.Tab_About.Location = new System.Drawing.Point(4, 22);
-            this.Tab_About.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Tab_About.Margin = new System.Windows.Forms.Padding(6);
             this.Tab_About.Name = "Tab_About";
-            this.Tab_About.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Tab_About.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_About.Size = new System.Drawing.Size(292, 264);
             this.Tab_About.TabIndex = 3;
             this.Tab_About.Text = "About";
@@ -1211,6 +1213,17 @@
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
+            // chkHaXMessages
+            // 
+            this.chkHaXMessages.AutoSize = true;
+            this.chkHaXMessages.Location = new System.Drawing.Point(6, 239);
+            this.chkHaXMessages.Name = "chkHaXMessages";
+            this.chkHaXMessages.Size = new System.Drawing.Size(178, 17);
+            this.chkHaXMessages.TabIndex = 6;
+            this.chkHaXMessages.Text = "Supress HaX warning messages";
+            this.chkHaXMessages.UseVisualStyleBackColor = true;
+            this.chkHaXMessages.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1356,6 +1369,7 @@
         private System.Windows.Forms.PictureBox dragout;
         private System.Windows.Forms.PictureBox PB_Legal;
         private System.Windows.Forms.Button PollingButton;
+        private System.Windows.Forms.CheckBox chkHaXMessages;
     }
 }
 
