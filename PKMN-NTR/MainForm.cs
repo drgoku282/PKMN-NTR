@@ -1176,6 +1176,8 @@ namespace pkmn_ntr
         private void DropTabDrag(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null || files.Length == 0)
+                return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
 
@@ -1196,19 +1198,10 @@ namespace pkmn_ntr
                 return;
             }
 
-            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30) & 7 : SAV.Generation);
-
-            var type = PKME_Tabs.CurrentPKM.GetType();
-            PKM pk = PKMConverter.ConvertToType(temp, type, out string c);
+            var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : SAV.Generation);
             if (pk == null)
             {
-                WinFormsUtil.Alert("Conversion failed.", c);
-            }
-            if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
-            {
-                var strs = new[] { "International", "Japanese" };
-                var val = SAV.Japanese ? 0 : 1;
-                WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.");
+                WinFormsUtil.Error("Unable to load file.  This file is not compatible with this program.\nPath: " + path);
             }
 
             PKME_Tabs.PopulateFields(pk);
