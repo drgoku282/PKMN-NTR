@@ -1016,19 +1016,22 @@ namespace pkmn_ntr
 
             if (!IsLegal)
             {
-                if (HaX && !chkHaXMessages.Checked)
+                if (HaX)
                 {
-                    DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
-                        "you still want to inject it to the game?", "Illegal pokémon",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dr == DialogResult.No)
+                    if (!chkHaXMessages.Checked)
                     {
-                        return;
+                        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                            "you still want to inject it to the game?", "Illegal pokémon",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dr == DialogResult.No)
+                        {
+                            return;
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("This pokémon is illegal, it won't be writted to " +
+                    MessageBox.Show("This pokémon is illegal, it won't be written to " +
                         "the file", "Illegal pokémon", MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                     return;
@@ -1062,23 +1065,23 @@ namespace pkmn_ntr
             {
                 if (!IsLegal)
                 {
-                    if (HaX && !chkHaXMessages.Checked)
+                    if (HaX)
                     {
-                        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
-                            "you still want to inject it to the game?", "Illegal pokémon",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dr == DialogResult.No)
+                        if (!chkHaXMessages.Checked)
                         {
-                            return;
+                            DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                                "you still want to inject it to the game?", "Illegal pokémon",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dr == DialogResult.No)
+                            {
+                                return;
+                            }
                         }
-                        else
-                        {
-                            pkmsource = Pokemon.EncryptedBoxData;
-                        }
+                        pkmsource = Pokemon.EncryptedBoxData;
                     }
                     else
                     {
-                        MessageBox.Show("This pokémon is illegal, it won't be writted " +
+                        MessageBox.Show("This pokémon is illegal, it won't be written " +
                             "to the file", "Illegal pokémon", MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                         return;
