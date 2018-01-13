@@ -673,7 +673,7 @@ namespace pkmn_ntr.Bot
             try
             {
                 (new FileInfo(BotFolder)).Directory.Create();
-                string fileName = "TSVlist6.csv";
+                string fileName = "TSVlist7.csv";
                 if (File.Exists(BotFolder + fileName))
                 {
                     string[] values = File.ReadAllLines(BotFolder + fileName);
