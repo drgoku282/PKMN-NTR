@@ -751,7 +751,7 @@ namespace pkmn_ntr.Helpers
                     case GameVersion.MN:
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x32550248; // Needs testing for USUM
+                        return 0x32663BF0;
                     default:
                         return 0;
                 }
@@ -843,7 +843,7 @@ namespace pkmn_ntr.Helpers
         }
 
         /// <summary>
-        /// Returns the Trainer ID number used in Generation 7 games based on the 
+        /// Returns the Trainer ID number used in Generation 7 games based on the
         /// player's TID and SID numbers.
         /// </summary>
         /// <param name="TID">Trainer ID number.</param>
@@ -855,7 +855,7 @@ namespace pkmn_ntr.Helpers
         }
 
         /// <summary>
-        /// Returns the number of box spaces starting on a specific slot until the 
+        /// Returns the number of box spaces starting on a specific slot until the
         /// last box.
         /// </summary>
         /// <param name="box">Box number.</param>
@@ -881,7 +881,7 @@ namespace pkmn_ntr.Helpers
 
         #region Buttons
 
-        // Buton Padding values, to press several of them at once, you need to AND the 
+        // Buton Padding values, to press several of them at once, you need to AND the
         // values.
 
         public const uint ButtonA = 0xFFE;
