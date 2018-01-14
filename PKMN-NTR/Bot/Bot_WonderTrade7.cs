@@ -310,7 +310,7 @@ namespace pkmn_ntr.Bot
                         return 0x330D982F; // 1.0: 0x520000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x32DE3448;
+                        return 0x33015AA7;
                     default:
                         return 0;
                 }
