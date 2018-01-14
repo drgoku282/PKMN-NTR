@@ -576,6 +576,27 @@ namespace pkmn_ntr.Helpers
         }
 
         /// <summary>
+        /// Location of the Current Active Box data in RAM 
+        /// </summary>
+        public static uint CurrentboxOffset
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x330D982F; // 1.0: 0x520000;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x33015AA7;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        /// <summary>
         /// Location of Day Care/Nursery Pokémon data in RAM (Slot 1).
         /// </summary>
         public static uint DayCare1Offset

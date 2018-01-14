@@ -169,7 +169,7 @@
             this.esvSave.TabIndex = 1;
             this.esvSave.Text = "Save ESV List";
             this.esvSave.UseVisualStyleBackColor = true;
-            this.esvSave.Click += new System.EventHandler(this.esvSave_Click);
+            this.esvSave.Click += new System.EventHandler(this.EsvSave_Click);
             // 
             // TSVlist
             // 
@@ -199,7 +199,7 @@
             this.tsvAdd.TabIndex = 4;
             this.tsvAdd.Text = "Add";
             this.tsvAdd.UseVisualStyleBackColor = true;
-            this.tsvAdd.Click += new System.EventHandler(this.tsvAdd_Click);
+            this.tsvAdd.Click += new System.EventHandler(this.TsvAdd_Click);
             // 
             // tsvLoad
             // 
@@ -209,7 +209,7 @@
             this.tsvLoad.TabIndex = 7;
             this.tsvLoad.Text = "Load";
             this.tsvLoad.UseVisualStyleBackColor = true;
-            this.tsvLoad.Click += new System.EventHandler(this.tsvLoad_Click);
+            this.tsvLoad.Click += new System.EventHandler(this.TsvLoad_Click);
             // 
             // tsvRemove
             // 
@@ -220,7 +220,7 @@
             this.tsvRemove.TabIndex = 5;
             this.tsvRemove.Text = "Remove";
             this.tsvRemove.UseVisualStyleBackColor = true;
-            this.tsvRemove.Click += new System.EventHandler(this.tsvRemove_Click);
+            this.tsvRemove.Click += new System.EventHandler(this.TsvRemove_Click);
             // 
             // tsvSave
             // 
@@ -230,7 +230,7 @@
             this.tsvSave.TabIndex = 6;
             this.tsvSave.Text = "Save";
             this.tsvSave.UseVisualStyleBackColor = true;
-            this.tsvSave.Click += new System.EventHandler(this.tsvSave_Click);
+            this.tsvSave.Click += new System.EventHandler(this.TsvSave_Click);
             // 
             // Breed_options
             // 
@@ -447,7 +447,7 @@
             this.clearAll.TabIndex = 3;
             this.clearAll.Text = "Reset all fields";
             this.clearAll.UseVisualStyleBackColor = true;
-            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
+            this.clearAll.Click += new System.EventHandler(this.ClearAll_Click);
             // 
             // filterList
             // 
@@ -624,7 +624,7 @@
             this.filterLoad.TabIndex = 4;
             this.filterLoad.Text = "Load filter set...";
             this.filterLoad.UseVisualStyleBackColor = true;
-            this.filterLoad.Click += new System.EventHandler(this.filterLoad_Click);
+            this.filterLoad.Click += new System.EventHandler(this.FilterLoad_Click);
             // 
             // RunStop
             // 

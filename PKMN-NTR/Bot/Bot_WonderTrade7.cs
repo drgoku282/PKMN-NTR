@@ -297,23 +297,6 @@ namespace pkmn_ntr.Bot
         private uint dialogIn = 0x00000000; // 1.0: 0x0C;
         private uint dialogOut = 0x41B80000; // 1.0: 0x0B;
         private uint toppkmOff = 0x30000298;
-        private uint CurrentboxOff
-        {
-            get
-            {
-                switch (Program.gCmdWindow.SAV.Version)
-                {
-                    case GameVersion.SN:
-                    case GameVersion.MN:
-                        return 0x330D982F; // 1.0: 0x520000;
-                    case GameVersion.US:
-                    case GameVersion.UM:
-                        return 0x33015AA7;
-                    default:
-                        return 0;
-                }
-            }
-        }
 
         #region FCtable
         public static readonly uint[] FCtable = { 6, 16, 31, 61, 101, 151, 211, 281, 361,
@@ -428,7 +411,8 @@ namespace pkmn_ntr.Bot
         {
             InitializeComponent();
             RNG = new Random();
-            if (Program.gCmdWindow.SAV.Version == GameVersion.US || Program.gCmdWindow.SAV.Version == GameVersion.UM)
+            if (Program.gCmdWindow.SAV.Version == GameVersion.US || 
+                Program.gCmdWindow.SAV.Version == GameVersion.UM)
             {
                 isUSUM = true;
                 collectFC.Visible = false;
@@ -452,12 +436,21 @@ namespace pkmn_ntr.Bot
             }
             else
             { // Run bot
-                DialogResult dialogResult = MessageBox.Show("This scirpt will try to Wonder Trade " + Trades.Value + " pokémon, starting from the slot " + Slot.Value + " of box " + Box.Value + ". Remember to read the wiki for this bot in GitHub before starting.\r\n\r\nDo you want to continue?", "Wonder Trade Bot", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult dialogResult = MessageBox.Show("This scirpt will try to " +
+                    "Wonder Trade " + Trades.Value + " pokémon, starting from the slot "
+                    + Slot.Value + " of box " + Box.Value + ". Remember to read the " +
+                    "wiki for this bot in GitHub before starting.\r\n\r\nDo you want " +
+                    "to continue?", "Wonder Trade Bot", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes && Trades.Value > 0)
                 {
                     if (Program.gCmdWindow.HaX)
                     {
-                        MessageBox.Show("Illegal mode enabled. If using a WT folder mode, it will write any pokémon to the game, regardless of legality. It will also attempt to Wonder Trade illegal pokémon it finds.", "Illegal mode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Illegal mode enabled. If using a WT folder " +
+                            "mode, it will write any pokémon to the game, regardless " +
+                            "of legality. It will also attempt to Wonder Trade illegal" +
+                            " pokémon it finds.", "Illegal mode", MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
                     }
                     // Configure GUI
                     Delg.SetText(RunStop, "Stop Bot");
@@ -747,8 +740,9 @@ namespace pkmn_ntr.Bot
                             if (boxchange)
                             {
                                 Report("Bot: Set current box");
-                                waitTaskbool = Program.helper.waitNTRwrite(CurrentboxOff,
-                                    (uint)GetIndex(Box), Program.gCmdWindow.pid);
+                                waitTaskbool = Program.helper.waitNTRwrite(LookupTable
+                                    .CurrentboxOffset, (uint)GetIndex(Box), Program
+                                    .gCmdWindow.pid);
                                 if (await waitTaskbool)
                                 {
                                     attempts = 0;
@@ -1033,7 +1027,7 @@ namespace pkmn_ntr.Bot
                                 {
                                     // Trade evolution handling
                                 }
-                                else if (Program.helper.lastRead == 0xBF800000 && 
+                                else if (Program.helper.lastRead == 0xBF800000 &&
                                     !tradeevo)
                                 {
                                     Report("Bot: Trade evolution detected, wait 20" +
@@ -1190,12 +1184,13 @@ namespace pkmn_ntr.Bot
                             if (afterDump.Checked)
                             {
                                 Report("Bot: Dump boxes");
-                                waitTaskbool = Program.helper.waitNTRmultiread(LookupTable.BoxOffset,
-                                    232 * 30 * 31);
+                                waitTaskbool = Program.helper.waitNTRmultiread(LookupTable
+                                    .BoxOffset, 232 * 30 * 31);
                                 if (await waitTaskbool)
                                 {
                                     attempts = 0;
-                                    string fileName = "WTAfter-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".ek7";
+                                    string fileName = "WTAfter-" + DateTime.Now.ToString
+                                        ("yyyyMMddHHmmss") + ".ek7";
                                     Program.gCmdWindow.WriteDataToFile(Program.helper
                                         .lastmultiread, wtfolderpath + fileName);
                                     botstate = BotState.ActionAfter;
@@ -1234,8 +1229,8 @@ namespace pkmn_ntr.Bot
                             byte[] restore = File.ReadAllBytes(backuppath);
                             if (restore.Length == 232 * 30 * 32)
                             {
-                                waitTaskbool = Program.helper.waitNTRwrite(LookupTable.BoxOffset,
-                                    restore, Program.gCmdWindow.pid);
+                                waitTaskbool = Program.helper.waitNTRwrite(LookupTable
+                                    .BoxOffset, restore, Program.gCmdWindow.pid);
                                 if (await waitTaskbool)
                                 {
                                     attempts = 0;
@@ -1266,8 +1261,8 @@ namespace pkmn_ntr.Bot
                                     deletearray, i * 232);
                             }
                             waitTaskbool = Program.helper.waitNTRwrite(GetBoxOffset(
-                                LookupTable.BoxOffset, Box, Slot), deletearray, Program.gCmdWindow
-                                .pid);
+                                LookupTable.BoxOffset, Box, Slot), deletearray,
+                                Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -1355,7 +1350,8 @@ namespace pkmn_ntr.Bot
         /// <param name="e"></param>
         private void Box_ValueChanged(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Trades, LookupTable.GetRemainingSpaces((int)Box.Value, (int)Slot.Value));
+            Delg.SetMaximum(Trades, LookupTable.GetRemainingSpaces((int)Box.Value, 
+                (int)Slot.Value));
         }
 
         /// <summary>
@@ -1467,7 +1463,8 @@ namespace pkmn_ntr.Bot
         {
             if (botworking)
             {
-                MessageBox.Show("Stop the bot before closing this window", "Wonder Trade bot", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Stop the bot before closing this window",
+                    "Wonder Trade bot", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Cancel = true;
             }
         }
