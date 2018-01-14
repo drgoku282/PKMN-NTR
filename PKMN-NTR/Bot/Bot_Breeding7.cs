@@ -58,6 +58,17 @@ namespace pkmn_ntr.Bot
         public Bot_Breeding7()
         {
             InitializeComponent();
+            if (Program.gCmdWindow.IsUSUM)
+            {
+                // Change target offsets for USUM.
+                eggOff = 0x3307B1E8;
+                dialogOff = 0x6A668C;
+                dialogIn = 0x80008;
+                dialogOut = 0x800080;
+                currentboxOff = 0x33015AA7;
+                // This is stored in the LookupTable already. Redundant variable?
+                eggseedOff = LookupTable.SeedEggOffset;
+            }
         }
 
         private void RunStop_Click(object sender, System.EventArgs e)
