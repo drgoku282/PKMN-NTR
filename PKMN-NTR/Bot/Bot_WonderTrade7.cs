@@ -82,8 +82,6 @@ namespace pkmn_ntr.Bot
         private string wtfolderpath = @Application.StartupPath + "\\Wonder Trade\\";
 
         // Data offsets
-        private uint totalFCoff = LookupTable.TrainerTotalFCOffset;
-        private uint currentFCoff = LookupTable.TrainerCurrentFCOffset;
         private uint TrademenuOff
         {
             get
@@ -316,7 +314,6 @@ namespace pkmn_ntr.Bot
                 }
             }
         }
-        private uint pcpkmOff = LookupTable.BoxOffset;
 
         #region FCtable
         public static readonly uint[] FCtable = { 6, 16, 31, 61, 101, 151, 211, 281, 361,
@@ -542,8 +539,8 @@ namespace pkmn_ntr.Bot
 
                         case BotState.BackupBoxes:
                             Report("Bot: Backup boxes");
-                            waitTaskbool = Program.helper.waitNTRmultiread(pcpkmOff,
-                                232 * 30 * 32);
+                            waitTaskbool = Program.helper.waitNTRmultiread(LookupTable
+                                .BoxOffset, 232 * 30 * 32);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -578,7 +575,8 @@ namespace pkmn_ntr.Bot
                             break;
 
                         case BotState.InitializeFC1:
-                            waitTaskbool = Program.helper.waitNTRread(totalFCoff);
+                            waitTaskbool = Program.helper.waitNTRread(LookupTable
+                                .TrainerTotalFCOffset);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -595,7 +593,8 @@ namespace pkmn_ntr.Bot
                             break;
 
                         case BotState.InitializeFC2:
-                            waitTaskbool = Program.helper.waitNTRread(currentFCoff);
+                            waitTaskbool = Program.helper.waitNTRread(LookupTable
+                                .TrainerCurrentFCOffset);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -718,8 +717,8 @@ namespace pkmn_ntr.Bot
                                 currentfile = RNG.Next() % pklist.Count;
                             }
                             waitTaskbool = Program.helper.waitNTRwrite(
-                                GetBoxOffset(pcpkmOff, Box, Slot), pklist[currentfile]
-                                .EncryptedBoxData, Program.gCmdWindow.pid);
+                                GetBoxOffset(LookupTable.BoxOffset, Box, Slot), pklist
+                                [currentfile].EncryptedBoxData, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 Program.gCmdWindow.UpdateDumpBoxes(Box, Slot);
@@ -754,7 +753,8 @@ namespace pkmn_ntr.Bot
                                 {
                                     attempts = 0;
                                     boxchange = false;
-                                    botstate = isUSUM ? BotState.TestWTScreen : BotState.PressTradeButton;
+                                    botstate = isUSUM ? BotState.TestWTScreen : BotState
+                                        .PressTradeButton;
                                 }
                                 else
                                 {
@@ -765,7 +765,8 @@ namespace pkmn_ntr.Bot
                             }
                             else
                             {
-                                botstate = isUSUM ? BotState.TestWTScreen : BotState.PressTradeButton;
+                                botstate = isUSUM ? BotState.TestWTScreen : BotState
+                                    .PressTradeButton;
                             }
                             break;
 
@@ -1032,7 +1033,8 @@ namespace pkmn_ntr.Bot
                                 {
                                     // Trade evolution handling
                                 }
-                                else if (Program.helper.lastRead == 0xBF800000 && !tradeevo)
+                                else if (Program.helper.lastRead == 0xBF800000 && 
+                                    !tradeevo)
                                 {
                                     Report("Bot: Trade evolution detected, wait 20" +
                                         " seconds");
@@ -1157,7 +1159,8 @@ namespace pkmn_ntr.Bot
 
                         case BotState.CollectFC5:
                             Report("Bot: Test FC");
-                            waitTaskbool = Program.helper.waitNTRread(totalFCoff);
+                            waitTaskbool = Program.helper.waitNTRread(LookupTable
+                                .TrainerTotalFCOffset);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -1187,7 +1190,7 @@ namespace pkmn_ntr.Bot
                             if (afterDump.Checked)
                             {
                                 Report("Bot: Dump boxes");
-                                waitTaskbool = Program.helper.waitNTRmultiread(pcpkmOff,
+                                waitTaskbool = Program.helper.waitNTRmultiread(LookupTable.BoxOffset,
                                     232 * 30 * 31);
                                 if (await waitTaskbool)
                                 {
@@ -1231,7 +1234,7 @@ namespace pkmn_ntr.Bot
                             byte[] restore = File.ReadAllBytes(backuppath);
                             if (restore.Length == 232 * 30 * 32)
                             {
-                                waitTaskbool = Program.helper.waitNTRwrite(pcpkmOff,
+                                waitTaskbool = Program.helper.waitNTRwrite(LookupTable.BoxOffset,
                                     restore, Program.gCmdWindow.pid);
                                 if (await waitTaskbool)
                                 {
@@ -1263,7 +1266,7 @@ namespace pkmn_ntr.Bot
                                     deletearray, i * 232);
                             }
                             waitTaskbool = Program.helper.waitNTRwrite(GetBoxOffset(
-                                pcpkmOff, Box, Slot), deletearray, Program.gCmdWindow
+                                LookupTable.BoxOffset, Box, Slot), deletearray, Program.gCmdWindow
                                 .pid);
                             if (await waitTaskbool)
                             {
