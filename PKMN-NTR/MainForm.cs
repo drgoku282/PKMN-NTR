@@ -334,11 +334,11 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(Tools_Breeding, true);
                 Delg.SetEnabled(Tools_SoftReset, true);
-                Delg.SetEnabled(Tools_WonderTrade, true);
             }
             Delg.SetEnabled(Tool_Trainer, true);
             Delg.SetEnabled(Tool_Items, true);
             Delg.SetEnabled(Tool_Controls, true);
+            Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
             Delg.SetEnabled(Btn_ReloadFields, true);

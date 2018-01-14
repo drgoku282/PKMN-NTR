@@ -33,7 +33,7 @@ namespace pkmn_ntr.Bot
         {
             Finished, UserStop, ReadError, WriteError, ButtonError, TouchError,
             StickError, NotInPSS, FestivalPlaza, SVMatch, FilterMatch, NoMatch, SRMatch,
-            BattleMatch, Disconnect, GeneralError
+            BattleMatch, Disconnect, NotWTMenu, GeneralError
         };
 
         /// <summary>
@@ -469,6 +469,10 @@ namespace pkmn_ntr.Bot
                 case ErrorMessage.Disconnect:
                     MessageBox.Show("Connection with the 3DS was lost.", source,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case ErrorMessage.NotWTMenu:
+                    MessageBox.Show("Please, go to the Wonder trade screen and try again.",
+                        source, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case ErrorMessage.GeneralError:
                     MessageBox.Show("A error has ocurred, see log for detals.", source,
