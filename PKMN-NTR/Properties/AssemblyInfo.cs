@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PKMN-NTR")]
-[assembly: AssemblyCopyright("Copyright ©  2016-2017")]
+[assembly: AssemblyCopyright("Copyright ©  2016-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en-US")]
@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("cd7cfe42-3900-4148-aa42-6a04af45b783")]
 
 [assembly: AssemblyVersion("3.6.*")]
-[assembly: AssemblyInformationalVersion("3.6-alpha4")]
+[assembly: AssemblyInformationalVersion("3.6-beta1")]
