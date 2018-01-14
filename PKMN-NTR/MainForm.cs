@@ -332,9 +332,9 @@ namespace pkmn_ntr
             }
             if (!(IsUSUM))
             {
-                Delg.SetEnabled(Tools_Breeding, true);
                 Delg.SetEnabled(Tools_SoftReset, true);
             }
+            Delg.SetEnabled(Tools_Breeding, true);
             Delg.SetEnabled(Tool_Trainer, true);
             Delg.SetEnabled(Tool_Items, true);
             Delg.SetEnabled(Tool_Controls, true);
