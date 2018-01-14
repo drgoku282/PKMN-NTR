@@ -101,6 +101,7 @@ namespace pkmn_ntr.Helpers
 
         public uint data(uint addr, uint size = 0x100, int pid = -1)
         {
+            Program.gCmdWindow.AddToLog($"NTR: Read 0x{size.ToString("X")} bytes at address 0x{addr.ToString("X8")}");
             return Program.ntrClient.sendReadMemPacket(addr, size, (uint)pid);
         }
 

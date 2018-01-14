@@ -57,16 +57,15 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=1.6.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>packages\Costura.Fody.1.6.1\lib\dotnet\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Octokit, Version=0.24.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Octokit.0.24.0\lib\net45\Octokit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Octokit, Version=0.28.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Octokit.0.28.0\lib\net45\Octokit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -78,8 +77,8 @@
       <HintPath>packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
@@ -97,8 +96,8 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
@@ -117,7 +116,7 @@
       <HintPath>packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.1\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -174,6 +173,11 @@
     <Compile Include="Helpers\ImageUtil.cs" />
     <Compile Include="Helpers\PKMUtil.cs" />
     <Compile Include="Helpers\WinFormsUtil.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sub-forms\DumpOpponentHelp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -296,14 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Sub-forms\Remote_Control.resx">
       <DependentUpon>Remote_Control.cs</DependentUpon>
     </EmbeddedResource>
@@ -339,6 +338,28 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-7c.png" />
+    <None Include="Resources\img\Pokemon Sprites\744-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\745-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-3.png" />
+    <None Include="Resources\img\Pokemon Sprites\803.png" />
+    <None Include="Resources\img\Pokemon Sprites\804.png" />
+    <None Include="Resources\img\Pokemon Sprites\805.png" />
+    <None Include="Resources\img\Pokemon Sprites\806.png" />
+    <None Include="Resources\img\Pokemon Sprites\807.png" />
+    <Content Include="Resources\img\Bag\Bag_Balls.png" />
+    <Content Include="Resources\img\Bag\Bag_Battle.png" />
+    <Content Include="Resources\img\Bag\Bag_Berries.png" />
+    <Content Include="Resources\img\Bag\Bag_Free.png" />
+    <Content Include="Resources\img\Bag\Bag_Items.png" />
+    <Content Include="Resources\img\Bag\Bag_Key.png" />
+    <Content Include="Resources\img\Bag\Bag_Mail.png" />
+    <Content Include="Resources\img\Bag\Bag_Medicine.png" />
+    <Content Include="Resources\img\Bag\Bag_PCItems.png" />
+    <Content Include="Resources\img\Bag\Bag_TMHM.png" />
+    <Content Include="Resources\img\Bag\Bag_Z.png" />
     <Content Include="Resources\img\ball\_ball1.png" />
     <Content Include="Resources\img\ball\_ball10.png" />
     <Content Include="Resources\img\ball\_ball11.png" />
@@ -1897,8 +1918,22 @@
     <Content Include="Resources\img\Pokemon Sprites\egg.png" />
     <Content Include="Resources\img\Pokemon Sprites\unknown.png" />
     <Content Include="Resources\img\Pokemon Sprites\_.png" />
+    <None Include="Resources\img\item\item_926.png" />
+    <None Include="Resources\img\item\item_925.png" />
+    <None Include="Resources\img\item\item_924.png" />
+    <None Include="Resources\img\item\item_923.png" />
+    <None Include="Resources\img\item\item_922.png" />
+    <None Include="Resources\img\item\item_921.png" />
     <None Include="FodyWeavers.xml" />
     <Content Include="Pkmn NTR.ico" />
+    <None Include="Resources\Saves\SavAlphaSapphire.bin" />
+    <None Include="Resources\Saves\SavMoon.bin" />
+    <None Include="Resources\Saves\SavOmegaRuby.bin" />
+    <None Include="Resources\Saves\SavSun.bin" />
+    <None Include="Resources\Saves\SavUltraMoon.bin" />
+    <None Include="Resources\Saves\SavUltraSun.bin" />
+    <None Include="Resources\Saves\SavX.bin" />
+    <None Include="Resources\Saves\SavY.bin" />
     <None Include="Resources\valid.png" />
     <None Include="Resources\warn.png" />
   </ItemGroup>
@@ -1950,15 +1985,17 @@ foreach (var item in filesToCleanup)
   <Target Name="CleanReferenceCopyLocalPaths" AfterTargets="AfterBuild;NonWinFodyTarget">
     <CosturaCleanup Config="FodyWeavers.xml" Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
-  <Import Project="packages\Fody.2.0.10\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.10\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Fody.2.0.10\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.0.10\build\dotnet\Fody.targets'))" />
-    <Error Condition="!Exists('packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('packages\Fody.2.2.1.0\build\net452\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.2.1.0\build\net452\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets'))" />
   </Target>
-  <Import Project="packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.6.1\build\dotnet\Costura.Fody.targets')" />
+  <Import Project="packages\Fody.2.2.1.0\build\net452\Fody.targets" Condition="Exists('packages\Fody.2.2.1.0\build\net452\Fody.targets')" />
+  <Import Project="packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
+  <Import Project="packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets" Condition="Exists('packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

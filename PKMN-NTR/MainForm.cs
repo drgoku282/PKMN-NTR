@@ -51,6 +51,36 @@ namespace pkmn_ntr
             }
         }
 
+        // Game checks
+        public bool IsXY
+        {
+            get
+            {
+                return SAV.Version == GameVersion.X || SAV.Version == GameVersion.Y;
+            }
+        }
+        public bool IsORAS
+        {
+            get
+            {
+                return SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS;
+            }
+        }
+        public bool IsSM
+        {
+            get
+            {
+                return SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN;
+            }
+        }
+        public bool IsUSUM
+        {
+            get
+            {
+                return SAV.Version == GameVersion.US || SAV.Version == GameVersion.UM;
+            }
+        }
+
         // Structure for box/slot last position
         struct LastBoxSlot
         {
@@ -59,7 +89,7 @@ namespace pkmn_ntr
         }
 
         // New program-wide variables for PKHeX.Core
-        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.MN, "PKMN-NTR");
+        public SaveFile SAV;
         public PKMEditor PKME_Tabs;
         public byte[] fileinfo;
         public byte[] iteminfo;
@@ -67,8 +97,6 @@ namespace pkmn_ntr
         public static string MGDatabasePath => Path.Combine(System.Windows.Forms.Application.StartupPath, "mgdb");
 
         // Program constants
-        public uint BOXES;
-        public int MAXSPECIES;
         public const int BOXSIZE = 30;
         public const int POKEBYTES = 232;
         public const string FOLDERPOKE = "Pokemon";
@@ -85,16 +113,6 @@ namespace pkmn_ntr
         public int pid;
         public byte lang;
         public string pname;
-        //Offsets for Pokemon sources
-        public uint tradeOff;
-        public uint opponentOff;
-        public uint partyOff;
-        public uint boxOff;
-        public uint daycare1Off;
-        public uint daycare2Off;
-        public uint daycare3Off; // Battle Resort Daycare
-        public uint daycare4Off; // Battle Resort Daycare
-        public uint battleBoxOff;
 
         // Log handling
         public delegate void LogDelegate(string l);
@@ -149,6 +167,7 @@ namespace pkmn_ntr
 
         private void InitializePKMEditor()
         {
+            SAV = new SAV7(Resources.SavUltraMoon);
             PKME_Tabs.LegalityChanged += new EventHandler(PKME_Tabs_LegalityChanged);
             PKME_Tabs.UpdatePreviewSprite += new EventHandler(PKME_Tabs_UpdatePreviewSprite);
             PKME_Tabs.SaveFileRequested += new PKMEditor.ReturnSAVEventHandler(PKME_Tabs_SaveFileRequested);
@@ -172,12 +191,26 @@ namespace pkmn_ntr
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lb_pkmnntrver.Text = System.Windows.Forms.Application.ProductVersion;
-            lb_pkhexcorever.Text = "20171017";
+            lb_pkmnntrver.Text = $"{System.Windows.Forms.Application.ProductVersion} ({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version})";
+            lb_pkhexcorever.Text = "17.12.05";
 
             CheckForUpdate();
             host.Text = Settings.Default.IP;
             LoadDebugIP();
+
+            // Prompt warining for command line modes
+            if (HaX)
+            {
+                MessageBox.Show("Illegal mode enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkHaXMessages.Visible = true;
+                this.Text += " (HaX Mode)";
+            }
+            if (EnablePartyWrite)
+            {
+                MessageBox.Show("Party editing enabled, please be careful.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Text += " (Party Write Mode)";
+            }
+
             host.Focus();
         }
 
@@ -297,11 +330,14 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(tab, true);
             }
+            if (!(IsUSUM))
+            {
+                Delg.SetEnabled(Tools_Breeding, true);
+                Delg.SetEnabled(Tools_SoftReset, true);
+            }
             Delg.SetEnabled(Tool_Trainer, true);
             Delg.SetEnabled(Tool_Items, true);
             Delg.SetEnabled(Tool_Controls, true);
-            Delg.SetEnabled(Tools_Breeding, true);
-            Delg.SetEnabled(Tools_SoftReset, true);
             Delg.SetEnabled(Tools_WonderTrade, true);
             Delg.SetEnabled(Tools_PokeDigger, true);
             Delg.SetEnabled(resetNoBox, true);
@@ -396,6 +432,7 @@ namespace pkmn_ntr
             {
                 return;
             }
+
             waitingForData.Add(newkey, newvalue);
         }
 
@@ -461,14 +498,7 @@ namespace pkmn_ntr
                 pname = ", pname: kujira-1";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.X, "PKMN-NTR");
-                boxOff = 0x8C861C8;
-                daycare1Off = 0x8C7FF4C;
-                daycare2Off = 0x8C8003C;
-                tradeOff = 0x8500000;
-                battleBoxOff = 0x8C6AC2C;
-                partyOff = 0x8CE1CF8;
-                opponentOff = 0x8800000;
+                SAV = new SAV6(Resources.SavX);
             }
             else if (args.info.Contains("kujira-2")) // Y
             {
@@ -476,14 +506,7 @@ namespace pkmn_ntr
                 pname = ", pname: kujira-2";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.Y, "PKMN-NTR");
-                boxOff = 0x8C861C8;
-                daycare1Off = 0x8C7FF4C;
-                daycare2Off = 0x8C8003C;
-                tradeOff = 0x8500000;
-                battleBoxOff = 0x8C6AC2C;
-                partyOff = 0x8CE1CF8;
-                opponentOff = 0x8800000;
+                SAV = new SAV6(Resources.SavY);
             }
             else if (args.info.Contains("sango-1")) // Omega Ruby
             {
@@ -491,16 +514,7 @@ namespace pkmn_ntr
                 pname = ", pname:  sango-1";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.OR, "PKMN-NTR");
-                boxOff = 0x8C9E134;
-                daycare1Off = 0x8C88180;
-                daycare2Off = 0x8C88270;
-                daycare3Off = 0x8C88370;
-                daycare4Off = 0x8C88460;
-                tradeOff = 0x8520000;
-                battleBoxOff = 0x8C72330;
-                partyOff = 0x8CFB26C;
-                opponentOff = 0x8800000;
+                SAV = new SAV6(Resources.SavOmegaRuby);
             }
             else if (args.info.Contains("sango-2")) // Alpha Sapphire
             {
@@ -508,30 +522,43 @@ namespace pkmn_ntr
                 pname = ", pname:  sango-2";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.AS, "PKMN-NTR");
-                boxOff = 0x8C9E134;
-                daycare1Off = 0x8C88180;
-                daycare2Off = 0x8C88270;
-                daycare3Off = 0x8C88370;
-                daycare4Off = 0x8C88460;
-                tradeOff = 0x8520000;
-                battleBoxOff = 0x8C72330;
-                partyOff = 0x8CFB26C;
-                opponentOff = 0x8800000;
+                SAV = new SAV6(Resources.SavAlphaSapphire);
             }
-            else if (args.info.Contains("niji_loc")) // Sun/Moon
+            else if (args.info.Contains("niji_loc") &&
+                args.info.Contains("0004000000164800")) // Sun
             {
                 string log = args.info;
                 pname = ", pname: niji_loc";
                 string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
                 pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
-                SAV = SaveUtil.GetBlankSAV(GameVersion.SN, "PKMN-NTR");
-                boxOff = 0x330D9838;
-                daycare1Off = 0x3313EC01;
-                daycare2Off = 0x3313ECEA;
-                tradeOff = 0x32A870C8;
-                opponentOff = 0x3254F4AC;
-                partyOff = 0x34195E10;
+                SAV = new SAV7(Resources.SavSun);
+            }
+            else if (args.info.Contains("niji_loc") &&
+                args.info.Contains("0004000000175e00")) // Moon
+            {
+                string log = args.info;
+                pname = ", pname: niji_loc";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = new SAV7(Resources.SavMoon);
+            }
+            else if (args.info.Contains("momiji") &&
+                args.info.Contains("00040000001b5000")) // Ultra Sun
+            {
+                string log = args.info;
+                pname = ", pname:   momiji";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = new SAV7(Resources.SavUltraSun);
+            }
+            else if (args.info.Contains("momiji") &&
+                args.info.Contains("00040000001b5100")) // Ultra Moon
+            {
+                string log = args.info;
+                pname = ", pname:   momiji";
+                string splitlog = log.Substring(log.IndexOf(pname) - 8, log.Length - log.IndexOf(pname));
+                pid = Convert.ToInt32("0x" + splitlog.Substring(0, 8), 16);
+                SAV = new SAV7(Resources.SavUltraMoon);
             }
             else // not a process list or game not found - ignore packet
             {
@@ -545,13 +572,12 @@ namespace pkmn_ntr
                 PKME_Tabs.SetPKMFormatMode(SAV.Generation);
                 PKME_Tabs.PopulateFields(PKME_Tabs.CurrentPKM);
                 PKME_Tabs.ToggleInterface(SAV, SAV.BlankPKM);
+                PKME_Tabs.CurrentPKM = SAV.BlankPKM;
                 PKME_Tabs.TemplateFields(null);
-                MAXSPECIES = SAV.MaxSpeciesID;
                 if (SAV.Generation == 7)
                 {
                     PKXEXT = ".pk7";
                     BOXEXT = ".ek7";
-                    BOXES = 32;
                     LoadGen7GameData();
                     DumpGen7Data();
                 }
@@ -559,7 +585,6 @@ namespace pkmn_ntr
                 {
                     PKXEXT = ".pk6";
                     BOXEXT = ".ek6";
-                    BOXES = 31;
                     LoadGen6GameData();
                     DumpGen6Data();
                 }
@@ -576,9 +601,9 @@ namespace pkmn_ntr
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
             Delg.SetText(radioDaycare, "Daycare");
-            Delg.SetMaximum(boxDump, BOXES);
-            Delg.SetMaximum(Num_CDBox, BOXES);
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(boxDump, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDBox, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
         }
 
         private async void LoadGen7GameData()
@@ -587,12 +612,12 @@ namespace pkmn_ntr
             Delg.SetEnabled(Write_PKM, true);
             Delg.SetCheckedRadio(radioBoxes, true);
             Delg.SetText(radioDaycare, "Nursery");
-            Delg.SetMaximum(boxDump, BOXES);
-            Delg.SetMaximum(Num_CDBox, BOXES);
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(boxDump, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDBox, SAV.BoxCount);
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
 
             //Apply connection patch
-            Task<bool> Patch = Program.helper.waitNTRwrite(LookupTable.nfcOff, LookupTable.nfcVal, pid);
+            Task<bool> Patch = Program.helper.waitNTRwrite(LookupTable.NFCOffset, LookupTable.NFCValue, pid);
             if (!(await Patch))
             {
                 MessageBox.Show("An error has ocurred while applying the connection patch.", "PKMN-NTR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -632,18 +657,18 @@ namespace pkmn_ntr
         // Game save data handling
         public void DumpTrainerCard()
         {
-            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[LookupTable.trainercardSize], HandleTrainerCard, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.trainercardOff, LookupTable.trainercardSize, pid), myArgs);
+            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[LookupTable.TrainerCardSize], HandleTrainerCard, null);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.TrainerCardOffset, LookupTable.TrainerCardSize, pid), myArgs);
         }
 
         public void HandleTrainerCard(object args_obj)
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
-            Array.Copy(args.data, 0, SAV.Data, LookupTable.trainercardLocation, LookupTable.trainercardSize);
+            SAV.SetData(args.data, (int)LookupTable.TrainerCardLocation);
             Delg.SetText(lb_name, SAV.OT);
             Delg.SetText(lb_tid, SAV.TID.ToString("D5"));
             Delg.SetText(lb_sid, SAV.SID.ToString("D5"));
-            Delg.SetText(lb_tsv, LookupTable.getTSV(SAV.TID, SAV.SID).ToString("D4"));
+            Delg.SetText(lb_tsv, LookupTable.GetTSV(SAV.TID, SAV.SID).ToString("D4"));
             switch (SAV.Version)
             {
                 case GameVersion.X:
@@ -664,11 +689,19 @@ namespace pkmn_ntr
                     break;
                 case GameVersion.SN:
                     Delg.SetText(lb_version, "Sun");
-                    Delg.SetText(lb_g7id, LookupTable.getG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
                     break;
                 case GameVersion.MN:
                     Delg.SetText(lb_version, "Moon");
-                    Delg.SetText(lb_g7id, LookupTable.getG7ID(SAV.TID, SAV.SID).ToString("D6"));
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
+                    break;
+                case GameVersion.US:
+                    Delg.SetText(lb_version, "Ultra Sun");
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
+                    break;
+                case GameVersion.UM:
+                    Delg.SetText(lb_version, "Ultra Moon");
+                    Delg.SetText(lb_g7id, SAV.TrainerID7.ToString("D6"));
                     break;
             }
         }
@@ -677,7 +710,7 @@ namespace pkmn_ntr
         public void DumpEggSeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x10], HandleEggSeed, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.eggseedOff, 0x10, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.SeedEggOffset, 0x10, pid), myArgs);
         }
 
         public void HandleEggSeed(object args_obj)
@@ -690,7 +723,7 @@ namespace pkmn_ntr
         public void DumpLegendarySeed()
         {
             DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x04], HandleLegendarySeed, null);
-            AddWaitingForData(Program.scriptHelper.data(LookupTable.legseedOff, 0x04, pid), myArgs);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.SeedLegendaryOffset, 0x04, pid), myArgs);
         }
 
         public void HandleLegendarySeed(object args_obj)
@@ -711,34 +744,34 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 uint ssd = ((decimal.ToUInt32(boxDump.Value) - 1) * BOXSIZE) + decimal.ToUInt32(slotDump.Value) - 1;
-                dumpOff = boxOff + (ssd * POKEBYTES);
+                dumpOff = LookupTable.BoxOffset + (ssd * POKEBYTES);
             }
             else if (radioDaycare.Checked)
             {
                 switch ((int)slotDump.Value)
                 {
-                    case 1: dumpOff = daycare1Off; break;
-                    case 2: dumpOff = daycare2Off; break;
-                    case 3: dumpOff = daycare3Off; break;
-                    case 4: dumpOff = daycare4Off; break;
-                    default: dumpOff = daycare1Off; break;
+                    case 1: dumpOff = LookupTable.DayCare1Offset; break;
+                    case 2: dumpOff = LookupTable.DayCare2Offset; break;
+                    case 3: dumpOff = LookupTable.DayCare3Offset; break;
+                    case 4: dumpOff = LookupTable.DayCare4Offset; break;
+                    default: dumpOff = LookupTable.DayCare1Offset; break;
                 }
             }
             else if (radioBattleBox.Checked)
             {
-                dumpOff = battleBoxOff + ((decimal.ToUInt32(slotDump.Value) - 1) * POKEBYTES);
+                dumpOff = LookupTable.BattleBoxOffset + ((decimal.ToUInt32(slotDump.Value) - 1) * POKEBYTES);
             }
             else if (radioTrade.Checked)
             {
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleTradeData, null);
-                    AddWaitingForData(Program.scriptHelper.data(tradeOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(LookupTable.TradeOffset, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[POKEBYTES], HandlePokemon, null);
-                    uint mySeq = Program.scriptHelper.data(tradeOff, POKEBYTES, pid);
+                    uint mySeq = Program.scriptHelper.data(LookupTable.TradeOffset, POKEBYTES, pid);
                     AddWaitingForData(mySeq, myArgs);
                 }
             }
@@ -747,7 +780,7 @@ namespace pkmn_ntr
                 if (SAV.Generation == 6)
                 {
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[0x1FFFF], HandleOpponentData, null);
-                    AddWaitingForData(Program.scriptHelper.data(opponentOff, 0x1FFFF, pid), myArgs);
+                    AddWaitingForData(Program.scriptHelper.data(LookupTable.WildOffset1, 0x1FFFF, pid), myArgs);
                 }
                 else
                 {
@@ -755,21 +788,14 @@ namespace pkmn_ntr
                     uint offset = 0;
                     switch ((int)boxDump.Value)
                     {
-                        //Opponent 1 / wild Pokemon
-                        case 1:
-                            offset = opponentOff + (uint)(slotDump.Value - 1) * 260;
-                            break;
+                        case 1: offset = LookupTable.WildOffset1; break;
                         //Opponent 2 (in dual battle)
-                        case 2:
-                            offset = opponentOff + 0xC98 + (uint)(slotDump.Value - 1) * 260;
-                            break;
+                        case 2: offset = LookupTable.WildOffset2; break;
                         //Last called helper in SOS battle.
-                        case 3:
-                            offset = 0x3003969C;
-                            break;
+                        case 3: offset = LookupTable.WildOffset3; break;
                         //Last 4 Pokemon in SOS battle
                         case 4:
-                            offset = 0x3002F7B8 + (uint)(slotDump.Value - 1) * 0x1E4;
+                            offset = LookupTable.WildOffset4 + (uint)(slotDump.Value - 1) * 0x1E4;
                             break;
                     }
                     uint mySeq = Program.scriptHelper.data(offset, POKEBYTES, pid);
@@ -778,7 +804,7 @@ namespace pkmn_ntr
             }
             else if (radioParty.Checked)
             {
-                dumpOff = partyOff + (decimal.ToUInt32(slotDump.Value) - 1) * 484;
+                dumpOff = LookupTable.PartyOffset + (decimal.ToUInt32(slotDump.Value) - 1) * 484;
             }
 
             // Read at offset
@@ -864,13 +890,13 @@ namespace pkmn_ntr
             byte[] relativePattern = null;
             uint offsetAfter = 0;
 
-            if (SAV.Version == GameVersion.X || SAV.Version == GameVersion.Y)
+            if (IsXY)
             {
                 relativePattern = new byte[] { 0x08, 0x1C, 0x01, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD8, 0xBE, 0x59 };
                 offsetAfter += 98;
             }
 
-            if (SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS)
+            else if (IsORAS)
             {
                 relativePattern = new byte[] { 0x08, 0x1E, 0x01, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9C, 0xE8, 0x5D };
                 offsetAfter += 98;
@@ -895,12 +921,12 @@ namespace pkmn_ntr
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
 
-            List<uint> occurences = FindInRAMDump(args.data, LookupTable.oppPattern);
+            List<uint> occurences = FindInRAMDump(args.data, LookupTable.OpponentPatern);
             int count = 0;
             foreach (uint occurence in occurences)
             {
                 count++;
-                int dataOffset = (int)(occurence + LookupTable.offsetOpp);
+                int dataOffset = (int)(occurence + LookupTable.OpponentOffset);
                 DataReadyWaiting args_pkm = new DataReadyWaiting(args.data.Skip(dataOffset).Take(POKEBYTES).ToArray(), HandlePokemon, null);
                 HandlePokemon(args_pkm);
             }
@@ -910,10 +936,10 @@ namespace pkmn_ntr
         {
             DataReadyWaiting args = (DataReadyWaiting)args_obj;
 
-            List<uint> occurences = FindInRAMDump(args.data, LookupTable.oppPattern);
+            List<uint> occurences = FindInRAMDump(args.data, LookupTable.OpponentPatern);
             foreach (uint occurence in occurences)
             {
-                int dataOffset = (int)(occurence + LookupTable.offsetOpp);
+                int dataOffset = (int)(occurence + LookupTable.OpponentOffset);
                 oppdata = args.data.Skip(dataOffset).Take(POKEBYTES).ToArray();
             }
         }
@@ -949,8 +975,8 @@ namespace pkmn_ntr
         // Save all boxes
         private void DumpBoxes(object sender, EventArgs e)
         {
-            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[BOXES * BOXSIZE * POKEBYTES], HandleBoxesData, null);
-            AddWaitingForData(Program.scriptHelper.data(boxOff, BOXES * BOXSIZE * POKEBYTES, pid), myArgs);
+            DataReadyWaiting myArgs = new DataReadyWaiting(new byte[SAV.BoxCount * BOXSIZE * POKEBYTES], HandleBoxesData, null);
+            AddWaitingForData(Program.scriptHelper.data(LookupTable.BoxOffset, (uint)SAV.BoxCount * BOXSIZE * POKEBYTES, pid), myArgs);
         }
 
         public void HandleBoxesData(object args_obj)
@@ -992,17 +1018,20 @@ namespace pkmn_ntr
             {
                 if (HaX)
                 {
-                    DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
-                        "you still want to inject it to the game?", "Illegal pokémon",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dr == DialogResult.No)
+                    if (!chkHaXMessages.Checked)
                     {
-                        return;
+                        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                            "you still want to inject it to the game?", "Illegal pokémon",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dr == DialogResult.No)
+                        {
+                            return;
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("This pokémon is illegal, it won't be writted to " +
+                    MessageBox.Show("This pokémon is illegal, it won't be written to " +
                         "the file", "Illegal pokémon", MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                     return;
@@ -1012,12 +1041,12 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 uint index = ((uint)boxDump.Value - 1) * BOXSIZE + (uint)slotDump.Value - 1;
-                uint offset = boxOff + (index * POKEBYTES);
+                uint offset = LookupTable.BoxOffset + (index * POKEBYTES);
                 Program.scriptHelper.write(offset, Pokemon.EncryptedBoxData, pid);
             }
             else if (radioParty.Checked && EnablePartyWrite)
             {
-                uint offset = partyOff + ((uint)slotDump.Value - 1) * 484;
+                uint offset =LookupTable.PartyOffset + ((uint)slotDump.Value - 1) * 484;
                 Program.scriptHelper.write(offset, Pokemon.EncryptedPartyData, pid);
             }
             else
@@ -1038,17 +1067,21 @@ namespace pkmn_ntr
                 {
                     if (HaX)
                     {
-                        DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
-                            "you still want to inject it to the game?", "Illegal pokémon",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dr == DialogResult.No)
+                        if (!chkHaXMessages.Checked)
                         {
-                            return;
+                            DialogResult dr = MessageBox.Show("This pokémon is illegal. Do " +
+                                "you still want to inject it to the game?", "Illegal pokémon",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dr == DialogResult.No)
+                            {
+                                return;
+                            }
                         }
+                        pkmsource = Pokemon.EncryptedBoxData;
                     }
                     else
                     {
-                        MessageBox.Show("This pokémon is illegal, it won't be writted " +
+                        MessageBox.Show("This pokémon is illegal, it won't be written " +
                             "to the file", "Illegal pokémon", MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                         return;
@@ -1069,7 +1102,7 @@ namespace pkmn_ntr
             }
 
             uint index = ((uint)Num_CDBox.Value - 1) * BOXSIZE + (uint)Num_CDSlot.Value - 1;
-            uint offset = boxOff + (index * POKEBYTES);
+            uint offset = LookupTable.BoxOffset + (index * POKEBYTES);
             uint size = (uint)Num_CDAmount.Value * POKEBYTES;
 
             if (CB_CDBackup.Checked)
@@ -1106,7 +1139,7 @@ namespace pkmn_ntr
         // PKHeX Tabs
         private void PKME_Tabs_LegalityChanged(object sender, EventArgs e)
         {
-            if (sender == null || HaX)
+            if (sender == null)
             {
                 PB_Legal.Visible = false;
                 return;
@@ -1143,6 +1176,8 @@ namespace pkmn_ntr
         private void DropTabDrag(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null || files.Length == 0)
+                return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
 
@@ -1163,19 +1198,10 @@ namespace pkmn_ntr
                 return;
             }
 
-            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30) & 7 : SAV.Generation);
-
-            var type = PKME_Tabs.CurrentPKM.GetType();
-            PKM pk = PKMConverter.ConvertToType(temp, type, out string c);
+            var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : SAV.Generation);
             if (pk == null)
             {
-                WinFormsUtil.Alert("Conversion failed.", c);
-            }
-            if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
-            {
-                var strs = new[] { "International", "Japanese" };
-                var val = SAV.Japanese ? 0 : 1;
-                WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.");
+                WinFormsUtil.Error("Unable to load file.  This file is not compatible with this program.\nPath: " + path);
             }
 
             PKME_Tabs.PopulateFields(pk);
@@ -1278,7 +1304,7 @@ namespace pkmn_ntr
             if (radioBoxes.Checked)
             {
                 boxDump.Minimum = 1;
-                boxDump.Maximum = BOXES;
+                boxDump.Maximum = SAV.BoxCount;
                 slotDump.Minimum = 1;
                 slotDump.Maximum = BOXSIZE;
                 boxDump.Enabled = true;
@@ -1306,7 +1332,7 @@ namespace pkmn_ntr
                 boxDump.Minimum = 1;
                 boxDump.Maximum = 2;
                 slotDump.Minimum = 1;
-                if (SAV.Version == GameVersion.OR || SAV.Version == GameVersion.AS) // Handle ORAS Battle Resort Daycare
+                if (IsORAS) // Handle ORAS Battle Resort Daycare
                 {
                     slotDump.Maximum = 4;
                 }
@@ -1451,7 +1477,7 @@ namespace pkmn_ntr
         // Clone/Delete tab
         private void UpdateMaxCloneDelete(object sender, EventArgs e)
         {
-            Delg.SetMaximum(Num_CDAmount, LookupTable.getMaxSpace((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
+            Delg.SetMaximum(Num_CDAmount, LookupTable.GetRemainingSpaces((int)Num_CDBox.Value, (int)Num_CDSlot.Value));
         }
 
         // Bot functions
@@ -1534,14 +1560,14 @@ namespace pkmn_ntr
             }
             else
             {
-                Array.Copy(iteminfo, 0, SAV.Data, LookupTable.itemsLocation, LookupTable.itemsSize);
+                SAV.SetData(iteminfo, (int)LookupTable.ItemsLocation);
                 new Edit_Items().ShowDialog();
             }
         }
 
         public async Task<byte[]> DumpItems()
         {
-            Task<bool> worker = Program.helper.waitNTRmultiread(LookupTable.itemsOff, LookupTable.itemsSize);
+            Task<bool> worker = Program.helper.waitNTRmultiread(LookupTable.ItemsOffset, LookupTable.ItemsSize);
             if (await worker)
             {
                 return Program.helper.lastmultiread;
@@ -1756,7 +1782,7 @@ namespace pkmn_ntr
                 for (uint i = 0; i < 6; i++)
                 {
                     // Obtain offset
-                    uint dumpOff = partyOff + i * 484;
+                    uint dumpOff = LookupTable.PartyOffset + i * 484;
 
                     // Read at offset
                     DataReadyWaiting myArgs = new DataReadyWaiting(new byte[2602], HandlePollingPkmData, current_party);
@@ -1931,7 +1957,7 @@ namespace pkmn_ntr
                     return null;
                 }
                 PKM validator = new PK6(PKX.DecryptArray(oppdata));
-                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= MAXSPECIES)
+                if (validator.ChecksumValid && validator.Species > 0 && validator.Species <= Program.gCmdWindow.SAV.MaxSpeciesID)
                 { // Valid pokemon
                     Program.helper.lastRead = validator.Checksum;
                     PKME_Tabs.PopulateFields(validator);

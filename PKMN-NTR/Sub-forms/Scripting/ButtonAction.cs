@@ -142,19 +142,19 @@ namespace pkmn_ntr.Sub_forms.Scripting
             uint command;
             switch (button)
             {
-                case ConsoleButton.A: command = LookupTable.keyA; break;
-                case ConsoleButton.B: command = LookupTable.keyB; break;
-                case ConsoleButton.X: command = LookupTable.keyX; break;
-                case ConsoleButton.Y: command = LookupTable.keyY; break;
-                case ConsoleButton.R: command = LookupTable.keyR; break;
-                case ConsoleButton.L: command = LookupTable.keyL; break;
-                case ConsoleButton.Start: command = LookupTable.keySTART; break;
-                case ConsoleButton.Select: command = LookupTable.keySELECT; break;
-                case ConsoleButton.Up: command = LookupTable.DpadUP; break;
-                case ConsoleButton.Down: command = LookupTable.DpadDOWN; break;
-                case ConsoleButton.Left: command = LookupTable.DpadLEFT; break;
-                case ConsoleButton.Right: command = LookupTable.DpadRIGHT; break;
-                default: command = LookupTable.nokey; break;
+                case ConsoleButton.A: command = LookupTable.ButtonA; break;
+                case ConsoleButton.B: command = LookupTable.ButtonB; break;
+                case ConsoleButton.X: command = LookupTable.ButtonX; break;
+                case ConsoleButton.Y: command = LookupTable.ButtonY; break;
+                case ConsoleButton.R: command = LookupTable.ButtonR; break;
+                case ConsoleButton.L: command = LookupTable.ButtonL; break;
+                case ConsoleButton.Start: command = LookupTable.ButtonStart; break;
+                case ConsoleButton.Select: command = LookupTable.ButtonSelect; break;
+                case ConsoleButton.Up: command = LookupTable.DPadUp; break;
+                case ConsoleButton.Down: command = LookupTable.DPadDown; break;
+                case ConsoleButton.Left: command = LookupTable.DPadLeft; break;
+                case ConsoleButton.Right: command = LookupTable.DPadRight; break;
+                default: command = LookupTable.NoButtons; break;
             }
             if (button == ConsoleButton.None)
             {

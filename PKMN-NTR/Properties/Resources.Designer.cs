@@ -19,7 +19,7 @@ namespace pkmn_ntr.Properties {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -2336,6 +2336,16 @@ namespace pkmn_ntr.Properties {
         internal static System.Drawing.Bitmap _25_6c {
             get {
                 object obj = ResourceManager.GetObject("_25_6c", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_7c {
+            get {
+                object obj = ResourceManager.GetObject("_25_7c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -9303,6 +9313,16 @@ namespace pkmn_ntr.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _744_1 {
+            get {
+                object obj = ResourceManager.GetObject("_744_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _745 {
             get {
                 object obj = ResourceManager.GetObject("_745", resourceCulture);
@@ -9316,6 +9336,16 @@ namespace pkmn_ntr.Properties {
         internal static System.Drawing.Bitmap _745_1 {
             get {
                 object obj = ResourceManager.GetObject("_745_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _745_2 {
+            get {
+                object obj = ResourceManager.GetObject("_745_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10113,6 +10143,36 @@ namespace pkmn_ntr.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _800_1 {
+            get {
+                object obj = ResourceManager.GetObject("_800_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _800_2 {
+            get {
+                object obj = ResourceManager.GetObject("_800_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _800_3 {
+            get {
+                object obj = ResourceManager.GetObject("_800_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _801 {
             get {
                 object obj = ResourceManager.GetObject("_801", resourceCulture);
@@ -10136,6 +10196,56 @@ namespace pkmn_ntr.Properties {
         internal static System.Drawing.Bitmap _802 {
             get {
                 object obj = ResourceManager.GetObject("_802", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _803 {
+            get {
+                object obj = ResourceManager.GetObject("_803", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _804 {
+            get {
+                object obj = ResourceManager.GetObject("_804", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _805 {
+            get {
+                object obj = ResourceManager.GetObject("_805", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _806 {
+            get {
+                object obj = ResourceManager.GetObject("_806", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _807 {
+            get {
+                object obj = ResourceManager.GetObject("_807", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10656,6 +10766,116 @@ namespace pkmn_ntr.Properties {
         internal static System.Drawing.Bitmap anti_pokerus_icon {
             get {
                 object obj = ResourceManager.GetObject("anti_pokerus_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Balls {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Balls", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Battle {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Berries {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Berries", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Free {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Free", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Items {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Items", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Key {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Mail {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Mail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Medicine {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Medicine", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_PCItems {
+            get {
+                object obj = ResourceManager.GetObject("Bag_PCItems", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_TMHM {
+            get {
+                object obj = ResourceManager.GetObject("Bag_TMHM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Z {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Z", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15493,6 +15713,66 @@ namespace pkmn_ntr.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_921 {
+            get {
+                object obj = ResourceManager.GetObject("item_921", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_922 {
+            get {
+                object obj = ResourceManager.GetObject("item_922", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_923 {
+            get {
+                object obj = ResourceManager.GetObject("item_923", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_924 {
+            get {
+                object obj = ResourceManager.GetObject("item_924", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_925 {
+            get {
+                object obj = ResourceManager.GetObject("item_925", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_926 {
+            get {
+                object obj = ResourceManager.GetObject("item_926", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_93 {
             get {
                 object obj = ResourceManager.GetObject("item_93", resourceCulture);
@@ -15587,6 +15867,86 @@ namespace pkmn_ntr.Properties {
             get {
                 object obj = ResourceManager.GetObject("rare_icon_alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavAlphaSapphire {
+            get {
+                object obj = ResourceManager.GetObject("SavAlphaSapphire", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavMoon {
+            get {
+                object obj = ResourceManager.GetObject("SavMoon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavOmegaRuby {
+            get {
+                object obj = ResourceManager.GetObject("SavOmegaRuby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavSun {
+            get {
+                object obj = ResourceManager.GetObject("SavSun", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavUltraMoon {
+            get {
+                object obj = ResourceManager.GetObject("SavUltraMoon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavUltraSun {
+            get {
+                object obj = ResourceManager.GetObject("SavUltraSun", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavX {
+            get {
+                object obj = ResourceManager.GetObject("SavX", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] SavY {
+            get {
+                object obj = ResourceManager.GetObject("SavY", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

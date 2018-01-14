@@ -79,6 +79,7 @@
             this.Tools_PokeDigger = new System.Windows.Forms.Button();
             this.Tools_Filter = new System.Windows.Forms.Button();
             this.EventHandlerButton = new System.Windows.Forms.Button();
+            this.PollingButton = new System.Windows.Forms.Button();
             this.Tab_Log = new System.Windows.Forms.TabPage();
             this.Log_Export = new System.Windows.Forms.Button();
             this.Tab_About = new System.Windows.Forms.TabPage();
@@ -106,7 +107,7 @@
             this.dragout = new System.Windows.Forms.PictureBox();
             this.EventPollingWorker = new System.ComponentModel.BackgroundWorker();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
-            this.PollingButton = new System.Windows.Forms.Button();
+            this.chkHaXMessages = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slotDump)).BeginInit();
@@ -159,7 +160,7 @@
             this.buttonConnect.AutoSize = true;
             this.buttonConnect.Location = new System.Drawing.Point(118, 3);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(83, 23);
+            this.buttonConnect.Size = new System.Drawing.Size(83, 27);
             this.buttonConnect.TabIndex = 1;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -171,7 +172,7 @@
             this.buttonDisconnect.Enabled = false;
             this.buttonDisconnect.Location = new System.Drawing.Point(207, 3);
             this.buttonDisconnect.Name = "buttonDisconnect";
-            this.buttonDisconnect.Size = new System.Drawing.Size(83, 23);
+            this.buttonDisconnect.Size = new System.Drawing.Size(84, 27);
             this.buttonDisconnect.TabIndex = 2;
             this.buttonDisconnect.Text = "Disconnect";
             this.buttonDisconnect.UseVisualStyleBackColor = true;
@@ -180,7 +181,7 @@
             // host
             // 
             this.host.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.host.Location = new System.Drawing.Point(29, 4);
+            this.host.Location = new System.Drawing.Point(29, 6);
             this.host.Name = "host";
             this.host.Size = new System.Drawing.Size(83, 20);
             this.host.TabIndex = 0;
@@ -206,14 +207,14 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(294, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(294, 33);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Location = new System.Drawing.Point(3, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 13);
             this.label1.TabIndex = 3;
@@ -333,7 +334,7 @@
             0,
             0});
             this.slotDump.Name = "slotDump";
-            this.slotDump.Size = new System.Drawing.Size(40, 20);
+            this.slotDump.Size = new System.Drawing.Size(44, 20);
             this.slotDump.TabIndex = 1;
             this.slotDump.Value = new decimal(new int[] {
             1,
@@ -664,7 +665,7 @@
             0,
             0});
             this.Num_CDAmount.Name = "Num_CDAmount";
-            this.Num_CDAmount.Size = new System.Drawing.Size(50, 20);
+            this.Num_CDAmount.Size = new System.Drawing.Size(52, 20);
             this.Num_CDAmount.TabIndex = 3;
             this.Num_CDAmount.Value = new decimal(new int[] {
             1,
@@ -688,7 +689,7 @@
             0,
             0});
             this.Num_CDSlot.Name = "Num_CDSlot";
-            this.Num_CDSlot.Size = new System.Drawing.Size(40, 20);
+            this.Num_CDSlot.Size = new System.Drawing.Size(44, 20);
             this.Num_CDSlot.TabIndex = 2;
             this.Num_CDSlot.Value = new decimal(new int[] {
             1,
@@ -886,6 +887,18 @@
             this.EventHandlerButton.UseVisualStyleBackColor = true;
             this.EventHandlerButton.Click += new System.EventHandler(this.Tool_EventHandler_Click);
             // 
+            // PollingButton
+            // 
+            this.PollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PollingButton.Location = new System.Drawing.Point(98, 90);
+            this.PollingButton.Name = "PollingButton";
+            this.PollingButton.Size = new System.Drawing.Size(89, 23);
+            this.PollingButton.TabIndex = 15;
+            this.PollingButton.Text = "Start Polling";
+            this.PollingButton.UseVisualStyleBackColor = true;
+            this.PollingButton.Click += new System.EventHandler(this.PollingButton_Click);
+            // 
             // Tab_Log
             // 
             this.Tab_Log.BackColor = System.Drawing.SystemColors.Control;
@@ -913,6 +926,7 @@
             // Tab_About
             // 
             this.Tab_About.BackColor = System.Drawing.SystemColors.Control;
+            this.Tab_About.Controls.Add(this.chkHaXMessages);
             this.Tab_About.Controls.Add(this.tableLayoutPanel2);
             this.Tab_About.Location = new System.Drawing.Point(4, 22);
             this.Tab_About.Margin = new System.Windows.Forms.Padding(6);
@@ -1199,17 +1213,16 @@
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
-            // StartPollingButton
+            // chkHaXMessages
             // 
-            this.PollingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PollingButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.PollingButton.Location = new System.Drawing.Point(98, 90);
-            this.PollingButton.Name = "PollingButton";
-            this.PollingButton.Size = new System.Drawing.Size(89, 23);
-            this.PollingButton.TabIndex = 15;
-            this.PollingButton.Text = "Start Polling";
-            this.PollingButton.UseVisualStyleBackColor = true;
-            this.PollingButton.Click += new System.EventHandler(this.PollingButton_Click);
+            this.chkHaXMessages.AutoSize = true;
+            this.chkHaXMessages.Location = new System.Drawing.Point(6, 239);
+            this.chkHaXMessages.Name = "chkHaXMessages";
+            this.chkHaXMessages.Size = new System.Drawing.Size(178, 17);
+            this.chkHaXMessages.TabIndex = 6;
+            this.chkHaXMessages.Text = "Supress HaX warning messages";
+            this.chkHaXMessages.UseVisualStyleBackColor = true;
+            this.chkHaXMessages.Visible = false;
             // 
             // MainForm
             // 
@@ -1356,6 +1369,7 @@
         private System.Windows.Forms.PictureBox dragout;
         private System.Windows.Forms.PictureBox PB_Legal;
         private System.Windows.Forms.Button PollingButton;
+        private System.Windows.Forms.CheckBox chkHaXMessages;
     }
 }
 

@@ -200,7 +200,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.startdialog:
                             Report("Bot: Start dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testdialog1;
@@ -238,7 +238,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.continuedialog:
                             Report("Bot: Continue dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testdialog2;
@@ -279,7 +279,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.exitdialog:
                             Report("Bot: Exit dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyB);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonB);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.readparty;
@@ -365,7 +365,7 @@ namespace pkmn_ntr.Bot
                         case BotState.skiptitle:
                             await Task.Delay(7000);
                             Report("Bot: Open Menu");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -396,7 +396,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.connpatch:
                             Report("Bot: Apply NFC patch");
-                            waitTaskbool = Program.helper.waitNTRwrite(LookupTable.nfcOff, LookupTable.nfcVal, Program.gCmdWindow.pid);
+                            waitTaskbool = Program.helper.waitNTRwrite(LookupTable.NFCOffset, LookupTable.NFCValue, Program.gCmdWindow.pid);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;
@@ -413,7 +413,7 @@ namespace pkmn_ntr.Bot
                         case BotState.startgame:
                             Report("Bot: Start the game");
                             await Task.Delay(1000);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 await Task.Delay(3000);
@@ -430,9 +430,9 @@ namespace pkmn_ntr.Bot
 
                         case BotState.nickname:
                             Report("Bot: Nickname screen");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keySTART);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonStart);
                             await Task.Delay(250);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
 
                             {
@@ -448,7 +448,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.triggerbattle:
                             Report("Bot: Try to trigger battle");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testdialog3;
@@ -479,7 +479,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.continuedialog2:
                             Report("Bot: Continue dialog");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.readopp;
@@ -533,7 +533,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.soluna2:
                             Report("Bot: Trigger battle #" + resetNo);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.soluna3;
@@ -605,7 +605,7 @@ namespace pkmn_ntr.Bot
                         case BotState.runbattle1:
                             Report("Bot: Run from battle");
                             await Task.Delay(2000);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.DpadDOWN);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.DPadDown);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.runbattle2;
@@ -619,7 +619,7 @@ namespace pkmn_ntr.Bot
                             break;
 
                         case BotState.runbattle2:
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.runbattle3;
@@ -691,7 +691,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.openmenu:
                             Report("Bot: Open Menu");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyX);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonX);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testmenu;
@@ -722,7 +722,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.openbag:
                             Report("Bot: Open Bag");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testbag;
@@ -753,7 +753,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.selecthoney:
                             Report("Bot: Select Honey");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.activatehoney;
@@ -768,7 +768,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.activatehoney:
                             Report("Bot: Trigger battle #" + resetNo);
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 botState = BotState.testwild;
@@ -847,7 +847,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.dismissmsg:
                             Report("Bot: Dismiss message");
-                            waitTaskbool = Program.helper.waitbutton(LookupTable.keyA);
+                            waitTaskbool = Program.helper.waitbutton(LookupTable.ButtonA);
                             if (await waitTaskbool)
                             {
                                 attempts = 0;

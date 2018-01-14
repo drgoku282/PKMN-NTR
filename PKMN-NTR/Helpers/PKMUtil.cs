@@ -11,6 +11,32 @@ namespace pkmn_ntr.Helpers
 {
     public static class PKMUtil
     {
+        public static void Initialize(SaveFile sav)
+        {
+            if (sav.Generation != 3)
+                return;
+
+            Game = sav.Version;
+            if (Game == GameVersion.FRLG)
+                Game = sav.Personal == PersonalTable.FR ? GameVersion.FR : GameVersion.LG;
+        }
+        private static GameVersion Game;
+
+        private static int GetDeoxysForm()
+        {
+            switch (Game)
+            {
+                default:
+                    return 0;
+                case GameVersion.FR: // Attack
+                    return 1;
+                case GameVersion.LG: // Defense
+                    return 2;
+                case GameVersion.E: // Speed
+                    return 3;
+            }
+        }
+
         public static Image GetBallSprite(int ball)
         {
             string str = PKX.GetResourceStringBall(ball);
@@ -21,13 +47,23 @@ namespace pkmn_ntr.Helpers
             if (species == 0)
                 return Resources._0;
 
+            if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
+                form = GetDeoxysForm();
+
             string file = PKX.GetResourceStringSprite(species, form, gender, generation);
 
             // Redrawing logic
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
+            if (FormConverter.IsTotemForm(species, form))
+            {
+                form = FormConverter.GetTotemBaseForm(species, form);
+                file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                baseImage = (Image)Resources.ResourceManager.GetObject(file);
+                baseImage = ImageUtil.ToGrayscale(baseImage);
+            }
             if (baseImage == null)
             {
-                baseImage = (Image)Resources.ResourceManager.GetObject("_" + species);
+                baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
                 baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)
@@ -46,12 +82,14 @@ namespace pkmn_ntr.Helpers
             }
             if (item > 0)
             {
-                Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
+                Image itemimg = (Image)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
                 if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                     itemimg = Resources.item_tm;
 
                 // Redraw
                 int x = 22 + (15 - itemimg.Width) / 2;
+                if (x + itemimg.Width > baseImage.Width)
+                    x = baseImage.Width - itemimg.Width;
                 int y = 15 + (15 - itemimg.Height);
                 baseImage = ImageUtil.LayerImage(baseImage, itemimg, x, y, 1);
             }
@@ -63,10 +101,10 @@ namespace pkmn_ntr.Helpers
         }
         public static Image GetTypeSprite(int type)
         {
-            return Resources.ResourceManager.GetObject("type_icon_" + type.ToString("00")) as Image;
+            return Resources.ResourceManager.GetObject($"type_icon_{type:00}") as Image;
         }
 
-        private static Image GetSprite(MysteryGift gift, SaveFile SAV)
+        private static Image GetSprite(MysteryGift gift)
         {
             if (gift.Empty)
                 return null;
@@ -75,9 +113,14 @@ namespace pkmn_ntr.Helpers
             if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
                 img = (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
             else if (gift.IsPokémon)
-                img = GetSprite(gift.ConvertToPKM(SAV));
+                img = GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
             else if (gift.IsItem)
-                img = (Image)(Resources.ResourceManager.GetObject("item_" + gift.ItemID) ?? Resources.unknown);
+            {
+                int item = gift.ItemID;
+                if (Legal.ZCrystalDictionary.TryGetValue(item, out int value))
+                    item = value;
+                img = (Image)(Resources.ResourceManager.GetObject("item_" + item) ?? Resources.unknown);
+            }
             else
                 img = Resources.unknown;
 
@@ -93,7 +136,7 @@ namespace pkmn_ntr.Helpers
         {
             string file = "tr_00";
             if (SAV.Generation == 6 && (SAV.ORAS || SAV.ORASDEMO))
-                file = "tr_" + SAV.MultiplayerSpriteID.ToString("00");
+                file = $"tr_{SAV.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image;
         }
         //private static Image GetWallpaper(SaveFile SAV, int box)
@@ -116,8 +159,8 @@ namespace pkmn_ntr.Helpers
             {
                 if (slot < 30)
                     pkm.Box = box;
-                var la = new LegalityAnalysis(pkm);
-                if (la.Parsed && !la.Valid && pkm.Species != 0)
+                var la = new LegalityAnalysis(pkm, SAV.Personal);
+                if (la.ParsedInvalid && pkm.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
             }
             //if (inBox) // in box
@@ -133,7 +176,7 @@ namespace pkmn_ntr.Helpers
 
         // Extension Methods
         //public static Image WallpaperImage(this SaveFile SAV, int box) => GetWallpaper(SAV, box);
-        public static Image Sprite(this MysteryGift gift, SaveFile SAV) => GetSprite(gift, SAV);
+        public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
         public static Image Sprite(this SaveFile SAV) => GetSprite(SAV);
         public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => GetSprite(pkm, isBoxBGRed);
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)

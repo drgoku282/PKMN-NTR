@@ -11,6 +11,8 @@ Be sure to read the [wiki](https://github.com/drgoku282/PKMN-NTR/wiki) to learn 
 - Pokémon Alpha Sapphire
 - Pokémon Sun
 - Pokémon Moon
+- Pokémon Ultra Sun
+- Pokémon Ultra Moon
 
 Latest update for all games is mandatory.
 

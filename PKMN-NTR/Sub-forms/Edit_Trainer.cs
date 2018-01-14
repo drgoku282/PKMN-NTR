@@ -92,7 +92,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<string> waitName()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.nameOff, 0x1A);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerNameOffset, 0x1A);
             if (await RAMreader)
             {
                 Delg.SetEnabled(TB_Name, true);
@@ -107,7 +107,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<ushort> waitTID()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.tidOff, 0x02);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerTIDOffset, 0x02);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_TID, true);
@@ -122,7 +122,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<ushort> waitSID()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.sidOff, 0x02);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerSIDOffset, 0x02);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_SID, true);
@@ -137,7 +137,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<uint> waitMoney()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.moneyOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerMoneyOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_Money, true);
@@ -152,7 +152,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<uint> waitMiles()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.milesOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerPokeMilesOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_Miles, true);
@@ -167,7 +167,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<uint> waitFestivalCoins()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.festivalcoinsOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerCurrentFCOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_FestivalCoins, true);
@@ -182,7 +182,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<uint> waitTotalFC()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.totalfcOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerTotalFCOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_TotalFC, true);
@@ -197,7 +197,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<uint> waitBP()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.bpOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.TrainerBPOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_BP, true);
@@ -212,7 +212,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<int> waitLang()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.langOff, 0x01);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.GameLanguageOffset, 0x01);
             if (await RAMreader)
             {
                 Delg.SetEnabled(CB_Language, true);
@@ -227,7 +227,7 @@ namespace pkmn_ntr.Sub_forms
 
         private async Task<byte[]> waitTime()
         {
-            RAMreader = Program.helper.waitNTRmultiread(LookupTable.timeOff, 0x04);
+            RAMreader = Program.helper.waitNTRmultiread(LookupTable.GamePlayTimeOffset, 0x04);
             if (await RAMreader)
             {
                 Delg.SetEnabled(Num_Hour, true);
@@ -256,8 +256,8 @@ namespace pkmn_ntr.Sub_forms
 
         private void setTSV(object sender, EventArgs e)
         {
-            int TSV = LookupTable.getTSV((ushort)Num_TID.Value, (ushort)Num_SID.Value);
-            int G7ID = LookupTable.getG7ID((ushort)Num_TID.Value, (ushort)Num_SID.Value);
+            int TSV = LookupTable.GetTSV((ushort)Num_TID.Value, (ushort)Num_SID.Value);
+            int G7ID = LookupTable.GetG7ID((ushort)Num_TID.Value, (ushort)Num_SID.Value);
             if (Num_TID.Value > ushort.MaxValue)
             {
                 Num_TID.Value = ushort.MaxValue;
@@ -283,7 +283,7 @@ namespace pkmn_ntr.Sub_forms
             Delg.SetEnabled(TB_Name, false);
             Delg.SetEnabled(Write_Name, false);
             byte[] data = Encoding.Unicode.GetBytes(TB_Name.Text.PadRight(13, '\0'));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.nameOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerNameOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -301,7 +301,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_TID.Value = ushort.MaxValue;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt16(Num_TID.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.tidOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerTIDOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -319,7 +319,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_SID.Value = ushort.MaxValue;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt16(Num_SID.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.sidOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerSIDOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -337,7 +337,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_Money.Value = 9999999;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt32(Num_Money.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.moneyOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerMoneyOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -355,7 +355,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_Miles.Value = 9999999;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt32(Num_Miles.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.milesOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerPokeMilesOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -373,7 +373,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_FestivalCoins.Value = 9999999;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt32(Num_FestivalCoins.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.festivalcoinsOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerCurrentFCOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -391,7 +391,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_TotalFC.Value = 9999999;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt32(Num_TotalFC.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.totalfcOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerTotalFCOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -409,7 +409,7 @@ namespace pkmn_ntr.Sub_forms
                 Num_BP.Value = 9999;
             }
             byte[] data = BitConverter.GetBytes(Convert.ToUInt32(Num_BP.Value));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.bpOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.TrainerBPOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -423,7 +423,7 @@ namespace pkmn_ntr.Sub_forms
             Delg.SetEnabled(CB_Language, false);
             Delg.SetEnabled(Write_Lang, false);
             byte[] data = BitConverter.GetBytes(WinFormsUtil.getIndex(CB_Language));
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.langOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.GameLanguageOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -454,7 +454,7 @@ namespace pkmn_ntr.Sub_forms
             BitConverter.GetBytes(Convert.ToUInt16(Num_Hour.Value)).CopyTo(data, 0);
             data[2] = Convert.ToByte(Num_Min.Value);
             data[3] = Convert.ToByte(Num_Sec.Value);
-            RAMreader = Program.helper.waitNTRwrite(LookupTable.timeOff, data, Program.gCmdWindow.pid);
+            RAMreader = Program.helper.waitNTRwrite(LookupTable.GamePlayTimeOffset, data, Program.gCmdWindow.pid);
             if (!(await RAMreader))
             {
                 MessageBox.Show("A error ocurred while writting data to RAM.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
