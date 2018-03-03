@@ -92,9 +92,9 @@ namespace pkmn_ntr.Bot
                     case GameVersion.MN:
                         return 0x6749DC; // 1.0: 0x672790; 1.1: 0x6749D4;
                     case GameVersion.US:
-                        return 0x6A6264;
+                        return 0x6A62E6; // 1.1: 0x6A6264;
                     case GameVersion.UM:
-                        return 0x6A6268;
+                        return 0x6A62E6; // 1.1: 0x6A6268;
                     default:
                         return 0;
                 }
@@ -111,7 +111,7 @@ namespace pkmn_ntr.Bot
                         return 0xC2D00000; // 1.0 :0x41200000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0xC30E0000;
+                        return 0xC2D0; // 1.1: 0xC30E0000;
                     default:
                         return 0;
                 }
@@ -128,7 +128,7 @@ namespace pkmn_ntr.Bot
                         return 0xC2C00000; // 1.0: 0x41B80000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0xC30B0000;
+                        return 0x3E98; // 1.1: 0xC30B0000;
                     default:
                         return 0;
                 }
@@ -145,7 +145,7 @@ namespace pkmn_ntr.Bot
                         return 0x100000; // 1.0: 0x41B80000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x10000;
+                        return 0x1; // 1.1: 0x10000;
                     default:
                         return 0;
                 }
@@ -162,7 +162,41 @@ namespace pkmn_ntr.Bot
                         return 0x3F800000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0xBF800000;
+                        return 0x3F80; // 1.1: 0xBF800000;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private uint TradereadyRange
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x100000;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x1;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private uint TradeEvoValue
+        {
+            get
+            {
+                switch (Program.gCmdWindow.SAV.Version)
+                {
+                    case GameVersion.SN:
+                    case GameVersion.MN:
+                        return 0x100000;
+                    case GameVersion.US:
+                    case GameVersion.UM:
+                        return 0x1;
                     default:
                         return 0;
                 }
@@ -178,9 +212,9 @@ namespace pkmn_ntr.Bot
                     case GameVersion.MN:
                         return 0x6703F0; // 1.0: 0x10F1D0; 1.1: 0x6703E8;
                     case GameVersion.US:
-                        return 0x10FCB8; //return 0x672180;
+                        return 0x6A62B2; // 1.1: 0x10FCB8; //return 0x672180;
                     case GameVersion.UM:
-                        return 0x10FCBC; //return 0x672184;
+                        return 0x6A62B2; // 1.1: 0x10FCBC; //return 0x672184;
                     default:
                         return 0;
                 }
@@ -197,7 +231,7 @@ namespace pkmn_ntr.Bot
                         return 0x00000000; // 1.0: 0x520000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x006E0D64;
+                        return 0; // return 0x006E0D64;
                     default:
                         return 0;
                 }
@@ -215,7 +249,7 @@ namespace pkmn_ntr.Bot
                         return 0x1; // 1.0: 0x520000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x10;
+                        return 0x41; // return 0x10;
                     default:
                         return 0;
                 }
@@ -231,9 +265,9 @@ namespace pkmn_ntr.Bot
                     case GameVersion.MN:
                         return 0x674828; //1.0: 0x10F1A0; 1.1: 0x674820;
                     case GameVersion.US:
-                        return 0x66EA24;
+                        return 0x6A6132; // return 0x66EA24;
                     case GameVersion.UM:
-                        return 0x66EA28;
+                        return 0x006A6132; // return 0x66EA28;
                     default:
                         return 0;
                 }
@@ -250,7 +284,7 @@ namespace pkmn_ntr.Bot
                         return 0x42210000; // 1.0: 0x6F0000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x47;
+                        return 0x4221; // return 0x47;
                     default:
                         return 0;
                 }
@@ -267,7 +301,7 @@ namespace pkmn_ntr.Bot
                         return 0x42220000; // 1.0: 0x520000;
                     case GameVersion.US:
                     case GameVersion.UM:
-                        return 0x45;
+                        return 0x4222; // return 0x45;
                     default:
                         return 0;
                 }
@@ -973,7 +1007,7 @@ namespace pkmn_ntr.Bot
                         case BotState.WaitForTrade:
                             Report("Bot: Wait for trade");
                             waitTaskbool = Program.helper.memoryinrange(TrademenuOff,
-                                Tradeready, 0x100000);
+                                Tradeready, TradereadyRange);
                             if (await waitTaskbool)
                             {
                                 tradeTimer.Stop();
@@ -1023,11 +1057,7 @@ namespace pkmn_ntr.Bot
                                 attempts++;
                                 botresult = ErrorMessage.GeneralError;
                                 botstate = BotState.TryFinish;
-                                if (isUSUM)
-                                {
-                                    // Trade evolution handling
-                                }
-                                else if (Program.helper.lastRead == 0xBF800000 &&
+                                if (Program.helper.lastRead == TradeEvoValue &&
                                     !tradeevo)
                                 {
                                     Report("Bot: Trade evolution detected, wait 20" +

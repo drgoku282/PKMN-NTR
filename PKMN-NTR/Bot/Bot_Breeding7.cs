@@ -145,7 +145,6 @@ namespace pkmn_ntr.Bot
                 }
             }
         }
-        private uint eggseedOff = 0x3313EDDC;
         //private uint boxesOff = 0x10F1A0;
         //private uint boxesIN = 0x6F0000;
         //private uint boxesOUT = 0x520000;
@@ -346,7 +345,7 @@ namespace pkmn_ntr.Bot
 
                         case BotState.EggSeed:
                             Report("Bot: Update Egg seed");
-                            waitTaskbool = Program.helper.waitNTRmultiread(eggseedOff,
+                            waitTaskbool = Program.helper.waitNTRmultiread(LookupTable.SeedEggOffset,
                                 0x10);
                             if (await waitTaskbool)
                             {
