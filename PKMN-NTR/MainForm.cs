@@ -330,10 +330,7 @@ namespace pkmn_ntr
             {
                 Delg.SetEnabled(tab, true);
             }
-            if (!(IsUSUM))
-            {
-                Delg.SetEnabled(Tools_SoftReset, true);
-            }
+            Delg.SetEnabled(Tools_SoftReset, true);
             Delg.SetEnabled(Tools_Breeding, true);
             Delg.SetEnabled(Tool_Trainer, true);
             Delg.SetEnabled(Tool_Items, true);

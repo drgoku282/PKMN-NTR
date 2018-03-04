@@ -85,11 +85,11 @@
             this.Mode.FormattingEnabled = true;
             this.Mode.Items.AddRange(new object[] {
             "Event",
-            "Type:Null",
-            "Tapus",
-            "Solgaleo/Lunala",
+            "Type:Null (SM)",
+            "Tapus (SM)",
+            "Solgaleo/Lunala (SM)",
             "Wild Pokémon",
-            "Ultra Beast/Necrozma"});
+            "Ultra Beast/Necrozma (SM)"});
             this.Mode.Location = new System.Drawing.Point(55, 12);
             this.Mode.Name = "Mode";
             this.Mode.Size = new System.Drawing.Size(180, 21);
