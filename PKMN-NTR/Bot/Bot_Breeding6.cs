@@ -1195,12 +1195,12 @@ namespace pkmn_ntr.Bot
                             await Task.Delay(shortDelay);
                             if (ORAS && radBattleResort.Checked)
                             {
-                                Program.helper.quickbuton(LookupTable.DPadRight,
+                                Program.helper.quickbuton(LookupTable.DPadLeft,
                                     walkingTime);
                             }
                             else
                             {
-                                Program.helper.quickbuton(LookupTable.DPadLeft,
+                                Program.helper.quickbuton(LookupTable.DPadRight,
                                     walkingTime);
                             }
                             await Task.Delay(walkingTime + shortDelay);
