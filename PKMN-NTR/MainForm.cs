@@ -183,10 +183,16 @@ namespace pkmn_ntr
             // Update Legality Analysis strings
             LegalityAnalysis.MoveStrings = GameInfo.Strings.movelist;
             LegalityAnalysis.SpeciesStrings = GameInfo.Strings.specieslist;
+            new Task(RefreshMGDB).Start();
             PKME_Tabs.ChangeLanguage(SAV, pk);
             Pokemon = SAV.BlankPKM;
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(null);
+        }
+        
+        private static void RefreshMGDB()
+        {
+            Legal.RefreshMGDB(MGDatabasePath);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
