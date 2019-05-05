@@ -47,7 +47,8 @@ namespace pkmn_ntr.Bot
             SelectEgg, MoveEgg, ReleaseEgg, ExitPC, TestExitPC, ReadEgg, RetireFromPC,
             CheckMap6, FixPosition3, RetireFromDesk, CheckMap7, RetireFromDoor, CheckMap8,
             FixPosition5, WalkToDayCareMan, CheckMap9, FixPosition4, FilterTest,
-            AllTestsPassed, ExitBot
+            AllTestsPassed, ExitBot, HatchEggs, ExitHatchDialogue, CheckIfAllHatched, Walk4,
+            CheckMap10
         };
 
         // General bot variables
@@ -60,7 +61,7 @@ namespace pkmn_ntr.Bot
         private int maxReconnections;
         private Task<bool> waitForBool;
         private Task<PKM> waitForPKM;
-
+   
         // Class variables
         private bool changeBox;
         private bool ORAS;
@@ -72,6 +73,7 @@ namespace pkmn_ntr.Bot
         private int[] finishInformation = new int[] { -1, -1, -1 };
         private PKM currentEgg;
         private uint lastPosition;
+        private int hatchedCounter;
 
         // Class constants
         private readonly int walkingTime = 250;
@@ -280,11 +282,11 @@ namespace pkmn_ntr.Bot
                     }
                     botWorking = true;
                     userStop = false;
-                    botState = BotState.StartBot;
+                    botState = BotState.StartBot; // CHANGE HERE
                     attempts = 0;
                     maxReconnections = 10;
                     changeBox = true;
-                    eggsInParty = 0;
+                    eggsInParty = 0; 
                     eggsInBatch = 0;
                     matchingFilter = -1;
                     // Run the bot
@@ -493,7 +495,15 @@ namespace pkmn_ntr.Bot
                                     if (eggsInParty >= 5 || numEggs.Value == 0)
                                     {
                                         attempts = -15; // Allow more attempts
-                                        botState = BotState.WalkToDayCare;
+                                        if (chkHatchEggs.Checked)
+                                            {
+                                                botState = BotState.HatchEggs;
+                                            }
+                                        else
+                                        {
+                                            botState = BotState.WalkToDayCare;
+                                        }
+                                        
                                     }
                                     else if (chkQuickBreed.Checked)
                                     {
@@ -519,6 +529,112 @@ namespace pkmn_ntr.Bot
                             }
                             break;
 
+                            // hatch eggs: run down and up. press b.
+                            // check if hatching: are we still on the route map? if yes, go back to 
+                            // hatching. if not, keep pressing b until we get back to the route map.
+                            // increment eggs hatched counter by 1. if we are at 5 eggs hatched, go to:
+                            // walk to day care.
+                        case BotState.HatchEggs:
+                            Report("Bot: Hatching Eggs");
+                            await Task.Delay(shortDelay);
+                            Program.helper.quickbuton(LookupTable.RunDown, runningTime);
+                            await Task.Delay(runningTime + 250);
+                            Program.helper.quickbuton(LookupTable.RunUp, runningTime);
+                            await Task.Delay(runningTime + 250);
+                            //press b.
+
+                            waitForBool = Program.helper.waitbutton(LookupTable.ButtonB);
+                            if (await waitForBool)
+                            {
+                                attempts = 0;
+                                await Task.Delay(longDelay);
+                                waitForBool = Program.helper.timememoryinrange(mapIdOffset,
+                                routeMapId, 0x01, 100, 5000);
+                                if (await waitForBool)
+                                {
+                                    // if you pressed b and you're still on the route map, nothing is hatching.
+                                    // keep running up and down.
+                                    botState = BotState.HatchEggs;
+                                }
+                                else
+                                {
+                                    // if you pressed b and you're not on the route map anymore, something is
+                                    // hatching. wait for it to hatch.
+                                    botState = BotState.ExitHatchDialogue;
+                                }
+                                
+                            }
+                            else
+                            {
+                                attempts++;
+                                Report("Bot: timed out waiting for B press.");
+                                botState = BotState.HatchEggs;
+                            }
+                            break;
+
+                        case BotState.ExitHatchDialogue:
+                            Report("Bot: Bam bam. Bam bam. Badabadabada");
+                            waitForBool = Program.helper.timememoryinrange(mapIdOffset,
+                                routeMapId, 0x01, 100, 5000);
+                            if (await waitForBool)
+                            {
+                                // if we're on the map screen, then check if everyone is hatched
+                                // this shouldn't trigger the first time around.
+                                hatchedCounter++;
+                                botState = BotState.CheckIfAllHatched;
+                            }
+                            else
+                            {
+                                // we're not on the map screen. keep pressing b.
+                                waitForBool = Program.helper.waitbutton(LookupTable.ButtonB);
+                                await waitForBool; // we don't care whether the button was actually pressed, because we're 
+                                // gonna keep trying to press it anyway if we're not on the map screen.  
+                                botState = BotState.ExitHatchDialogue;
+                                
+                            }
+                            break;
+
+                        case BotState.CheckIfAllHatched:
+                            Report("Bot: Checking if Eggs hatched");
+                            // we don't care about reading the poke information rn. just check the counter.
+                            if (hatchedCounter >= eggsInParty)
+                            {
+                                // they're all hatched! 
+                                botState = BotState.Walk4;
+                                hatchedCounter = 0;
+                            }
+                            else
+                            {
+                                Report("Bot: " + hatchedCounter.ToString() + " eggs hatched so far");
+                                // they're not all hatched. keep going.
+                                botState = BotState.HatchEggs;
+                            }
+                            break;
+
+                        case BotState.Walk4:
+                            Report("Bot: Return to Day Care Man");
+                            Program.helper.quickbuton(LookupTable.RunUp, longDelay);
+                            await Task.Delay(longDelay + shortDelay);
+                            botState = BotState.CheckMap10;
+                            break;
+
+                        case BotState.CheckMap10:
+                            waitForBool = Program.helper.timememoryinrange(mapYOffset,
+                                daycareManYPosition, 0x01, 100, 5000);
+                            if (await waitForBool)
+                            {
+                                attempts = -10;
+                                Report("Bot: La di da, hello day care man");
+                                botState = BotState.WalkToDayCare;
+                            }
+                            else
+                            {
+                                attempts++;
+                                botResult = ErrorMessage.ReadError;
+                                botState = BotState.Walk4;
+                            }
+                            break;
+                       
                         case BotState.WalkToDayCare:
                             Report("Bot: Walk to Day Care");
                             await Task.Delay(shortDelay);
@@ -1021,7 +1137,13 @@ namespace pkmn_ntr.Bot
                                 {
                                     botState = BotState.RetireFromPC;
                                 }
-                                else
+                                else if (numEggs.Value == 0 && cmbMode.SelectedIndex == 0)
+                                {
+                                    // simple mode
+                                    botResult = ErrorMessage.Finished;
+                                    botState = BotState.ExitBot;
+                                }
+                                 else
                                 {
                                     Report("Bot: Error detected");
                                     attempts = 11;
@@ -1302,12 +1424,12 @@ namespace pkmn_ntr.Bot
                             break;
 
                         case BotState.ExitBot:
-                            Report("Bot: STOP Gen 6 Breding bot");
+                            Report("Bot: STOP Gen 6 Breeding bot");
                             botWorking = false;
                             break;
 
                         default:
-                            Report("Bot: STOP Gen 6 Breding bot");
+                            Report("Bot: STOP Gen 6 Breeding bot");
                             botResult = ErrorMessage.GeneralError;
                             botWorking = false;
                             break;
@@ -1564,6 +1686,7 @@ namespace pkmn_ntr.Bot
             Delg.SetCheckedRadio(radRoute117, true);
             Delg.SetChecked(chkReadESV, false);
             Delg.SetChecked(chkQuickBreed, false);
+            Delg.SetChecked(chkHatchEggs, false);
             dgvEggs.Rows.Clear();
             lstTSV.Items.Clear();
             dgvFilters.Rows.Clear();
